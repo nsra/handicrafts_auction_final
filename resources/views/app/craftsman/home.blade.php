@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('layouts.main_layout')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -13,8 +12,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in as buyer!') }}
+                    {{ __('Welcome to Handicrafts Auction as craftsman') }}
                 </div>
             </div>
         </div>

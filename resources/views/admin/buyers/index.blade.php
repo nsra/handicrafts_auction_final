@@ -103,7 +103,7 @@
                      *
                      */
                     $.ajax({
-                        url: 'buyer/' + id,
+                        url: 'admin/buyer/destroy' + id,
                         method: 'GET',
                         DataType: 'json', 
                         data:{"_token": "{{ csrf_token() }}"}, 

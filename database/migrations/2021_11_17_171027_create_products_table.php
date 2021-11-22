@@ -21,7 +21,6 @@ class CreateProductsTable extends Migration
         //         ->references('id')
         //         ->on('categories')
         //         ->onDelete('cascade');
-        //     $table->integer('bidIncreament');
         //     $table->float('orderNowPrice', 19, 2);
         //     $table->tinyInteger('is_delete')->default(0);
         //     $table->timestamps();

@@ -11,12 +11,25 @@ use Illuminate\Support\Facades\Session;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function userLogout()
     {
         Auth::logout();
         Session::flush();
-        return redirect()->route('multiguard_login');
+        return redirect()->route('home');
     }
 
+    public function profile(){
+        if($this->middleware('craftsman')) 
+            return redirect()->route('craftsman.profile');
+        else if($this->middleware('buyer')) 
+                return redirect()->route('buyer.profile');
+        else 
+            return redirect()->back();
+    }
 }

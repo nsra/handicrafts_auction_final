@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Buyer;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Rules\MatchOldPassword;
@@ -17,35 +17,23 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 
-class AdminController extends Controller
+class BuyerController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin');
+        $this->middleware('buyer');
     }
 
-    public function adminDashboard()
-    {
-        $orders= Order::where([])->count();
-        $products= Product::where([])->count();
-        $roles= Role::where([])->count();
-        $bids= Bid::where([])->count();
-        $categories= Category::where([])->count();
-        $buyers= User::where('role_id', '=', '3')->count();
-        $craftsmen= User::where('role_id', '=', '2')->count();
-        return view('base_layout.admin_dashboard', compact('products', 'craftsmen', 'buyers', 'orders', 'roles', 'bids', 'categories'));
-    }
-
-    public function edit_admin_profile(){
+    public function edit_buyer_profile(){
         $user= Auth::user();
-        return view('admin.admin_profile.profile', compact('user'));
+        return view('app.buyer.profile', compact('user'));
     }
 
-    public function update_admin_profile(Request $request){
+    public function update_buyer_profile(Request $request){
         try{
-            $admin = User::findOrFail(Auth::user()->id);
-            $id=$admin->id;
+            $buyer = User::findOrFail(Auth::user()->id);
+            $id=$buyer->id;
             $this->validate($request, [
                 'firstName' => ['required', 'string', 'max:20'],
                 'lastName' => ['required', 'string', 'max:20'],
@@ -54,8 +42,8 @@ class AdminController extends Controller
                 'address' => ['required', 'string'],
                 'mobile' => ['required', 'numeric', 'digits:10'],
             ]);
-            $admin->fill($request->all());
-            $admin->update();
+            $buyer->fill($request->all());
+            $buyer->update();
             return redirect()->back()->with('success', 'profile updated successfully');
         }
         catch(Exception $e){
@@ -63,12 +51,12 @@ class AdminController extends Controller
         }
     }
 
-    public function change_admin_password(){
+    public function change_buyer_password(){
         $user= Auth::user();
-        return view('admin.admin_profile.changepassword', compact('user'));
+        return view('app.buyer.changepassword', compact('user'));
     }
 
-    public function update_admin_password(Request $request){
+    public function update_buyer_password(Request $request){
         $this->validate($request, [
             'current_password' => ['required'],
             'password' => ['required','string','min:8','confirmed'],

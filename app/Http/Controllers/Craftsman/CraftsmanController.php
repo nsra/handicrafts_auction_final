@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Craftsman;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Rules\MatchOldPassword;
@@ -17,35 +17,28 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 
-class AdminController extends Controller
+class CraftsmanController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin');
+        $this->middleware('craftsman');
     }
 
-    public function adminDashboard()
+    public function craftsmanDashboard()
     {
-        $orders= Order::where([])->count();
-        $products= Product::where([])->count();
-        $roles= Role::where([])->count();
-        $bids= Bid::where([])->count();
-        $categories= Category::where([])->count();
-        $buyers= User::where('role_id', '=', '3')->count();
-        $craftsmen= User::where('role_id', '=', '2')->count();
-        return view('base_layout.admin_dashboard', compact('products', 'craftsmen', 'buyers', 'orders', 'roles', 'bids', 'categories'));
+        return view('app.craftsman.home');
     }
 
-    public function edit_admin_profile(){
+    public function edit_craftsman_profile(){
         $user= Auth::user();
-        return view('admin.admin_profile.profile', compact('user'));
+        return view('app.craftsman.profile', compact('user'));
     }
 
-    public function update_admin_profile(Request $request){
+    public function update_craftsman_profile(Request $request){
         try{
-            $admin = User::findOrFail(Auth::user()->id);
-            $id=$admin->id;
+            $craftsman = User::findOrFail(Auth::user()->id);
+            $id=$craftsman->id;
             $this->validate($request, [
                 'firstName' => ['required', 'string', 'max:20'],
                 'lastName' => ['required', 'string', 'max:20'],
@@ -54,8 +47,8 @@ class AdminController extends Controller
                 'address' => ['required', 'string'],
                 'mobile' => ['required', 'numeric', 'digits:10'],
             ]);
-            $admin->fill($request->all());
-            $admin->update();
+            $craftsman->fill($request->all());
+            $craftsman->update();
             return redirect()->back()->with('success', 'profile updated successfully');
         }
         catch(Exception $e){
@@ -63,18 +56,18 @@ class AdminController extends Controller
         }
     }
 
-    public function change_admin_password(){
+    public function change_craftsman_password(){
         $user= Auth::user();
-        return view('admin.admin_profile.changepassword', compact('user'));
+        return view('app.craftsman.changepassword', compact('user'));
     }
 
-    public function update_admin_password(Request $request){
+    public function update_craftsman_password(Request $request){
         $this->validate($request, [
             'current_password' => ['required'],
             'password' => ['required','string','min:8','confirmed'],
             'password_confirmation' => ['required'],
         ]);
-        
+        die();
         $user = User::find(Auth::user()->id);
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->with('error', 'Current password does not correct!');

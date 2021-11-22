@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Buyer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -14,15 +15,17 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('buyer');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function buyerDashboard()
     {
-        return view('buyer/home');
+        return view('app.index');
+    }
+
+    public function profile()
+    {
+        $user= Auth::user();
+        return view('app.buyer.profile', compact('user'));
     }
 }

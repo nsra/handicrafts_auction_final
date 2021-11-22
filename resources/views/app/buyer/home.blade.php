@@ -13,8 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in as craftsman!') }}
+                    {{ __('Welcome to Handicrafts Auction as buyer') }}
                 </div>
             </div>
         </div>

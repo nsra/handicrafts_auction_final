@@ -20,12 +20,12 @@ class Product extends Model
      * @var string[]
      */
     protected $fillable = [
+        'id',
         'title',
         'description',
         'category_id',
-        'BidIncrement',
         'orderNowPrice',
-        'user_id',
+        'is_delete'
     ];
 
     public function user()
@@ -35,7 +35,7 @@ class Product extends Model
 
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->hasOne(Order::class);
     }
 
     public function category()
@@ -46,5 +46,31 @@ class Product extends Model
     public function bids()
     {
         return $this->hasMany(Bid::class);
+    }
+
+    public function startingBidPrice()
+    {
+        return $this->orderNowPrice*(40/100);
+    }
+
+    public function bidIncreament()
+    {
+        return $this->orderNowPrice*(6/100);
+    }
+
+    public function maxBidPrice()
+    {
+        return $this->bids->max('price');
+    }
+
+    public function isAuctioned()
+    {
+       return $this->bids->count() > 0  ?  true : false ;
+    } 
+
+    public function isOrdered()
+    {
+       $orders= Order::where('product_id', $this->id)->count();
+       return $orders === 1 ? true : false;
     }
 }

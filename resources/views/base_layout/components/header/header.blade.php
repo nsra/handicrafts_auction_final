@@ -3,7 +3,7 @@
     <div class="page-header-inner ">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="/">
+            <a href="/index">
                 <img src="{{asset('/control/assets/layouts/layout/img/topTech.png')}}" alt="logo" width="155px" style="margin-top:7%" height="27px" class="logo-default"/> </a>
             <div class="menu-toggler sidebar-toggler">
                 <span></span>

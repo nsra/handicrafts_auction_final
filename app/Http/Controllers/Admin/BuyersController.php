@@ -18,6 +18,7 @@ class BuyersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('admin');
     }
 
     public function index(Request $request)
@@ -86,7 +87,7 @@ class BuyersController extends Controller
             if($buyer->bids()->count !== 0) $buyer->bids()->delete();
             $buyer->delete();
             return redirect()->back()->with('success', 'buyer with his bids deleted successfuly');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'fail to delete buyer');
         }
     }

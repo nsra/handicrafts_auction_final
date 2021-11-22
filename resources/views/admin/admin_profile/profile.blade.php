@@ -29,7 +29,7 @@
 
                         <div class="form-group">
                             <label for="lastName">{{__('lastName')}} <span class="required">*</span></label>
-                            <input type="text" class="form-control" name="lastName" value="{{ old('lastName', optional($user)->lastName) }}">
+                            <input type="text" class="@error('lasttName') is-invalid @enderror form-control" name="lastName" value="{{ old('lastName', optional($user)->lastName) }}">
                             <span class="error">{{$errors->first('lastName')}}</span>
                         </div>
 
@@ -55,13 +55,13 @@
                         
                         <div class="form-group">
                             <label for="address">{{__('address')}} <span class="required">*</span></label>
-                            <textarea type="text" class="form-control" name="address" >{{ old('address', optional($user)->address) }}</textarea>
+                            <textarea type="text" class="form-control @error('address') is-invalid @enderror" name="address" >{{ old('address', optional($user)->address) }}</textarea>
                             <span class="error">{{$errors->first('address')}}</span>
                         </div>
                         
                         <div class="form-group">
                             <label for="mobile">{{__('mobile')}} <span class="required">*</span></label>
-                            <input  maxlength = "10" minlength = "10" type="text" class="form-control @error('username') is-invalid @enderror" name="mobile" value="{{ old('mobile', optional($user)->mobile) }}">
+                            <input  maxlength = "10" minlength = "10" type="text" class="form-control @error('mobile') is-invalid @enderror" name="mobile" value="{{ old('mobile', optional($user)->mobile) }}">
                             @error('mobile')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
