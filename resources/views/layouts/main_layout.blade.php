@@ -23,9 +23,10 @@
       @yield('content')
     </div>
     <footer>
-      <script>
-        @yield('script')
-      </script>
+      @include('layouts.partials.footer')
     </footer>
+    <script>
+      @yield('script')
+    </script>
   </body>
 </html>

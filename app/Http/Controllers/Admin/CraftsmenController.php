@@ -35,7 +35,7 @@ class CraftsmenController extends Controller
                                  ->orWhere('email', 'like', "%{$search_item}%");
                        });
         }
-        $craftsmen = $craftsmen->where([])->paginate(6);
+        $craftsmen = $craftsmen->orderBy('id', 'DESC')->paginate(6);
         return view('admin.craftsmen.index', compact('craftsmen'));
     }
 
@@ -48,13 +48,13 @@ class CraftsmenController extends Controller
     public function show($id)
     {
         return view('admin.craftsmen.show', [
-            'craftsman' => User::find($id),
+            'craftsman' => User::findOrFail($id),
         ]);
     }
 
     public function products($id, Request $request)
     {
-        $craftsman= User::find($id);
+        $craftsman= User::findOrFail($id);
         $products= Product::where('user_id', '=', $craftsman->id);
         $search_item= $request->input('name');
         if ($request->has('name')){
@@ -64,20 +64,20 @@ class CraftsmenController extends Controller
                                  ->orWhere('description', 'like', "%{$search_item}%");
                        });
         }
-        $products=$products->where([])->paginate(6);
+        $products=$products->orderBy('id', 'DESC')->paginate(6);
         return view('admin.craftsmen.products', compact('craftsman', 'products'));
     }
 
     public function view_craftsman_product($id)
     {
-        $product= Product::find($id);
+        $product= Product::findOrFail($id);
         $craftsman= $product->user;
         return view('admin.craftsmen.craftsman_product', compact('product', 'craftsman'));
     }
 
     public function view_product_bids($id, Request $request)
     {
-        $product= Product::find($id);
+        $product= Product::findOrFail($id);
         $search_item= $request->input('name');
         $craftsman= $product->user;
         $bids= Bid::where('product_id', '=', $id);
@@ -87,20 +87,26 @@ class CraftsmenController extends Controller
                                  ->orWhere('description', 'like', "%{$search_item}%");
                        });
         }
-        $bids=$bids->where([])->paginate(6);
+        $bids=$bids->orderBy('id', 'DESC')->paginate(6);
         return view('admin.craftsmen.bid_product_craftsman', compact('bids', 'product', 'craftsman'));
     }
   
     public function destroy($id)
     {
         try {
-            $craftsman = User::find($id);
-            if($craftsman->products()->count !== 0) $craftsman->products()->delete();
+            $craftsman = User::findOrFail($id);
+            // if($craftsman->products()->count() > 0) $craftsman->products()->delete();
             $craftsman->delete();
-            return redirect()->back()->with('success', 'craftsman with his products deleted successfuly');
+            return redirect()->back()->with('success', 'craftsman deleted successfuly');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'fail to delete craftsman');
         }
+    }
+
+    public function delete($id)
+    {
+        $craftsman = User::find($id);
+        return view('admin.craftsmen.delete', compact('craftsman'));
     }
 
 }

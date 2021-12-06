@@ -20,11 +20,11 @@ class RolesController extends Controller
         return view('admin.roles.index', compact('roles'));
     }
 
-    public function view_permissions($id)
+    public function view_users($id)
     {
-        $role= Role::find($id);
-        $permissions=$role->permissions;
-        return view('admin.roles.permissions', compact('role', 'permissions'));
+        $role= Role::findOrFail($id);
+        $users=$role->users;
+        return view('admin.roles.users', compact('role', 'users'));
 
     }
 }

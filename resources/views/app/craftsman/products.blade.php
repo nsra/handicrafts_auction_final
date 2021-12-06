@@ -5,8 +5,8 @@
     <div class="container container-myProduct">
       <h2 class="mt-2">My Products</h2>
       <div class="form group mt-4 mb-3">
-        <form action="{{route('craftsman.products', $user->id)}}" method="GET">
-          <input name="name" class="" type="search" placeholder="Search for Product by name or price">
+        <form action="{{route('craftsman.products')}}" method="GET">
+          <input name="name" size="40"  value="{{app('request')->get('name')}}" class="" type="search" placeholder="Search for Product by name or price">
           <button type="submit" class="btn btn-light">
           <span><i class="fas fa-search fa-2x"></i></span>
           </button>
@@ -29,21 +29,27 @@
             <h2>{{$product->orderNowPrice}}$</h2>
           </div>
           <div class="col-1">
-            <a href="{{route('craftsman.product.edit', $product->id)}}" class="btn btn-secondary">
-              <i class="fas fa-eye"></i>
-            </a>
-          </div>
+            @if($product->bids->count() > 0)
 
+            <a href="{{route('craftsman.product.bids', $product->id)}}" class="btn btn-secondary">
+              product bids: {{$product->bids->count()}}
+            </a>
+            @else
+             No Bids
+            @endif
+          </div>
+        
           @if(!$product->isAuctioned())
           <div class="col-1">
-            <a href="{{route('craftsman.product.edit', $product->id)}}" class="btn btn-dark" data-value="{{$user->id}}">
+            <a href="{{route('craftsman.product.edit', $product->id)}}" class="btn btn-dark" data-value="{{$product->id}}">
               <i class="far fa-edit"></i>
             </a>
           </div>
           <div class="col-1">
-            <a  class="btn btn-danger delete-admin" data-value="{{$product->id}}">
-              <i class="fas fa-trash-alt"></i>
-            </a>
+ 
+            <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal" data-attr="{{ route('craftsman.product.delete', $product->id) }}" title="Delete Bid">
+              <i class="fa fa-trash text-danger fa-lg"></i>
+            </a>  
           </div>
           @else 
           <div class="col-1">
@@ -103,59 +109,55 @@
     <br>
     <br>
     <br>
-    <div class="pagination-content">
-      <ul class="pagination">
-        <li class="page-item ml-2"><a class="page-link" href="#" >&laquo;</a></li>
-        <li class="page-item  ml-2"><a class="page-link" href="#" style="background-color: gray;">1</a></li>
-        <li class="page-item ml-2"><a class="page-link" href="#">2</a></li>
-        <li class="page-item  ml-2"><a class="page-link" href="#">3</a></li>
-        <li class="page-item ml-2"><a class="page-link" href="#">4</a></li>
-        <li class="page-item ml-2 "><a class="page-link" href="#" >5</a>
-        </li>
-        <li class="page-item ml-2"><a class="page-link" href="#">&raquo;</a></li>
-      </ul>
-    </div>
+    {{$products->links('pagination::bootstrap-4')}}
 
   </div>
   <!-- end my product -->
+  <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="removeBackdrop()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="smallBody">
+                <div>
+                    <!-- the result to be displayed apply here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script')
-    <script>
-        $('.delete-admin').click(function () {
-            var id = $(this).data('value')
-            swal({
-                    title: "@lang('lang.questions.confirm_remove')",
-                    text: "@lang('admin.questions.do_remove')",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "@lang('lang.yes')",
-                    cancelButtonText: "@lang('lang.no')",
-                    closeOnConfirm: false
-                },
-                function () {
-                    /**
-                     *
-                     * send ajax request for deleting admin
-                     *
-                     */
-                     
-                    $.ajax({
-                    
-                        method: 'GET',
-                        data: {body: '', _token: '{{csrf_token()}}'}
-                    }).success(function (response) {
-                        if (response.status == 200) {
-                            swal("@lang('lang.alert')", response.message, "success")
-                            window.location.reload()
-                        } else {
-                            swal("@lang('lang.alert')", response.message, "error")
-                        }
-                    })
-                });
-        })
-    </script>
+function removeBackdrop(){
+  $('.modal-backdrop').remove();
+}
+$(document).on('click', '#smallButton', function(event) {
+  event.preventDefault();
+  let href = $(this).attr('data-attr');
+  $.ajax({
+      url: href
+      , beforeSend: function() {
+          $('#loader').show();
+      },
+      // return the result
+      success: function(result) {
+          $('#smallModal').modal("show");
+          $('#smallBody').html(result).show();
+      }
+      , complete: function() {
+          $('#loader').hide();
+      }
+      , error: function(jqXHR, testStatus, error) {
+          console.log(error);
+          alert("Page " + href + " cannot open. Error:" + error);
+          $('#loader').hide();
+      }
+      , timeout: 8000
+  })
+});
 @endsection
 
 
-        

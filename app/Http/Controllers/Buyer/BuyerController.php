@@ -30,6 +30,13 @@ class BuyerController extends Controller
         return view('app.buyer.profile', compact('user'));
     }
 
+    public function product(){
+        $user= Auth::user();
+        return view('app.buyer.place_bid', compact('user'));
+    }
+
+  
+
     public function update_buyer_profile(Request $request){
         try{
             $buyer = User::findOrFail(Auth::user()->id);
@@ -63,7 +70,7 @@ class BuyerController extends Controller
             'password_confirmation' => ['required'],
         ]);
         
-        $user = User::find(Auth::user()->id);
+        $user = User::findOrFail(Auth::user()->id);
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->with('error', 'Current password does not correct!');
         }
@@ -72,4 +79,6 @@ class BuyerController extends Controller
             return back()->with('success', 'Password successfully changed!');
         else return back()->with('error', 'change password faild!');
     }
+
+   
 }

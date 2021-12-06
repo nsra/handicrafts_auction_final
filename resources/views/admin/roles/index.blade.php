@@ -13,7 +13,7 @@
                         <thead class="flip-content">
                         <tr>
                             <th class="text-center">{{__('name')}}</th>
-                            <th style="text-align: center" class="text-center">{{__('options')}}</th>
+                            <th style="text-align: center" class="text-center">{{__('users')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -22,8 +22,8 @@
                                 <td class="text-center">{{$role->name}}</td>
                               
                                 <td class="text-center">
-                                    <a href="{{route('role.view_permissions', $role->id)}}" class="btn btn-primary ">
-                                        <i class="fa fa-lock"></i>
+                                    <a href="{{route('role.view_users', $role->id)}}" class="btn btn-primary ">
+                                        <i class="fa fa-users"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -31,7 +31,7 @@
                         </tbody>
                     </table>
                     <div class="com-md-12 text-right">
-                        {{$roles->links()}}
+                        {{$roles->links('pagination::bootstrap-4')}}
                     </div>
                 </div>
             </div>

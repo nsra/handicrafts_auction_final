@@ -346,9 +346,12 @@
                                 <i class="icon-user"></i> My Profile </a>
                         </li>
                         <li>
-                            <a href="app_todo.html">
-                                <i class="icon-rocket"></i> My Tasks
-                                <span class="badge badge-success"> 7 </span>
+                            <a href="{{route('orders.index')}}">
+                                <i class="icon-rocket"></i> Orders
+                                @php 
+                                use Illuminate\Support\Facades\DB;
+                                @endphp
+                                <span class="badge badge-success"> {{DB::table('orders')->count()}} </span>
                             </a>
                         </li>
 

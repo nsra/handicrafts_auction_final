@@ -85,6 +85,10 @@
            
             <div>
             <div class="input-form text-center">
+                @if($user->bids->count()>0)
+                <a href="{{route('craftsman.buyer.bids', $user->bids[0]->id)}}" type="reset" name="cancel"
+                    class="btn btn-secondary">{{__('Buyer Bids')}}:{{$user->bids->count()}}</a>
+                @endif
                 <a class="btn btn-lg " href="{{route('craftsman.product.bids', $product->id)}}" style="background-color: #ffbb00; color:black">Cancel</a>
             </div>
             </div>

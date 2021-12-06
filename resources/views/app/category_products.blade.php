@@ -9,7 +9,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="main-nav">
-            <ul class="navbar-nav ">
+            <ul class="navbar-nav " style="font-size: 16px">
               
               <li class="nav-item">
                 <a class="nav-link" href="/category/1/products" style="margin-left: 40px;">Painting</a>
@@ -51,68 +51,195 @@
       </header>
     </div>
   </div>
+  <br>
+  
+  @if(auth()->user() && auth()->user()->role_id == 2 && $authUserOrderedProducts > 0)
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{$authUserOrderedProducts}} Of Your Products has been ordered!</strong>Please Check Your Email and Ordered Products Panel, You have to deliver ordered products to your buyers within 3 hours.
+    <button type="button" onclick="removeBackdrop()"  class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  @endif
+
+  @if(auth()->user() && auth()->user()->role_id == 3 && $authUserWinedAuctions > 0)
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Congrats 🎉, You had won new auctions ({{$authUserWinedAuctions}})! </strong> You will receive your orders within 3 hours then please confirm receipt of the products from MyOrders Panel.
+    <button type="button" onclick="removeBackdrop()"  class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  @endif
+
 <div class="RecentAuction">
     <div class="container">
       <div class="first-Auction-Recent">
-        <input type="search" placeholder="Enter Product name" class="search">
-        <select name="typeRecentAuction" id="">
-          <option value="Painting">Painting</option>
-          <option value="Paper">Paper</option>
-          <option value="Embroidery">Embroidery</option>
-          <option value="Wool">Wool</option>
-          <option value="Bead">Bead</option>
-          <option value="NaturalResources">NaturalResources</option>
-          <option value="Leather">Leather</option>
-          <option value="Glass">Glass</option>
-          <option value="NaturalResources">Metals</option>
-          <option value="Leather">Plastic</option>
-          <option value="Glass">Clay</option>
-        </select>
-        <label>Price Range</label>
-        <input type="number">
-        <span>-</span>
-        <input type="number">
-        <i class="fas fa-search"></i>
+        <form action="{{route('category_products', $category->id)}}" method="GET">
+          <input type="search" name="title" placeholder="Enter Product name to search with" value="{{app('request')->get('title')}}" class="search">
+  
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label>Price Range</label>
+          <input type="number" name="lowPrice" size="10" style="width: 10%" value="{{app('request')->get('lowPrice')}}">
+          <span>-</span>
+          <input type="number" name="highPrice" size="10" style="width: 10%" value="{{app('request')->get('highPrice')}}">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="submit" class="btn btn-warning">
+            <i class="fas fa-search"></i>&nbsp; &nbsp; Filter &nbsp;&nbsp;
+          </button>
+          <a class="btn btn-secondary"
+          href="{{route('category_products', $category->id)}}">{{__('Reset')}}</a>
+        </form> 
       </div>
       <div class="RecentAuction-content">
         <br>
         <h2 class="p-2">{{$category->name}} products</h2>
         <div class="row">
           @foreach($products as $product)
-          <div class="col-3">
+          <div class="col-3 col-3 mb-4 mt-4">
             <div class="card">
-              <div class="salse">Amany</div>
-              <img src="{{asset('/HandicraftsAuction/image/wool.jpg')}}" class="card-img-top" alt="...">
+              @if(!$product->isExpired())
+              <div id="countdown" class="clock{{ $product->id }} timer text-center"></div>
+              <script>
+                window.addEventListener('load', function() {
+                    var duration{{ $product->id }} = {{$product->remainingTime()}},
+                    display = document.querySelector('.clock{{ $product->id }}');
+                    startTimer(duration{{ $product->id }}, display);
+                });
+              </script>
+              @else 
+              <div class="timer">Expired</div>
+              @php 
+                $product->order_by_auction()
+              @endphp
+              @endif
+              <a href="{{route('product.details', $product->id) }}">
+                <img src="{{asset('/HandicraftsAuction/image/wool.jpg')}}" class="card-img-top" alt="...">
+              </a>
               <div class="card-body">
                 <h5 class="text-center">{{$product->title}}</h5>
-                @if($product->bids->count() === 0) 
-                  <p>StartingBid:{{$product->startingBidPrice()}}$</p>
-                  @else
-                  <p>MaxBid:{{$product->bids->max('price')}}$</p>
-                @endif
                 <div class="d-flex justify-content-between">
                   <span>${{$product->orderNowPrice}}</span>
-                  <button class="btn btn-secondary btn-sm">Order Now</button>
+                  @if(!auth()->user() || (auth()->user() && auth()->user()->id != $product->user_id))
+                  <button class="btn btn-secondary btn-sm" onclick="window.location='{{route('buyer.order_now', $product->id) }}'" >
+                    Order Now
+                  </button>
+                  @elseif(auth()->user() && auth()->user()->id == $product->user_id && !$product->is_delete && !$product->isAuctioned())
+                  <div>
+                    <button onclick="window.location='{{route('craftsman.product.edit', $product->id)}}'" class="btn btn-dark btn-sm" data-value="{{$product->id}}">
+                      <i class="far fa-edit"></i>
+                    </button>
+                    <a data-toggle="modal" class="btn btn-danger btn-sm" id="smallButton" data-target="#smallModal" data-attr="{{ route('craftsman.product.delete_out', $product->id) }}" title="Delete Product">
+                      <i class="fas fa-trash text-danger fa-lg"></i>
+                    </a> 
+                  </div>
+                  @endif
                 </div>
                 <br>
-                <button class="btn text-center btn-block btn-warning">
+                @if($product->bids->count() === 0) 
+                <p>StartingBid:{{$product->startingBidPrice()}}$</p>
+                @else
+                <p>MaxBid:{{$product->maxBidPrice()}}$</p>
+                @endif
+                <button class="btn text-center btn-light">{{$product->bids->count()}} Bids</button>
+                @if(auth()->user() && auth()->user()->id == $product->user_id)
+                <button class="btn text-center btn-warning" 
+                  style="background-color: #ffbb00; color:black; width:65.5%" >
+                  Its Your Product!
+                </button>
+                @elseif(auth()->user() && $product->bids->contains('user_id', Auth::user()->id))
+                <button class="btn text-center btn-warning" onclick="window.location='{{route('buyer.product.show', $product->authUserBidId()) }}'" 
+                  style="background-color: #ffbb00; color:black; width:65.5%" >
+                  You Bid!
+                </button>
+                @else
+                <button class="btn text-center btn-warning" onclick="window.location='{{route('buyer.place_bid', $product->id) }}'" 
+                  style="background-color: #ffbb00; color:black; width:65.5%" >
                   Place Bid
                 </button>
+                @endif
               </div>
             </div>
           </div>
           @endforeach
       <br>
-      <hr>
-      <br>
+      
+        </div>
+        <div class="text-center">
+          {{$products->links('pagination::bootstrap-4')}}
         </div>
       </div>
-
     </div>
 
   </div>
+  <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onClick="window.location.reload();" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="smallBody">
+                <div>
+                    <!-- the result to be displayed apply here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
+
 @section('script')
-  AOS.init({duration:1200});
-@endsection
+    function startTimer(seconds, display) {
+      function timer() {
+          var days        = Math.floor(seconds/24/60/60);
+          var hoursLeft   = Math.floor((seconds) - (days*86400));
+          var hours       = Math.floor(hoursLeft/3600);
+          var minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+          var minutes     = Math.floor(minutesLeft/60);
+          var remainingSeconds = seconds % 60;
+          function pad(n) {
+              return (n < 10 ? "0" + n : n);
+          }
+          display.textContent = pad(days) + ":" + pad(hours) + ":" + pad(minutes) + ":" + pad(remainingSeconds);
+          if (seconds == 0) {
+              display.textContent = "Expired";
+              location.reload();
+          } else {
+              seconds--;
+          }
+      };
+      timer();
+      setInterval(timer, 1000);
+    }
+
+    function removeBackdrop(){
+        $('.modal-backdrop').remove();
+    }
+    $(document).on('click', '#smallButton', function(event) {
+      event.preventDefault();
+      let href = $(this).attr('data-attr');
+      $.ajax({
+          url: href
+          , beforeSend: function() {
+              $('#loader').show();
+          },
+          // return the result
+          success: function(result) {
+              $('#smallModal').modal("show");
+              $('#smallBody').html(result).show();
+          }
+          , complete: function() {
+              $('#loader').hide();
+          }
+          , error: function(jqXHR, testStatus, error) {
+              console.log(error);
+              alert("Page " + href + " cannot open. Error:" + error);
+              $('#loader').hide();
+          }
+          , timeout: 8000
+      })
+  });
+  @endsection

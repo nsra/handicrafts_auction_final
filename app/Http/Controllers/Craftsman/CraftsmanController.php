@@ -68,7 +68,7 @@ class CraftsmanController extends Controller
             'password_confirmation' => ['required'],
         ]);
         die();
-        $user = User::find(Auth::user()->id);
+        $user = User::findOrFail(Auth::user()->id);
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->with('error', 'Current password does not correct!');
         }

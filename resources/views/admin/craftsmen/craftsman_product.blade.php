@@ -18,6 +18,18 @@
                                 </div>
                             </div>
                         </div> --}}
+                        <div class="form-group text-center">
+                            <label for="title">{{__('Auction Timer')}} </label>
+                            @if(!$product->isExpired())
+                            <div id="countdown" class="salse timer text-center"></div>
+                            @else 
+                            <div class="salse text-center">Expired</div>
+                              @php 
+                                $product->order_by_auction()
+                              @endphp
+                            @endif                       
+                        </div>
+                        
                         <div class="form-group">
                             <label for="title">{{__('title')}} </label>
                             <input type="text" class="form-control" name="title" value="{{ $product->title }}">
@@ -34,9 +46,18 @@
                             <label for="category">{{__('category')}} </label>
                             <input type="text" class="form-control" name="category" value="{{ $product->category->name }}">
                         </div>
+                        @if($product->isAuctioned())
+                        <div class="form-group">
+                            <h4 for="orderNowPrice">{{__('Max Bid')}}: {{$product->maxBidPrice()}}$</h4>
+                        </div>
+                        @else
+                        <div class="form-group">
+                            <h4 for="orderNowPrice">{{__('Starting Bid Price')}}: {{$product->startingBidPrice()}}$</h4>
+                        </div>
+                        @endif
                         <div class="form-group">
                             <label for="bidIncreament">{{__('bid Increament')}} </label>
-                            <input type="text" class="form-control" name="bidIncreament" value="{{ $product->bidIncreament }}$">
+                            <input type="text" class="form-control" name="bidIncreament" value="{{ $product->bidIncreament() }}$">
                         </div>
                         <div class="form-action text-left">
                             <a href="{{route('admin.craftsman.product.bids', $product->id)}}" type="reset" name="bids"
@@ -47,7 +68,6 @@
                                class="btn btn-default">{{__('cancel')}}</a>
                         </div>
                 </div>
-
             </div>
             <br>
             <br>
@@ -56,5 +76,40 @@
 
 
 @endsection
+
+
+@section('script')
+<script>
+ var upgradeTime = {!! json_encode($product->remainingTime(), JSON_HEX_TAG) !!};
+      var seconds = upgradeTime;
+      function timer() {
+        var days        = Math.floor(seconds/24/60/60);
+        var hoursLeft   = Math.floor((seconds) - (days*86400));
+        var hours       = Math.floor(hoursLeft/3600);
+        var minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+        var minutes     = Math.floor(minutesLeft/60);
+        var remainingSeconds = seconds % 60;
+        function pad(n) {
+          return (n < 10 ? "0" + n : n);
+        }
+        document.getElementById('countdown').innerHTML = pad(days) + ":" + pad(hours) + ":" + pad(minutes) + ":" + pad(remainingSeconds);
+        if (seconds == 0) {
+          clearInterval(countdownTimer);
+          document.getElementById('countdown').innerHTML = "Expired";
+          location.reload();
+
+        } else {
+          seconds--;
+        }
+      }
+      var countdownTimer = setInterval('timer()', 1000);
+
+      
+</script>
+     
+@endsection
+
+
+
 
 

@@ -15,10 +15,10 @@
             </a>
             <ul class="sub-menu">
                 <li class="nav-item start ">
-                    {{-- <a href="{{route('orders.index')}}" class="nav-link "> --}}
+                    <a href="{{route('orders.index')}}" class="nav-link ">
                         <i class="fa fa-list"></i>
                         <span class="title">{{ __('Show') }}</span>
-                    {{-- </a> --}}
+                    </a>
                 </li>
             </ul>
         </li>
@@ -30,10 +30,10 @@
             </a>
             <ul class="sub-menu">
                 <li class="nav-item start ">
-                    {{-- <a href="{{route('products.index')}}" class="nav-link "> --}}
+                    <a href="{{route('products.index')}}" class="nav-link ">
                         <i class="fa fa-list"></i>
                         <span class="title">{{ __('Show') }}</span>
-                    {{-- </a> --}}
+                    </a>
                 </li>
             </ul>
         </li>

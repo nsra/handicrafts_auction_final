@@ -5,78 +5,71 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-search"></i>@lang('lang.search')</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form action="{{route('buyers.index')}}" method="GET">
-                                <div class="col-sm-4 form-group">
-                                    <label for="name">@lang('lang.name')</label>
-                                    <input type="text" name="name" class="form-control"
-                                           value="{{app('request')->get('name')}}">
-                                </div>
-                                <div class="col-sm-4 form-group">
-                                    <label for="email">@lang('lang.email')</label>
-                                    <input type="text" name="email" class="form-control"
-                                           value="{{app('request')->get('email')}}">
-                                </div>
-
-
-                                <div class="form-action col-sm-12 text-right">
-                                    <input type="submit" value="{{trans('lang.search')}}" class="btn btn-primary">
-                                    <a class="btn btn-default"
-                                       href="{{route('admins.index')}}">@lang('lang.cancel')</a>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-book"></i>{{__('admin.titles.admins')}}</h3>
+                    <h3 class="panel-title"><i class="fa fa-book"></i>{{__('Orders')}}</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-bordered table-striped table-condensed flip-content">
                         <thead class="flip-content">
                         <tr>
-                            <th class="text-center">@lang('lang.name')</th>
-                            <th class="text-center">@lang('lang.email')</th>
-                            <th class="text-center">@lang('lang.role')</th>
-                            <th style="text-align: center" class="text-center">@lang('lang.options')</th>
+                            <th class="text-center">id</th>
+                            <th class="text-center">product</th>
+                            <th class="text-center">price</th>
+                            <th class="text-center">buyer</th>
+                            <th class="text-center">created_at</th>
+                            <th class="text-center">craftsman</th>
+
+                            <th style="text-align: center" class="text-center">Options</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($admins as $admin)
+                        @foreach($orders as $order)
                             <tr>
-                                <td class="text-center">{{$admin->name}}</td>
-                                <td class="text-center">{{$admin->email}}</td>
-                                <td class="text-center">{{$admin->getRoleNames()->first()}} </td>
+                                <td class="text-center" style="vertical-align: middle">{{$order->id}}</td>
                                 <td class="text-center">
-                                    <a href="{{route('admin.view_permissions', $admin->id)}}" class="btn btn-primary ">
-                                        <i class="fa fa-lock"></i>
-                                    </a>
-                                    <a href="{{route('admins.edit', $admin->id)}}" class="btn btn-default ">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <a href="{{route('admins.show', $admin->id)}}" class="btn btn-primary ">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
+                                    {{$order->product->title}}
+                                    <br>
+                                    <img src="{{asset('/HandicraftsAuction/image/wool.jpg')}}" width="150px" height="100px" class="p-1">
+                                </td>
+                                <td class="text-center" style="vertical-align: middle">
+                                    {{$order->price}}$
+                                </td>
+                                <td class="text-center" style="vertical-align: middle">{{$order->user->username}}</td>
 
-                                    <a class="btn btn-danger delete-admin" data-value="{{$admin->id}}">
-                                        <i class="fa fa-trash"></i>
+                                <td class="text-center" style="vertical-align: middle">{{$order->created_at}}</td>
+
+                                <td class="text-center" style="vertical-align: middle">
+                                    {{$order->product->user->username}}
+                                </td>
+                                <td class="text-center" style="vertical-align: middle">
+                                    <a href="{{route('admin.order.show', $order->id)}}" class="btn btn-primary">
+                                        order details
                                     </a>
+                                    <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal" data-attr="{{ route('order.delete', $order->id) }}" title="Delete Order">
+                                        <i class="fa fa-trash text-danger fa-lg"></i>
+                                    </a>  
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                     <div class="com-md-12 text-right">
-                        {{$admins->links()}}
+                        {{$orders->links('pagination::bootstrap-4')}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="smallBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
                     </div>
                 </div>
             </div>
@@ -85,38 +78,31 @@
 @endsection
 @section('script')
     <script>
-        $('.delete-admin').click(function () {
-            var id = $(this).data('value')
-            swal({
-                    title: "@lang('lang.questions.confirm_remove')",
-                    text: "@lang('admin.questions.do_remove')",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "@lang('lang.yes')",
-                    cancelButtonText: "@lang('lang.no')",
-                    closeOnConfirm: false
-                },
-                function () {
-                    /**
-                     *
-                     * send ajax request for deleting admin
-                     *
-                     */
-                    $.ajax({
-                        url: '{{route('admin.destroy')}}/' + id,
-                        method: 'GET',
-                        data: {body: '', _token: '{{csrf_token()}}'}
-                    }).success(function (response) {
-                        if (response.status == 200) {
-                            swal("@lang('lang.alert')", response.message, "success")
-                            window.location.reload()
-                        } else {
-                            swal("@lang('lang.alert')", response.message, "error")
-                        }
-                    })
-                });
-        })
+    
+$(document).on('click', '#smallButton', function(event) {
+    event.preventDefault();
+    let href = $(this).attr('data-attr');
+    $.ajax({
+        url: href
+        , beforeSend: function() {
+            $('#loader').show();
+        },
+        // return the result
+        success: function(result) {
+            $('#smallModal').modal("show");
+            $('#smallBody').html(result).show();
+        }
+        , complete: function() {
+            $('#loader').hide();
+        }
+        , error: function(jqXHR, testStatus, error) {
+            console.log(error);
+            alert("Page " + href + " cannot open. Error:" + error);
+            $('#loader').hide();
+        }
+        , timeout: 8000
+    })
+});
     </script>
 @endsection
 

@@ -21,5 +21,6 @@ class Admin
         if ($role === "Admin") 
             return $next($request);
         else
-            return redirect()->back();    }
+            return redirect()->back()->with('error', 'You Are not Allowed to access Admin control Panel!');  
+        }
 }

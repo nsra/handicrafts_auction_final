@@ -14,20 +14,24 @@ class Controller extends BaseController
     
     public function __construct()
     {
-        $this->middleware('auth');
+
     }
 
     public function userLogout()
     {
-        Auth::logout();
-        Session::flush();
-        return redirect()->route('home');
+        if(Auth::user()){
+            Auth::logout();
+            Session::flush();
+            return redirect()->route('home');
+        }
+        else 
+            return redirect()->back();
     }
 
     public function profile(){
-        if($this->middleware('craftsman')) 
+        if(Auth::user() && Auth::user()->role_id == 2)
             return redirect()->route('craftsman.profile');
-        else if($this->middleware('buyer')) 
+        else if(Auth::user() && Auth::user()->role_id == 3) 
                 return redirect()->route('buyer.profile');
         else 
             return redirect()->back();

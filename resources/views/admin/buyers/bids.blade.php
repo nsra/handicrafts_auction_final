@@ -60,7 +60,7 @@
                         </tbody>
                     </table>
                     <div class="com-md-12 text-right">
-                        {{$bids->links()}}
+                        {{$bids->links('pagination::bootstrap-4')}}
                     </div>
                 </div>
             </div>

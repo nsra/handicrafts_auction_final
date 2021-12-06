@@ -22,7 +22,7 @@ class CategoriesController extends Controller
 
     public function view_products($id)
     {
-        $category= Category::find($id);
+        $category= Category::findOrFail($id);
         $products= $category->products;//pagination not working
         return view('admin.categories.products', compact('category', 'products'));
     }

@@ -7,6 +7,9 @@
 </head>
 
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+<div id="app">
+
+    
 <div class="page-wrapper">
 
     @includeIf('base_layout.components.header.header')
@@ -61,7 +64,7 @@
 @includeIf('base_layout.components.footer.footer_meta')
 <!-- FOOTER META ENDS -->
 @yield('script')
-
+</div>
 </body>
 
 </html>

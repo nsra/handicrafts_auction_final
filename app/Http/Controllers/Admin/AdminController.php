@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Rules\MatchOldPassword;
 use App\Models\Product;
 use App\Models\Role;
-
 use App\Models\Bid;
 use App\Models\Category;
 use App\Models\Order;
@@ -75,7 +74,7 @@ class AdminController extends Controller
             'password_confirmation' => ['required'],
         ]);
         
-        $user = User::find(Auth::user()->id);
+        $user = User::findOrFail(Auth::user()->id);
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->with('error', 'Current password does not correct!');
         }

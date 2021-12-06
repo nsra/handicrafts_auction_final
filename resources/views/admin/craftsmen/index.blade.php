@@ -61,21 +61,33 @@
                                     <a href="{{route('admin.craftsmen.show', $craftsman->id)}}" class="btn btn-primary ">
                                         <i class="fa fa-eye"></i>
                                     </a>
-
-                                    <a class="btn btn-danger delete-craftsman" data-value="{{$craftsman->id}}">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-
-                                    <a href="{{route('craftsman.destroy', $craftsman->id)}}" class="btn btn-primary ">
-                                        <i class="fa">delete</i>
-                                    </a>
+                                  
+                                    <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal" data-attr="{{ route('craftsman.delete', $craftsman->id) }}" title="Delete Craftsman">
+                                        <i class="fa fa-trash text-danger fa-lg"></i>
+                                    </a>  
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                     <div class="com-md-12 text-right">
-                        {{$craftsmen->links()}}
+                        {{$craftsmen->links('pagination::bootstrap-4')}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="smallBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
                     </div>
                 </div>
             </div>
@@ -84,39 +96,30 @@
 @endsection
 @section('script')
     <script>
-        $('.delete-craftsman').click(function () {
-            var id = $(this).data('value')
-            swal({
-                    title: "Delete craftsman",
-                    text: "Are You Shure You Want To Remove This craftsman with all his products!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes",
-                    cancelButtonText: "No",
-                    closeOnConfirm: false
+        $(document).on('click', '#smallButton', function(event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href
+                , beforeSend: function() {
+                    $('#loader').show();
                 },
-                function () {
-                    /**
-                     *
-                     * send ajax request for deleting craftsman
-                     *
-                     */
-                    $.ajax({
-                        url: 'admin/craftsman/destroy' + id,
-                        method: 'GET',
-                        DataType: 'json', 
-                        data:{"_token": "{{ csrf_token() }}"}, 
-                    }).success(function (response) {
-                        if (response.status == 200) {
-                            swal("alert", response.message, "success")
-                            window.location.reload()
-                        } else {
-                            swal("alert", response.message, "error")
-                        }
-                    })
-                });
-        })
+                // return the result
+                success: function(result) {
+                    $('#smallModal').modal("show");
+                    $('#smallBody').html(result).show();
+                }
+                , complete: function() {
+                    $('#loader').hide();
+                }
+                , error: function(jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                }
+                , timeout: 8000
+            })
+        });
     </script>
 @endsection
 

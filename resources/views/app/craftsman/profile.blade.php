@@ -11,6 +11,19 @@
       </div>
       <br>
       <br>
+      <div class="row mb-4">
+        <div class="col">
+            <div class="input-form float-end">
+                <a class="btn btn-lg btn-secondary" href="{{route('craftsman.products')}}" style="color:black">&nbsp;&nbsp;View My Products</a>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <div class="input-form">
+                &nbsp;&nbsp; <a class="btn btn-lg btn-secondary" href="{{route('craftsman.ordered_products')}}" style="color:black">Ordered products</a>
+            </div>
+        </div>
+    </div>
+    <br>
       <form action="{{route('craftsman_profile.update', $user->id)}}" method="POST" enctype="multipart/form-data">
         @method('PUT')
         @csrf
@@ -81,21 +94,12 @@
             </div>
             </div>
         </div>
-        <div class="row mb-4">
-            <div class="col">
-            <div class="input-form float-end">
-                <a class="btn btn-lg btn-secondary" href="{{route('craftsman.products', $user->id)}}" style="color:black">View My Products</a>
-            </div>
-            </div>
-            <div class="col mb-4">
-            <div class="input-form">
-                &nbsp;&nbsp; <a class="btn btn-lg btn-secondary" href="{{route('craftsman.ordered_products', $user->id)}}" style="color:black">Ordered products</a>
-            </div>
-            </div>
+       
             <div>
+
             <div class="input-form text-center">
                 <button type="submit" style="background-color: #ffbb00; color:black">Update Profile</button> &nbsp; &nbsp; &nbsp; &nbsp; 
-                <a class="btn btn-lg " href="{{route('craftsman_password.change', $user->id)}}" style="background-color: #ffbb00; color:black">Update Password</a>
+                <a class="btn btn-lg " href="{{route('craftsman_password.change')}}" style="background-color: #ffbb00; color:black">Update Password</a>
             </div>
             </div>
         </div>

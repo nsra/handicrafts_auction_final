@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsDeleveredToOrdersTable extends Migration
+class AddIsOrderedByAuctionToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddIsDeleveredToOrdersTable extends Migration
     public function up()
     {
         // Schema::table('orders', function (Blueprint $table) {
-        //     $table->tinyInteger('is_delivered')->default(0);
+        //     $table->tinyInteger('is-ordered-by-auction')->default(0);
         // });
     }
 

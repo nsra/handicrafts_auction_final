@@ -31,7 +31,7 @@
                         </tbody>
                     </table>
                     <div class="com-md-12 text-right">
-                        {{$categories->links()}}
+                        {{$categories->links('pagination::bootstrap-4')}}
                     </div>
                 </div>
             </div>

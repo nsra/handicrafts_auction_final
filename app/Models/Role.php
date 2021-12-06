@@ -12,22 +12,12 @@ class Role extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     protected $fillable = [
-        'name',
+        'name'
     ];
 
     public function users()
     {
         return $this->hasMany(User::class);
-    }
-
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class);
     }
 }

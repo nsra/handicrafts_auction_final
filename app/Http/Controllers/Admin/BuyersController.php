@@ -33,26 +33,21 @@ class BuyersController extends Controller
                                  ->orWhere('email', 'like', "%{$search_item}%");
                        });
         }
-        $buyers = $buyers->where([])->paginate(6);
+        $buyers = $buyers->orderBy('id', 'DESC')->paginate(6);
         return view('admin.buyers.index', compact('buyers'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function show($id)
     {
         return view('admin.buyers.show', [
-            'buyer' => User::find($id),
+            'buyer' => User::findOrFail($id),
         ]);
     }
 
     public function bids($id, Request $request)
     {
-        $buyer= User::find($id);
+        $buyer= User::findOrFail($id);
         $bids= Bid::where('user_id', '=', $buyer->id);
         $search_item= $request->input('name');
         if ($request->has('name')){
@@ -61,13 +56,13 @@ class BuyersController extends Controller
                                  ->orWhere('description', 'like', "%{$search_item}%");
                        });
         }
-        $bids=$bids->where([])->paginate(6);
+        $bids=$bids->orderBy('id', 'DESC')->paginate(6);
         return view('admin.buyers.bids', compact('buyer', 'bids'));
     }
 
     public function view_bid_product($id)
     {
-        $bid= Bid::find($id);
+        $bid= Bid::findOrFail($id);
         $product=$bid->product;
         $buyer= $bid->user;
         return view('admin.buyers.bid_product', compact('bid', 'product', 'buyer'));
@@ -75,7 +70,7 @@ class BuyersController extends Controller
 
     public function view_bid_product_craftsman($id)
     {
-        $product= Product::find($id);
+        $product= Product::findOrFail($id);
         $craftsman= $product->user;
         return view('admin.buyers.bid_product_craftsman', compact('craftsman', 'product'));
     }
@@ -83,12 +78,19 @@ class BuyersController extends Controller
     public function destroy($id)
     {
         try {
-            $buyer = User::find($id);
-            if($buyer->bids()->count !== 0) $buyer->bids()->delete();
+            $buyer = User::findOrFail($id);
+            if($buyer->bids->count() > 0) $buyer->bids()->delete();
+            // if($buyer->orders->count() > 0 ) $buyer->orders()->delete();
             $buyer->delete();
             return redirect()->back()->with('success', 'buyer with his bids deleted successfuly');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'fail to delete buyer');
         }
+    }
+
+    public function delete($id)
+    {
+        $buyer = User::find($id);
+        return view('admin.buyers.delete', compact('buyer'));
     }
 }

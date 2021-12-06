@@ -21,5 +21,6 @@ class Craftsman
         if ($role === "Craftsman") 
             return $next($request);
         else
-            return redirect()->back();    }
+            return redirect()->back()->with('error', 'You are not allowed as a craftsman to bidding! Create a Buyer account to order products.');
+    }
 }

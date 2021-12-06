@@ -21,6 +21,6 @@ class Buyer
         if ($role === "Buyer") 
             return $next($request);
         else
-            return redirect()->back();
+        return redirect()->back()->with('error', 'You are not allowed to perform this action with buyer account, create craftsman account to pressent and control your handmads for sale');
     }
 }

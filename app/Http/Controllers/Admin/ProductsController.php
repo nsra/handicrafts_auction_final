@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Order_stepTranslation;
-use App\Order_step;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Category;
+use App\Models\Bid;
+use App\Models\Product;
+use Exception;
 
-class Order_stepsController extends Controller
+class ProductsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,59 +24,20 @@ class Order_stepsController extends Controller
 
     public function index(Request $request)
     {
-        $original_order_steps= Order_step::get();
-        $order_steps = Order_stepTranslation::query();
-        if ($request->has('title')){
-            $order_steps = $order_steps->where('title', 'like', '%' . $request->input('title') . '%');
+        $products = Product::where([]);
+        $search_item= $request->input('name');
+        if ($request->has('name')){
+            $buyers = $products->where(function ($query) use ($search_item) {
+                           $query->where('title', 'like', "%{$search_item}%")
+                                 ->orWhere('orderNowPrice', 'like', "%{$search_item}%");
+                       });
         }
-
-        if ($request->has('description')){
-            $order_steps = $order_steps->where('description', 'like', '%' . $request->input('description') . '%');
-        }
-
-        $order_steps = $order_steps->where('locale', app()->getLocale())->paginate(5);
-        return view('order_steps.index', compact('order_steps', 'original_order_steps'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('order_steps.create');
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //App::getLocale();
-        $request->validate($this->rules(), $this->messages());
-        $order_step_data = [];
-        $order_step_data['en'] = [
-            'title' => $request->en_title,
-            'description' => $request->en_description,
-        ];
-        $order_step_data['ar'] = [
-            'title' => $request->ar_title,
-            'description' => $request->ar_description,
-        ];
-
-        $order_step= Order_step::create($order_step_data);
-        $order_step->image= parent::uploadImage($request->file('order_step_image'));
-        $order_step->number= $request->number;
-        if ($order_step->save()){
-            return redirect()->back()->with('success', trans('order_step.success.stored'));
-        }
-        else
-            return redirect()->back()->with('error', trans('order_step.error.stored'));
+        if ($request->category != null)
+            $products = $products->where('category_id', '=', $request->input('category'));
+        
+        $products = $products->orderBy('id', 'DESC')->paginate(5);
+        $categories = Category::get();
+        return view('admin.products.index', compact('products', 'categories'));
     }
 
     /**
@@ -88,104 +48,58 @@ class Order_stepsController extends Controller
      */
     public function show($id)
     {
-        return view('order_steps.show', [
-            'order_step' => Order_step::find($id),
+        return view('admin.products.show', [
+            'product' => Product::findOrFail($id),
+            'categories' => Category::get()
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order_step $order_step)
+    public function bids($id, Request $request)
     {
-        return view('order_steps.edit', compact('order_step'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        try{
-            $order_step = Order_step::findOrFail($id);
-            $request->validate($this->rules($id), $this->messages());
-
-            $order_step_data = [];
-            $order_step_data['en'] = [
-                'title' => $request->en_title,
-                'description' => $request->en_description,
-            ];
-            $order_step_data['ar'] = [
-                'title' => $request->ar_title,
-                'description' => $request->ar_description,
-            ];
-            if($request->file('order_step_image')){
-                $order_step->image= parent::uploadImage($request->file('order_step_image'));
-            }
-            $order_step->number=$request->number;
-            $order_step->update($order_step_data);
-            return redirect()->back()->with('success', trans('order_step.success.updated'));
-        } catch (ModelNotFoundException $modelNotFoundException) {
-            return redirect()->back()->with('error', trans('order_step.error.updated'));
+        $product= Product::findOrFail($id);
+        $bids= Bid::where('product_id', '=', $product->id);
+        $search_item= $request->input('name');
+        if ($request->has('name')){
+            $bids = $bids->where(function ($query) use ($search_item) {
+                           $query->where('price', 'like', "%{$search_item}%")
+                                 ->orWhere('description', 'like', "%{$search_item}%");
+                       });
         }
+        $bids=$bids->orderBy('id', 'DESC')->paginate(6);
+        return view('admin.products.bids', compact('product', 'bids'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function view_product_bid_buyer($id)
+    {
+        $bid= Bid::findOrFail($id);
+        $product=$bid->product;
+        $buyer= $bid->user;
+        return view('admin.products.product_bid_buyer', compact('bid', 'product', 'buyer'));
+    }
+
+    public function view_product_craftsman($id)
+    {
+        $product= Product::findOrFail($id);
+        $craftsman= $product->user;
+        return view('admin.products.product_craftsman', compact('craftsman', 'product'));
+    }
+  
 
     public function destroy($id)
     {
         try {
-            $step = Order_step::findOrFail($id);
-            $step->delete();
-
-            return response()->json(['status' => 200, 'message' => trans('order_step.success.deleted')]);
-        } catch (ModelNotFoundException $modelNotFoundException) {
-            return response()->json(['status' => 200, 'message' => trans('order_step.error.deleted')]);
+            $product = Product::findOrFail($id);
+            if($product->bids->count() > 0) $product->bids()->delete();
+            $product->delete();
+            return redirect()->back()->with('success', 'product with related bids deleted successfuly');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'fail to delete product');
         }
     }
 
-    private function rules($id = null)
+    public function delete($id)
     {
-        $rules = [
-            'en_title' => 'required|max:100',
-            'ar_title' => 'required|max:100',
-            'en_description' => 'required',
-            'ar_description' => 'required',
-            'order_step_image' => 'image',
-        ];
-        if (!$id) {
-            $rules['order_step_image'] = 'required|image';
-        }
-        return $rules;
-    }
-
-    /**
-     *
-     * validation's messages
-     *
-     * @return array
-     */
-    private function messages()
-    {
-        return [
-            'en_title.required' => trans('order_step.validations.title_required'),
-            'en_title.max' => trans('order_step.validations.title_max'),
-            'en_description.required' => trans('order_step.validations.description_required'),
-            'ar_title.required' => trans('order_step.validations.title_required'),
-            'ar_title.max' => trans('order_step.validations.title_max'),
-            'ar_description.required' => trans('order_step.validations.description_required'),
-        ];
+        $product = Product::find($id);
+        return view('admin.products.delete', compact('product'));
     }
 }

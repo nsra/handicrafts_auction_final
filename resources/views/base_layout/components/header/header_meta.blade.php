@@ -1,9 +1,13 @@
 <meta charset="utf-8"/>
-<title>Metronic Admin Theme #1 | Bootstrap Form Controls</title>
+<title>Handicrafts Auction</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-
+<script src="{{asset('/HandicraftsAuction/js/jquery.min.js')}}"></script>
+<script src="{{asset('/HandicraftsAuction/js/popper.min.js')}}"></script>
+<script src="{{asset('/HandicraftsAuction/js/bootstrap.min.js')}}"></script>
+{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+{{-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> --}}
 <!-- BEGIN GLOBAL MANDATORY STYLES -->
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
       type="text/css"/>

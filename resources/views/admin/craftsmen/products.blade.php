@@ -62,7 +62,7 @@
                         </tbody>
                     </table>
                     <div class="com-md-12 text-right">
-                        {{$products->links()}}
+                        {{$products->links('pagination::bootstrap-4')}}
                     </div>
                 </div>
             </div>

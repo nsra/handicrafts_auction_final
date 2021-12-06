@@ -66,7 +66,9 @@
                                             <div class="col-xs-6 text-center">
                                                 <a class="btn btn-default" href="{{route('roles.index')}}">Roles: {{$roles}}</a>
                                             </div>
+                                            
                                             <div class="col-xs-6 text-left">
+                                                &nbsp; 
                                                 <button class="btn btn-default" disabled>Bids: {{$bids}}</a>
                                             </div>
                                         </div>

@@ -38,17 +38,15 @@
                         <td class="text-left">{{$product->title}}</td>
                         <td class="text-left">{{$category->description}}</td>
                         <td class="text-center">
-                            {{-- <a href="{{route('product.view', $product->id)}}" class="btn btn-primary ">
+                            <a href="{{route('admin.products.show', $product->id)}}" class="btn btn-primary ">
                                 <i class="fa fa-eye"></i>
-                            </a> --}}
+                            </a>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            <div class="com-md-12 text-right">
-                {{-- {{$products->links()}} --}}
-            </div>
+           
         </div>
     </div>
 @endsection

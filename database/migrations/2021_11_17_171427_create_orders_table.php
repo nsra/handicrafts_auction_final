@@ -18,8 +18,7 @@ class CreateOrdersTable extends Migration
         //     $table->foreignId('product_id');
         //     $table->foreign('product_id')
         //         ->references('id')
-        //         ->on('products')
-        //         ->onDelete('cascade');
+        //         ->on('products');
         //     $table->float('price', 19, 2);
         //     $table->foreign('user_id')
         //         ->references('id')

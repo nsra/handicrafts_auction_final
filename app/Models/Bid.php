@@ -33,4 +33,8 @@ class Bid extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function isRelatedToSoftDeletedProduct(){
+        return $this->product->is_delete == 1 ? true : false ;
+    }
 }
