@@ -22,6 +22,7 @@
                             <div id="countdown" class="text-center"></div>
                             @else 
                             <div class=" text-center">Expired</div>
+                            
                             @php 
                                 $product->order_by_auction()
                             @endphp

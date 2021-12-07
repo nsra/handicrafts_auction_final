@@ -11,11 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+   
     public function __construct()
     {
 
@@ -25,17 +21,6 @@ class HomeController extends Controller
     public function home()
     {
         $user_role="";
-       
-        $authUserOrderedProducts = 0;
-        $authUserWinedAuctions  = 0;
-
-        if(auth()->user()){
-            $authUserOrderedProducts= Product::where([['user_id', '=', auth()->user()->id], ['is_delete', '=', 1]])->count();
-            $authUserWinedAuctions = Order::where('user_id', '=', auth()->user()->id)->count();
-        }
-        
-        // dd($authUserOrderedProducts, $authUserWinedAuctions);
-
         $categories= Category::get();
         $products= Product::where('is_delete', '=', 0)->orderBy('id', 'DESC')->paginate(8);
         if(Auth::user()) $user_role=Auth::user()->role->name;
@@ -45,22 +30,12 @@ class HomeController extends Controller
         else if($user_role === "Craftsman"){
             return redirect()->route('craftsman_dashboard');
         }
-        else return view('app.index', compact('products', 'categories', 'authUserOrderedProducts', 'authUserWinedAuctions'));
+        else return view('app.index', compact('products', 'categories'));
     }
 
     public function index(Request $request)
     {
         $products= Product::where('is_delete', '=', 0);
-
-        $authUserOrderedProducts = 0;
-        $authUserWinedAuctions = 0;
-
-        if(auth()->user()){
-            $authUserOrderedProducts= Product::where([['user_id', '=', auth()->user()->id], ['is_delete', '=', 1]])->count();
-            $authUserWinedAuctions = Order::where('user_id', '=', auth()->user()->id)->count();
-        }
-        
-        // dd($authUserOrderedProducts, $authUserWinedAuctions );
      
         if ($request->has('title'))
             $products = $products->where('title', 'like', "%{$request->input('title')}%");
@@ -76,7 +51,7 @@ class HomeController extends Controller
         
         $products = $products->orderBy('id', 'DESC')->paginate(8);
         $categories= Category::get();
-        return view('app.index', compact('products', 'categories', 'authUserOrderedProducts', 'authUserWinedAuctions'));
+        return view('app.index', compact('products', 'categories'));
     }
 
     public function category_products(Request $request, $id)
@@ -84,16 +59,6 @@ class HomeController extends Controller
 
         $category= Category::findOrFail($id);
         $products= Product::where([['category_id', '=', $category->id],['is_delete', '=', 0]]);
-       
-        $authUserOrderedProducts = 0;
-        $authUserWinedAuctions  = 0;
-
-        if(auth()->user()){
-            $authUserOrderedProducts= Product::where([['user_id', '=', auth()->user()->id], ['is_delete', '=', 1]])->count();
-            $AuthUserWindAuctions= Order::where('user_id', '=', auth()->user()->id)->count();
-        }
-        
-        // dd($authUserOrderedProducts, $authUserWinedAuctions );
 
         if ($request->has('title'))
         $products = $products->where('title', 'like', "%{$request->input('title')}%");
@@ -105,23 +70,17 @@ class HomeController extends Controller
             $products = $products->where('orderNowPrice', '<=', $request->input('highPrice'));
         
         $products = $products->orderBy('id', 'DESC')->paginate(8);
-        return view('app.category_products', compact('category', 'products', 'authUserOrderedProducts', 'authUserWinedAuctions'));
+        return view('app.category_products', compact('category', 'products'));
     }
 
     public function product_details($id)
     {
-        $authUserOrderedProducts = 0;
-        $authUserWinedAuctions = 0;
-        if(auth()->user()){
-            $authUserOrderedProducts= Product::where([['user_id', '=', auth()->user()->id], ['is_delete', '=', 1]])->count();
-            $authUserWinedAuctions = Order::where('user_id', '=', auth()->user()->id)->count();
-        }
         
         $categories= Category::get();
         $product= Product::findOrFail($id);
         // dd($product->is_delete);
         $bids = Bid::where('product_id', '=', $product->id)->orderBy('id', 'DESC')->paginate(8);
-        return view('app.product_details', compact('categories', 'product', 'bids', 'authUserOrderedProducts', 'authUserWinedAuctions'));
+        return view('app.product_details', compact('categories', 'product', 'bids'));
     }
 
     public function view_craftsman($id){

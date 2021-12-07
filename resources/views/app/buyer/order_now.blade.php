@@ -17,6 +17,7 @@
             <div id="countdown" class="salse timer text-center"></div>
             @else 
             <div class="salse text-center">Expired</div>
+            
               @php 
                 $product->order_by_auction()
               @endphp
@@ -127,9 +128,11 @@
                 <button type="submit" class="btn btn-warning btn-lg" style="background-color: #ffbb00; color:black;"  
                 {{ $product->isOrdered()? 'disabled': '' }}>
                 Deliver Now</button> 
-                <button type="submit" class="btn btn-default btn-lg""  
+                @if($product->isOrdered())
+                <button class="btn btn-default btn-lg"  
                 >
-                The Product Has Blocked</button>            
+                The Product Has Blocked</button> 
+                @endif           
             </div>
           </form>
         

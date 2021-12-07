@@ -1,33 +1,15 @@
 
 @extends('layouts.main_layout')
 @section('content')
-  {{-- @if((auth()->user() && auth()->user()->role_id == 1) || (auth()->user() && auth()->user()->role_id == 2))
+ 
+ @if((auth()->user() && auth()->user()->role_id == 1) || (auth()->user() && auth()->user()->role_id == 2))
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <strong>You are not allowed to bidding!</strong> Create a buyer account to order products.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  @endif --}}
-  
-  @if(auth()->user() && auth()->user()->role_id == 2 && $authUserOrderedProducts > 0)
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>{{$authUserOrderedProducts}} Of Your Products has been ordered!</strong>Please Check Your Email and Ordered Products Panel, You have to deliver ordered products to your buyers within 3 hours.
-    <button type="button" onclick="removeBackdrop()"  class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
   @endif
-
-  @if(auth()->user() && auth()->user()->role_id == 3 && $authUserWinedAuctions > 0)
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Congrats 🎉, You had won new auctions ({{$authUserWinedAuctions}})! </strong> You will receive your orders within 3 hours then please confirm receipt of the products from MyOrders Panel.
-    <button type="button" onclick="removeBackdrop()"  class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  @endif
-
   <div class="Product_details">
     <h2 class="p-3">Product Details</h2>
     <br>
@@ -45,6 +27,7 @@
                 <div id="countdown" class="salse timer text-center"></div>
                 @else 
                 <div class="salse text-center">Expired</div>
+                 
                   @php 
                     $product->order_by_auction()
                   @endphp

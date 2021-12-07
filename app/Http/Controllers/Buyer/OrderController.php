@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 use Illuminate\Support\Carbon;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -90,7 +92,19 @@ class OrderController extends Controller
             if ($order->save() === TRUE){
                 $product->is_delete = 1;
                 $product->update();
-                return redirect()->back()->with('success', 'Congrats 🎉, You order: << '.$product->title.' >> will deliver within 3 hours, please confirm the receipt from Your Orders Panel immediately as you receive your product.');
+                $user= Auth::user();
+                $craftsman= $product->user;
+                Mail::raw('Congrats 🎉, Your order: << '.$product->title.' >> will deliver within 3 hours, please confirm the receipt from Your Orders Panel immediately as you receive your product.', function ($mail) use ($user) {
+                    $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                    $mail->to($user->email)
+                        ->subject('Your Order Is On Delivary...');
+                });
+                Mail::raw('Congrats 🎉, Your product: << '.$product->title.' >> has been ordered by '.$user->username.' You have 3 hours to deliver it to him, Please check Your Ordered Products Panel to get the buyer address, when you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.', function ($mail) use ($craftsman) {
+                    $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                    $mail->to($craftsman->email)
+                        ->subject('You Have New Ordered Product');
+                });
+                return redirect()->back()->with('success', 'Congrats 🎉, Your order: << '.$product->title.' >> will deliver within 3 hours, please confirm the receipt from Your Orders Panel immediately as you receive your product.');
             }
         }
         else return redirect()->back()->with('error', 'orderring faild!, product is locked!');
