@@ -1,4 +1,4 @@
-{{-- !-- Delete Warning Modal -->  --}}
+{{-- !-- Delete Warning Modal --> --}}
 <form action="{{ route('craftsman.product.destroy_out', $product->id) }}" method="post">
     <div class="modal-body">
         @csrf

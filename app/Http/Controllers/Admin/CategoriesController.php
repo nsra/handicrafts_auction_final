@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Product;
 
 class CategoriesController extends Controller
 {
@@ -22,9 +22,8 @@ class CategoriesController extends Controller
 
     public function view_products($id)
     {
-        $category= Category::findOrFail($id);
-        $products= $category->products;//pagination not working
+        $category = Category::findOrFail($id);
+        $products = $category->products;
         return view('admin.categories.products', compact('category', 'products'));
     }
 }
-

@@ -111,7 +111,7 @@
               @endphp
               @endif
               <a href="{{route('product.details', $product->id) }}">
-                <img src="{{asset('/HandicraftsAuction/image/wool.jpg')}}" class="card-img-top" alt="...">
+                <img src="{{asset($product->images->first()->path)}}" class="card-img-top" alt="...">
               </a>
               <div class="card-body">
                 <h5 class="text-center">{{$product->title}}</h5>
@@ -185,7 +185,8 @@
 @endsection
 
 @section('script')
-    function startTimer(seconds, display) {
+<script>
+ function startTimer(seconds, display) {
       function timer() {
           var days        = Math.floor(seconds/24/60/60);
           var hoursLeft   = Math.floor((seconds) - (days*86400));
@@ -236,4 +237,6 @@
           , timeout: 8000
       })
   });
+</script>
+   
   @endsection

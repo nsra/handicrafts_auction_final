@@ -13,9 +13,9 @@ class AddIsOrderedByAuctionToOrdersTable extends Migration
      */
     public function up()
     {
-        // Schema::table('orders', function (Blueprint $table) {
-        //     $table->tinyInteger('is-ordered-by-auction')->default(0);
-        // });
+        Schema::table('orders', function (Blueprint $table) {
+            $table->tinyInteger('is-ordered-by-auction')->default(0);
+        });
     }
 
     /**

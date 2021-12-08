@@ -13,20 +13,20 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        // Schema::create('products', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('title')->unique();
-        //     $table->longText('description');
-        //     $table->foreignId('category_id')
-        //         ->references('id')
-        //         ->on('categories')
-        //         ->onDelete('cascade');
-        //     $table->timestamps('start_auction');
-        //     $table->timestamps('end_auction');
-        //     $table->float('orderNowPrice', 19, 2);
-        //     $table->tinyInteger('is_delete')->default(0);
-        //     $table->timestamps();
-        // });
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('title')->unique();
+            $table->longText('description');
+            $table->foreignId('category_id')
+                ->references('id')
+                ->on('categories')
+                ->onDelete('cascade');
+            $table->timestamps('start_auction');
+            $table->timestamps('end_auction');
+            $table->float('orderNowPrice', 19, 2);
+            $table->tinyInteger('is_delete')->default(0);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -36,6 +36,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('products');
+        Schema::dropIfExists('products');
     }
 }

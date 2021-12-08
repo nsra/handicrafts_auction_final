@@ -2,13 +2,9 @@
 
 namespace App\Console\Commands;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\SendMail;
-use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Bid;
 use Illuminate\Support\Carbon;
-
 use Illuminate\Console\Command;
 
 class DailyCheckOrders extends Command
@@ -72,7 +68,7 @@ class DailyCheckOrders extends Command
                         $mail->to($user->email)
                             ->subject('You had won new auction 🎉');
                     });
-                    $craftsman= $product->user;//Product::where('id', '=', $product->id)->first()->user;
+                    $craftsman= $product->user;
                     Mail::raw('Congrats 🎉, Your product: << '.$product->title.' >> has been ordered by the bidder auction winner:'.$user->username.', You have 3 hours to deliver it to him, Please check Your Ordered Products Panel to get the buyer address, when you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.', function ($mail) use ($craftsman) {
                         $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                         $mail->to($craftsman->email)

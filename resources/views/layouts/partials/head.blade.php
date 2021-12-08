@@ -22,25 +22,40 @@
 <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
 <style>
+    
+    .invalid-feedback {
+        display: block;
+    }
 
-  .error {
+    /* .content-product_details img {
+        width: 100%!important;
+        height: 100%!important;
+        object-fit: cover;
+    } */
+
+    .preview-image img{
+        padding: 10px;
+        max-width: 100px;
+    }
+
+    .error {
       color: red;
       margin-top: 10px !important;
-  }
+    }
 
-  .required {
+    .required {
       color: red;
-  }
+    }
 
-  .page-bar {
-      margin: -22px -14px 22px !important;
-  }
+    .page-bar {
+        margin: -22px -14px 22px !important;
+    }
 
-  .invalid-feedback{
-      width: 100%;
-      margin-top: 0.25rem;
-      font-size: 80%;
-      color: #e3342f;
-  }
+    .invalid-feedback{
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 80%;
+        color: #e3342f;
+    }
   
 </style>

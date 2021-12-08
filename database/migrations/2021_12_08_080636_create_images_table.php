@@ -12,7 +12,7 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('bath');
+            $table->string('path');
             $table->foreignId('product_id')
                 ->nullable()
                 ->references('id')

@@ -1,4 +1,4 @@
-{{-- !-- Delete Warning Modal -->  --}}
+{{-- !-- Delete Warning Modal --> --}}
 <form action="{{ route('buyer.bid.destroy', $bid->id) }}" method="post">
     <div class="modal-body">
         @csrf

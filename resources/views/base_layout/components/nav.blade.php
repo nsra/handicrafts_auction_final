@@ -15,7 +15,7 @@
             </a>
             <ul class="sub-menu">
                 <li class="nav-item start ">
-                    <a href="{{route('orders.index')}}" class="nav-link ">
+                    <a href="{{ route('orders.index') }}" class="nav-link ">
                         <i class="fa fa-list"></i>
                         <span class="title">{{ __('Show') }}</span>
                     </a>
@@ -30,7 +30,7 @@
             </a>
             <ul class="sub-menu">
                 <li class="nav-item start ">
-                    <a href="{{route('products.index')}}" class="nav-link ">
+                    <a href="{{ route('products.index') }}" class="nav-link ">
                         <i class="fa fa-list"></i>
                         <span class="title">{{ __('Show') }}</span>
                     </a>
@@ -45,7 +45,7 @@
             </a>
             <ul class="sub-menu">
                 <li class="nav-item start ">
-                    <a href="{{route('categories.index')}}" class="nav-link ">
+                    <a href="{{ route('categories.index') }}" class="nav-link ">
                         <i class="fa fa-list"></i>
                         <span class="title">{{ __('Show') }}</span>
                     </a>
@@ -60,8 +60,8 @@
             </a>
             <ul class="sub-menu">
                 <li class="nav-item start ">
-                    <a href="{{route('craftsmen.index')}}" class="nav-link ">
-                    <i class="fa fa-list"></i>
+                    <a href="{{ route('craftsmen.index') }}" class="nav-link ">
+                        <i class="fa fa-list"></i>
                         <span class="title">{{ __('Show') }}</span>
                     </a>
                 </li>
@@ -76,8 +76,8 @@
             </a>
             <ul class="sub-menu">
                 <li class="nav-item start ">
-                    <a href="{{route('buyers.index')}}" class="nav-link ">
-                    <i class="fa fa-list"></i>
+                    <a href="{{ route('buyers.index') }}" class="nav-link ">
+                        <i class="fa fa-list"></i>
                         <span class="title">{{ __('Show') }}</span>
                     </a>
                 </li>
@@ -92,7 +92,7 @@
             </a>
             <ul class="sub-menu">
                 <li class="nav-item start ">
-                    <a href="{{route('roles.index')}}" class="nav-link ">
+                    <a href="{{ route('roles.index') }}" class="nav-link ">
                         <i class="fa fa-list"></i>
                         <span class="title">{{ __('Show') }}</span>
                     </a>

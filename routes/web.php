@@ -107,7 +107,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::get('product/bids/{id}/user', ['as'=>'craftsman.product.bid.user','uses'=>'Craftsman\ProductController@view_buyer']);
         Route::get('product/order/{id}/user', ['as'=>'craftsman.product.order.user','uses'=>'Craftsman\OrderController@view_buyer']);
         Route::get('product/create', ['as' => 'craftsman.product.create', 'uses' => 'Craftsman\ProductController@create']);
-        Route::put('product/create', ['as'=>'craftsman.product.store','uses'=>'Craftsman\ProductController@store']);
+        Route::post('product/create', ['as'=>'craftsman.product.store','uses'=>'Craftsman\ProductController@store']);
         Route::get('product/{id}', ['as' => 'craftsman.product.edit', 'uses' => 'Craftsman\ProductController@edit']);
         Route::put('product/{id}', ['as'=>'craftsman.product.update','uses'=>'Craftsman\ProductController@update']);
         Route::get('buyer/{id}/bids', ['as'=>'craftsman.buyer.bids','uses'=>'Craftsman\ProductController@view_buyer_bids']);

@@ -13,11 +13,11 @@ class AddUserIdToProductsTable extends Migration
      */
     public function up()
     {
-        // Schema::table('products', function (Blueprint $table) {
-        //     $table->foreignId('user_id')
-        //         ->references('id')
-        //         ->on('users');
-        // });
+        Schema::table('products', function (Blueprint $table) {
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users');
+        });
     }
 
     /**

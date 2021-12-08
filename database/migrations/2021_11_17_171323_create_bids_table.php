@@ -13,19 +13,19 @@ class CreateBidsTable extends Migration
      */
     public function up()
     {
-        // Schema::create('bids', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->foreignId('user_id')
-        //         ->references('id')
-        //         ->on('users');
-        //     $table->float('price', 19, 2);
-        //     $table->foreignId('product_id')
-        //         ->references('id')
-        //         ->on('products')
-        //         ->onDelete('cascade');
-        //     $table->string('description')->nullable();
-        //     $table->timestamps();
-        // });
+        Schema::create('bids', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')
+                ->references('id')
+                ->on('users');
+            $table->float('price', 19, 2);
+            $table->foreignId('product_id')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade');
+            $table->string('description')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -35,6 +35,6 @@ class CreateBidsTable extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('bids');
+        Schema::dropIfExists('bids');
     }
 }
