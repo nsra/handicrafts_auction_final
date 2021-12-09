@@ -7,7 +7,6 @@
 <script src="{{ asset('js/app.js') }}" defer></script>
 
 <link rel="stylesheet" href="{{asset('/HandicraftsAuction/css/all.min.css')}}">
-<link rel="stylesheet" href="{{asset('/HandicraftsAuction/css/fontawesom.min.css')}}">
 <link rel="stylesheet" href="{{asset('/HandicraftsAuction/css/bootstrap.min.css')}}">
 
 <link rel="stylesheet" href="{{asset('/HandicraftsAuction/css/HandicraftsAuction.css')}}">
