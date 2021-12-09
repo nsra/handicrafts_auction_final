@@ -199,7 +199,7 @@
                     <i class="fas fa-check fa-2x">
                     </i> <span>Delivary druing 3 hour.</span>
                 </div>
-                <div class="our-team mt-4">
+                {{-- <div class="our-team mt-4">
                     <br>
                     <h3>Handicrafts Auction Team</h3>
                     <br>
@@ -223,7 +223,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="concact-us mt-5 mb-3">
                     <h3>Contact Us</h3>
                     {{-- <a>AmanyHerez2000@gmail.com</a>
