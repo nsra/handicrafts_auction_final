@@ -1,0 +1,370 @@
+@font-face {
+	font-family: "JF Flat Regular";
+	src: url(../fonts/JF-Flat-regular.eot);
+    src: url(../fonts/JF-Flat-regular.eot?#iefix) format('embedded-opentype'),
+         url('../fonts/JF-Flat-regular.svg#JF Flat Regular') format('svg'),
+         url(../fonts/JF-Flat-regular.woff) format('woff'),
+         url(../fonts/JF-Flat-regular.ttf) format('truetype');
+	font-weight: bolder;
+	font-style: normal
+}
+.navbar {
+    font-weight: bold;
+}
+.border-primary{
+    width: 100px;
+}
+/* start secand navbar */
+.sec-nav  .nav-link a{
+    padding: 20px;
+}
+/* end secand navbar */
+
+/* start profile craftsman */
+.CraftsmanProfile .title h2{
+    margin-left: 90px;
+}
+
+
+ .CraftsmanProfile .CraftsmanProfile-container .container-image-profile{
+    border: 2px solid gray;
+    border-radius: 50%;
+    width: 140px;
+    height: 130px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+} 
+.CraftsmanProfile .CraftsmanProfile-container .container-image-profile h6{
+   flex: content; 
+  
+   color: #ffbb00;
+} 
+.CraftsmanProfile label{
+    font-weight: bolder;
+}
+.CraftsmanProfile .CraftsmanProfile-container .input-form label{
+    
+    width: 150px;
+    font-size: large;
+    
+}
+.CraftsmanProfile .CraftsmanProfile-container .input-form input{
+    border-radius: 5px;
+    border: 1px solid  rgb(41, 37, 37);;
+    height: 40px;
+    width: 350px;
+    border-radius: 5px;
+}
+.CraftsmanProfile .CraftsmanProfile-container .input-form textarea{
+    border-radius: 5px;
+    border: 1px solid rgb(41, 37, 37);
+    height: 60px;
+    width: 80%;
+    
+}
+.CraftsmanProfile .CraftsmanProfile-container .input-form button{
+    border-radius: 5px;
+    border: 1px solid  rgb(41, 37, 37);;
+    height: 40px;
+    width: 200px;
+    color: white;
+    background-color: grey;
+    font-weight: bold;
+    
+}
+.CraftsmanProfile .CraftsmanProfile-container .imge-profile{
+    width: 200px;
+    
+}
+/* end profile craftsman */
+
+/* start My profile */
+.MyProfile .title h2{
+    margin-left: 90px;
+}
+ .MyProfile .MyProfile-container .container-image-profile{
+    border: 2px solid gray;
+    border-radius: 50%;
+    width: 120px;
+    height: 130px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+} 
+.MyProfile .MyProfile-container .container-image-profile h6{
+   flex: content; 
+  
+   color: #ffbb00;
+} 
+.MyProfile label{
+    font-weight: bolder;
+}
+.MyProfile .MyProfile-container .input-form label{
+    
+    width: 150px;
+    font-size: large;
+    
+}
+.MyProfile .MyProfile-container .input-form input{
+    border-radius: 5px;
+    border: 1px solid  rgb(41, 37, 37);;
+    height: 40px;
+    width: 350px;
+    border-radius: 5px;
+}
+.MyProfile .MyProfile-container .input-form textarea{
+    border-radius: 5px;
+    border: 1px solid rgb(41, 37, 37);
+    height: 60px;
+    width: 80%;
+    
+}
+.MyProfile .MyProfile-container .input-form button{
+    border-radius: 5px;
+    border: 1px solid  rgb(41, 37, 37);;
+    height: 40px;
+    width: 200px;
+    color: white;
+    background-color: grey;
+    font-weight: bold;
+    
+}
+.MyProfile .MyProfile-container .imge-profile{
+    width: 200px;
+    
+}
+/* end My profile */
+
+/* start register */
+.register .container .form-group .input-form label{
+    font-weight: bold;
+    width: 200px;
+}
+.register .container .form-group .input-form input{
+    border-radius: 10px;
+    border: 1 solid black;
+    height: 40px;
+    width: 400px;
+    margin-bottom: 20px;
+}
+.register .container .form-group .but-form button{
+    border-radius: 5px;
+    border: 1 solid black;
+    height: 40px;
+    width: 100px;
+    margin-bottom: 20px;
+    background-color: rgb(81, 154, 238);
+    color: wheat;
+    font-weight: bold;
+}
+/* end register */
+
+/* start login */
+.login .container .form-group .input-form label{
+    font-weight: bold;
+    width: 200px;
+}
+.login .container .form-group .input-form input{
+    border-radius: 5px;
+    border: 1 solid black;
+    height: 40px;
+    width: 400px;
+    margin-bottom: 20px;
+}
+.login .container .form-group .but-form button{
+    border-radius: 5px;
+    border: 1 solid white;
+    height: 40px;
+    width: 100px;
+    margin-bottom: 20px;
+    background-color: rgb(76, 148, 230);
+    color: wheat;
+    font-weight: bold;
+}
+.login .container .form-group .but-form a{
+    color: rgb(108, 167, 245);
+    border-bottom: 1 solid blue;
+}
+/* end login */
+
+/* start My product */
+.MyProduct .container-myProduct input{
+    height: 40px;
+    margin-right: 5px;
+}
+.MyProduct .container-myProduct button{
+    font-weight: bold;
+    margin-left: 20px;
+ }
+ .MyProduct .pagination-content{
+    
+    margin-left:40%;
+ }
+ .MyProduct .pagination-content .pagination .page-item {
+     margin: 5px;
+ }
+ .MyProduct .pagination-content .pagination .page-item .page-link{
+    color: black;
+    font-weight: bold;
+    
+}
+/* end My Product */
+
+/* start Recent Auction */
+.RecentAuction .first-Auction-Recent .search  ,select{
+    margin-top: 20px;
+    width: 250px;
+    height: 30px;
+    margin-right: 20px;
+}
+.RecentAuction .RecentAuction-content .card-title{
+    color: gray;
+    margin-top: -10px;
+    
+}
+
+.RecentAuction .timer{
+    padding: 5px 10px;
+    position: absolute;
+    left: -10px;
+    top: -20px;
+    direction: ltr;
+    background: #C84D2D 0% 0% no-repeat padding-box;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.salse{
+    padding: 5px 10px;
+    background: #C84D2D 0% 0% no-repeat padding-box;
+    border-radius: 8px;
+    color: #fff;
+    width: 63%;
+}
+
+.RecentAuction .RecentAuction-content span,button{
+    font-weight: bold;
+}
+.RecentAuction .RecentAuction-content p{
+    font-weight: bold;
+    
+    
+}
+.RecentAuction .RecentAuction-content a{
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+.RecentAuction .RecentAuction-content a p{
+    background: #ffc107 0% 0% no-repeat padding-box;
+    color: #fff;
+    margin: -16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight:bold;
+} 
+/* end Recent Auction */
+
+/* start confirme order */
+/* .confirmOrder .content-confirmeOrder img {
+    width: 250px;
+    height: 190px;
+    object-fit: cover;
+} */
+.confirmOrder .content-confirmeOrder h6,span {
+font-size: large;
+font-weight: bold;
+
+}
+.confirmOrder .content-confirmeOrder p {
+    font-size: large;
+    color: gray;
+    font-weight: bold;
+}
+.confirmOrder .content-confirmeOrder p span{ 
+    color: orange; 
+}
+/* .confirmOrder .content-confirmeOrder button{
+    width: 200px;
+    height: 40px;
+    color: white;
+    background-color: orange;
+} */
+/* end confirme order */
+
+/* start product details */
+/* .Product_details .content-product_details img, .confirmOrder .content-confirmeOrder img{
+    width: 250px;
+    height: 190px;
+    object-fit: cover;
+} */
+
+.Product_details .content-product_details .time h4 {
+    
+    margin-left: 280px;
+}
+.Product_details .content-product_details .time .well {
+    background-color: rgb(173, 169, 169);
+    margin-left: 10px;
+}
+.Product_details .content-product_details form textarea {
+    width: 300px;
+    margin-bottom: -30px;
+}
+.Product_details .content-product_details hr,.confirmOrder .content-confirmeOrder hr{
+    height: 10px;
+}
+.Product_details .content-product_details span a, .content-confirmeOrder span a{
+    color: rgb(22, 148, 221);
+    padding: 0px 10px;
+}
+.Product_details .content-product_details  .description-product p{
+   font-size: large;
+    margin-top: 10px;
+}
+.Product_details .content-product_details .three_part {
+    font-size: large;
+    color: gray;
+    font-weight: bold;
+}
+.Product_details .content-product_details p span{ 
+    color: orange; 
+}
+.Product_details .content-product_details form button{ 
+    background-color: orange; 
+    margin-left: 20px;   
+}
+.Product_details .content-product_details form button span{ 
+    background-color: gray; 
+    color: white;
+
+}
+/* end product details */
+
+/* start about us */
+.about_us .content_about .goal span ,.about_us .content_about .Future span,.about_us .content_about .category p{
+    color: rgb(114, 117, 117); 
+}
+.about_us .content_about .goal i{
+    color: orange; 
+}
+.about_us .content_about .Future i{
+    color: orange; 
+}
+.about_us .content_about .category .card {
+    margin-bottom: 20px;
+    
+}
+.about_us .content_about .category .card .card-body, .about_us .content_about .our-team .card .card-body{
+    background-color: orange;
+    padding: 2%;
+}
+
+.about_us .content_about .concact-us a{
+    color: orange;
+    font-weight: bolder;
+    font-size: large;
+    
+}
+/* end about us */
