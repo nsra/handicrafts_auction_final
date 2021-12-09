@@ -226,8 +226,8 @@
                 </div>
                 <div class="concact-us mt-5 mb-3">
                     <h3>Contact Us</h3>
-                    <a>AmanyHerez2000@gmail.com</a>
-                    <span> or </span>
+                    {{-- <a>AmanyHerez2000@gmail.com</a>
+                    <span> or </span> --}}
                     <a>entesar.2000banna@gmail.com</a>
                 </div>
             </div>

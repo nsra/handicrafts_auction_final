@@ -33,14 +33,10 @@ type="text/javascript"></script>
 <script src="{{ asset('/control/assets/global/plugins/clockface/js/clockface.js') }}" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 
-<script src="{{ asset('/control/assets/pages/scripts/components-date-time-pickers.min.js') }}" type="text/javascript">
-</script>
 <script src="{{ asset('/control/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}"
 type="text/javascript"></script>
 <script src="{{ asset('/control/assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js') }}"
 type="text/javascript"></script>
-<script src="{{ asset('/control/assets/pages/scripts/ui-sweetalert.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
 
 
 <script>
