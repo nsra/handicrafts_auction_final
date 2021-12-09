@@ -218,7 +218,7 @@
                                 <img src="{{ asset('/HandicraftsAuction/image/Amany.jfif') }}" class="card-img-top"
                                     alt="...">
                                 <div class="card-body">
-                                    <h4 class="card-text text-center">Amany Fadel Herez</h4>
+                                    <h4 class="card-text text-center">Amany Fadel Herez (frontend)</h4>
                                 </div>
                             </div>
                         </div>
