@@ -27,22 +27,12 @@
                             <img src="{{ asset($product->images->first()->path) }}" width="150px" height="100px"
                                 class="p-1">
                         </div>
-                        <div class="col-3">
+                        <div class="col-5">
                             <h4>{{ $product->title }}</h4>
                         </div>
                         <div class="col-2">
                             <h2>{{ $product->orderNowPrice }}$</h2>
                         </div>
-                        {{-- <div class="col-1">
-            @if ($product->bids->count() > 0)
-
-            <a href="{{route('craftsman.product.bids', $product->id)}}" class="btn btn-secondary">
-              product bids: {{$product->bids->count()}}
-            </a>
-            @else
-             No Bids
-            @endif
-          </div> --}}
 
                         @if (!$product->isAuctioned())
                             <div class="col-1">
@@ -67,48 +57,7 @@
                         @endif
                     </div>
                 @endforeach
-                {{-- <div class="row">
-          <div class="col-2">
-            <img src="{{asset('/HandicraftsAuction/image/wool.jpg')}}" width="150px" height="100px" class="p-1">
-          </div>
-          <div class="col-5">
-            <h6>Attractive embroidered Fleece Scarf</h6>
-          </div>
-          <div class="col-2">
-            <h2>86$</h2>
-          </div>
-          <div class="col-1"></div>
-          <div class="col-1"><i class="fas fa-eye fa-2x"></i></div>
-          <div class="col-1"></div>
-        </div>
-        <div class="row ">
-          <div class="col-2">
-            <img src="{{asset('/HandicraftsAuction/image/wool.jpg')}}" width="150px" height="100px" class="p-1">
-          </div>
-          <div class="col-5">
-            <h6>Attractive embroidered Fleece Scarf</h6>
-          </div>
-          <div class="col-2">
-            <h2>11$</h2>
-          </div>
-          <div class="col-1"></div>
-          <div class="col-1"><i class="fas fa-eye fa-2x"></i></div>
-          <div class="col-1"></div>
-        </div>
-        <div class="row">
-          <div class="col-2">
-            <img src="{{asset('/HandicraftsAuction/image/wool.jpg')}}" width="150px" height="100px" class="p-1">
-          </div>
-          <div class="col-5">
-            <h6>Attractive embroidered Fleece Scarf</h6>
-          </div>
-          <div class="col-2">
-            <h2>27$</h2>
-          </div>
-          <div class="col-1"></div>
-          <div class="col-1"><i class="fas fa-eye fa-2x"></i></div>
-          <div class="col-1"></div>
-        </div> --}}
+              
 
             </div>
 

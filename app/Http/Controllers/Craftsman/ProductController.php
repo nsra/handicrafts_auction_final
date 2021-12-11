@@ -8,9 +8,11 @@ use App\Models\Image;
 use Illuminate\Support\Carbon;
 use App\Models\Bid;
 use App\Models\Category;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ProductController extends Controller
 {
@@ -125,7 +127,14 @@ class ProductController extends Controller
                     $image->save();
                 }
             }
-
+            $admins = User::where('role_id', '=', 1)->get();
+            foreach ($admins as $user) {
+                Mail::raw("New product <<".$created_product->title.">> added, please check the system products.", function ($mail) use ($user) {
+                    $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                    $mail->to($user->email)
+                        ->subject('New product added');
+                });
+            }
             return redirect()->back()->with('success', 'product created successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'create product faild');
