@@ -111,10 +111,7 @@ class Product extends Model
 
     public function authUserBidId()
     {
-        $authUserBid = Bid::where([['product_id', '=', $this->id], ['user_id', '=', Auth::user()->id]])->get();
-        if ($authUserBid->count() > 0) //or == 1
-            return $authUserBid->first()->id;
-        else return 0;
+        return $this->bids->contains('user_id', Auth::user()->id) ? Bid::where([['product_id', '=', $this->id], ['user_id', '=', Auth::user()->id]])->first()->id : 0 ;
     }
 
     public function maxBidder()

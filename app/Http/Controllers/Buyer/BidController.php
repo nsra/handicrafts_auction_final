@@ -92,7 +92,7 @@ class BidController extends Controller
             if ($product->authUserBidId() > 0)
                 return redirect()->back()->with('error', 'You have already bid on this product');
 
-            $min = $product->maxBidPrice() + $product->bidIncreament();
+            $min = $product->isAuctioned() ? $product->startingBidPrice(): $product->maxBidPrice() + $product->bidIncreament();
             $this->validate($request, [
                 'price' => 'required|numeric|min:' . $min,
                 'description' => ['required', 'string'],

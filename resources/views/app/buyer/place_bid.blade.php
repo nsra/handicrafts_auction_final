@@ -112,9 +112,9 @@
                         enctype="multipart/form-data">
                         @csrf
                         <label>Bid Price</label>
-                        <input type="number" class="@error('price') is-invalid @enderror" name="price" style="width: 18%"
-                            min="{{ $product->maxBidPrice() + $product->bidIncreament() }}"
-                            placeholder="min value accepted: {{ $product->maxBidPrice() + $product->bidIncreament() }}$">
+                        <input type="number" class="@error('price') is-invalid @enderror" name="price"
+                                style="width: 18%" min="{{ ($product->isAuctioned() ? $product->maxBidPrice() + $product->bidIncreament(): $product->startingBidPrice()) }}"
+                                placeholder="min value accepted: {{ ($product->isAuctioned() ? $product->maxBidPrice() + $product->bidIncreament(): $product->startingBidPrice()) }}$">
                         @error('price')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -135,8 +135,7 @@
                                 Its Your Product!
                             </button>
                         @elseif(auth()->user() && $product->bids->contains('user_id', Auth::user()->id))
-                            <button class="btn text-center btn-warning"
-                                onclick="window.location='{{ route('buyer.product.show', $product->authUserBidId()) }}'"
+                            <button class="btn text-center btn-warning" disabled
                                 style="background-color: #ffbb00; color:black; ">
                                 You Bid!
                             </button>
@@ -163,11 +162,19 @@
                             <div class="col-2">
                                 <h6>{{ $bid->price }}$</h6>
                             </div>
-                            <div class="col-6">
+                            <div class="col-2">
                                 <p>
                                     {{ $bid->description }}
                                 </p>
                             </div>
+                            @if(auth()->user() && auth()->user()->role_id == 3 && $product->authUserBidId()>0 && !$product->isOrderedByMy())
+                                <div class="col-1">
+                                    <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal"
+                                        data-attr="{{ route('buyer.bid.delete', $product->authUserBidId()) }}" title="Delete Bid">
+                                        <i class="fa fa-trash text-danger fa-lg"></i>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                         <br>
                     @endforeach

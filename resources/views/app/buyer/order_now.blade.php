@@ -158,11 +158,19 @@
                             <div class="col-2">
                                 <h6>{{ $bid->price }}$</h6>
                             </div>
-                            <div class="col-6">
+                            <div class="col-2">
                                 <p>
                                     {{ $bid->description }}
                                 </p>
                             </div>
+                            @if(auth()->user() && auth()->user()->role_id == 3 && $product->authUserBidId()>0 && !$product->isOrderedByMy())
+                                <div class="col-1">
+                                    <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal"
+                                        data-attr="{{ route('buyer.bid.delete', $product->authUserBidId()) }}" title="Delete Bid">
+                                        <i class="fa fa-trash text-danger fa-lg"></i>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                         <br>
                     @endforeach
