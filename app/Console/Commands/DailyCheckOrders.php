@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Order;
+use App\Models\User;
+use App\Models\Bid;
 use App\Models\Product;
 use Illuminate\Support\Carbon;
 use Illuminate\Console\Command;
@@ -63,6 +65,16 @@ class DailyCheckOrders extends Command
                     $product->update();
                     $user= Order::where('product_id', '=', $product->id)->first()->user;
                     $product= Order::where('product_id', '=', $product->id)->first()->product;
+
+                    $otherBidders= User::where('id', '!=', $user->id)->whereIn('id', Bid::where('product_id', '=', $product->id)->pluck('user_id'))->get();
+                    foreach($otherBidders as $otherBidder){
+                        Mail::raw($otherBidder->username.' had won the auction on: << ' . $product->title . ' >>.', function ($mail) use ($otherBidder) {
+                            $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                            $mail->to($otherBidder->email)
+                                ->subject('Auction has finished');
+                        });
+                    }
+
                     Mail::raw('Congrats 🎉, You had won new auction, its for product: << '.$product->title.' >>, the product will deliver within 3 hours, please confirm the receipt from Your Orders Panel immediately as you receive your product.', function ($mail) use ($user) {
                         $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                         $mail->to($user->email)
