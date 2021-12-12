@@ -105,10 +105,9 @@
               </script>
               @else 
               <div id="countdown" class="timer">Expired</div>
-             
-              {{-- @php 
+              @php 
                 $product->order_by_auction()
-              @endphp --}}
+              @endphp
               @endif
               <a href="{{route('product.details', $product->id) }}">
                 <img src="{{asset($product->images->first()->path)}}" class="card-img-top" alt="...">
@@ -200,7 +199,7 @@
           display.textContent = pad(days) + ":" + pad(hours) + ":" + pad(minutes) + ":" + pad(remainingSeconds);
           if (seconds == 0) {
               display.textContent = "Expired";
-              // location.reload();
+              location.reload();
           } else {
               seconds--;
           }
