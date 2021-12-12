@@ -141,39 +141,39 @@ class Product extends Model
         
         if ($this->not_ordered() && $this->isAuctioned() && $this->isExpired()) {
             $product = Product::findOrFail($this->id);
-            // $order = Order::create([
-            //     'price' => $this->maxBidPrice(),
-            //     'is-ordered-by-auction' => 1,
-            //     'user_id' => $this->maxBidder()->id,
-            //     'product_id' => $product->id,
-            //     'created_at' => Carbon::now()
-            // ]);
+            $order = Order::create([
+                'price' => $this->maxBidPrice(),
+                'is-ordered-by-auction' => 1,
+                'user_id' => $this->maxBidder()->id,
+                'product_id' => $product->id,
+                'created_at' => Carbon::now()
+            ]);
 
-            // if ($order->save()) {
-            //     $this->is_delete = 1;
-            //     $this->update();
-            //     $user = Order::where('product_id', '=', $this->id)->first()->user;
-            //     $product = Order::where('product_id', '=', $this->id)->first()->product;
-            //     Mail::raw('Congrats 🎉, You had won new auction, its for product: << ' . $product->title . ' >>, the product will deliver within 3 hours, please confirm the receipt from Your Orders Panel immediately as you receive your product.', function ($mail) use ($user) {
-            //         $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
-            //         $mail->to($user->email)
-            //             ->subject('You had won new auction 🎉');
-            //     });
-            //     $craftsman = Product::where('id', '=', $this->id)->first()->user;
-            //     Mail::raw('Congrats 🎉, Your product: << ' . $product->title . ' >> has been ordered by the bidder auction winner:' . $user->username . ', You have 3 hours to deliver it to him, Please check Your Ordered Products Panel to get the buyer address, when you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.', function ($mail) use ($craftsman) {
-            //         $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
-            //         $mail->to($craftsman->email)
-            //             ->subject('Your Have New Ordered Product');
-            //     });
+            if ($order->save()) {
+                $this->is_delete = 1;
+                $this->update();
+                $user = Order::where('product_id', '=', $this->id)->first()->user;
+                $product = Order::where('product_id', '=', $this->id)->first()->product;
+                Mail::raw('Congrats 🎉, You had won new auction, its for product: << ' . $product->title . ' >>, the product will deliver within 3 hours, please confirm the receipt from Your Orders Panel immediately as you receive your product.', function ($mail) use ($user) {
+                    $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                    $mail->to($user->email)
+                        ->subject('You had won new auction 🎉');
+                });
+                $craftsman = Product::where('id', '=', $this->id)->first()->user;
+                Mail::raw('Congrats 🎉, Your product: << ' . $product->title . ' >> has been ordered by the bidder auction winner:' . $user->username . ', You have 3 hours to deliver it to him, Please check Your Ordered Products Panel to get the buyer address, when you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.', function ($mail) use ($craftsman) {
+                    $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                    $mail->to($craftsman->email)
+                        ->subject('Your Have New Ordered Product');
+                });
 
-                // if (auth()->user() && $this->maxBidder()->id == auth()->user()->id) {
-                //     return redirect()->back()->with('success', 'Congrats 🎉, You win the acution on: << ' . $product->title . ' >> the product will deliver within 3 hours, please check Your Orders Panel.');
-                // } else if (auth()->user() && $this->user_id == auth()->user()->id) {
-                //     return redirect()->back()->with('success', 'Congrats 🎉, ' . $this->maxBidder()->username . ' wins the acution on Your product: << ' . $this->title . ' >>, Check your Ordered Products panel, you have to deliver him the product within 3 hours');
-                // } else {
-                //     return redirect()->back()->with('success', $this->maxBidder()->username . ' wins the acution on: << ' . $this->title . ' >> ');
-                // }
-            // }
+                if (auth()->user() && $this->maxBidder()->id == auth()->user()->id) {
+                    return redirect()->back()->with('success', 'Congrats 🎉, You win the acution on: << ' . $product->title . ' >> the product will deliver within 3 hours, please check Your Orders Panel.');
+                } else if (auth()->user() && $this->user_id == auth()->user()->id) {
+                    return redirect()->back()->with('success', 'Congrats 🎉, ' . $this->maxBidder()->username . ' wins the acution on Your product: << ' . $this->title . ' >>, Check your Ordered Products panel, you have to deliver him the product within 3 hours');
+                } else {
+                    return redirect()->back()->with('success', $this->maxBidder()->username . ' wins the acution on: << ' . $this->title . ' >> ');
+                }
+            }
         }
     }
 
