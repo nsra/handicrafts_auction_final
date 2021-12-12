@@ -200,7 +200,7 @@
           display.textContent = pad(days) + ":" + pad(hours) + ":" + pad(minutes) + ":" + pad(remainingSeconds);
           if (seconds == 0) {
               display.textContent = "Expired";
-              location.reload();
+              // location.reload();
           } else {
               seconds--;
           }

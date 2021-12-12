@@ -68,12 +68,21 @@ class DailyCheckOrders extends Command
                         $mail->to($user->email)
                             ->subject('You had won new auction 🎉');
                     });
+
                     $craftsman= $product->user;
                     Mail::raw('Congrats 🎉, Your product: << '.$product->title.' >> has been ordered by the bidder auction winner:'.$user->username.', You have 3 hours to deliver it to him, Please check Your Ordered Products Panel to get the buyer address, when you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.', function ($mail) use ($craftsman) {
                         $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                         $mail->to($craftsman->email)
                             ->subject('Your Have New Ordered Product');
                     });
+
+                    if (auth()->user() && $product->maxBidder()->id == auth()->user()->id) {
+                        return redirect()->back()->with('success', 'Congrats 🎉, You win the acution on: << ' . $product->title . ' >> the product will deliver within 3 hours, please check Your Orders Panel.');
+                    } else if (auth()->user() && $product->user_id == auth()->user()->id) {
+                        return redirect()->back()->with('success', 'Congrats 🎉, ' . $product->maxBidder()->username . ' wins the acution on Your product: << ' . $product->title . ' >>, Check your Ordered Products panel, you have to deliver him the product within 3 hours');
+                    } else {
+                        return redirect()->back()->with('success', $product->maxBidder()->username . ' wins the acution on: << ' . $product->title . ' >> ');
+                    }
                 }
             }
         }
