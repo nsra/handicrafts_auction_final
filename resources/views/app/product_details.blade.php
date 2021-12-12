@@ -210,7 +210,7 @@
                                     {{ $bid->description }}
                                 </p>
                             </div>
-                            @if(auth()->user() && auth()->user()->role_id == 3 && $product->authUserBidId()>0 && !$product->isOrderedByMy())
+                            @if(auth()->user() && auth()->user()->role_id == 3 && $bid->user->id == auth()->user()->id && !$product->isOrderedByMy())
                                 <div class="col-1">
                                     <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal"
                                         data-attr="{{ route('buyer.bid.delete', $product->authUserBidId()) }}" title="Delete Bid">
