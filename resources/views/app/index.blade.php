@@ -106,9 +106,9 @@
               @else 
               <div id="countdown" class="timer">Expired</div>
              
-              @php 
+              {{-- @php 
                 $product->order_by_auction()
-              @endphp
+              @endphp --}}
               @endif
               <a href="{{route('product.details', $product->id) }}">
                 <img src="{{asset($product->images->first()->path)}}" class="card-img-top" alt="...">
