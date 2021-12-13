@@ -105,7 +105,7 @@ class BidController extends Controller
             ]);
             $bid->user_id = Auth::user()->id;
             if ($bid->save() === TRUE)
-                return redirect()->back()->with('success', 'bia added successfully');
+                return redirect()->back()->with('success', 'bid added successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'bidding faild!');
         }
