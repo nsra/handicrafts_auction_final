@@ -59,7 +59,7 @@ return [
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'sendmail' => '/your/sendmail/path -t',
+            'path' => '/usr/sbin/sendmail -bs',
         ],
 
         'log' => [
@@ -104,6 +104,14 @@ return [
 
         'paths' => [
             resource_path('views/vendor/mail'),
+        ],
+    ],
+
+    'stream' => [
+        'ssl' => [
+            'allow_self_signed' => true,
+            'verify_peer'       => false,
+            'verify_peer_name'  => false,
         ],
     ],
 
