@@ -90,12 +90,12 @@ class OrderController extends Controller
                 $product->update();
                 $user = Auth::user();
                 $craftsman = $product->user;
-                Mail::raw('Congrats 🎉, Your order: << ' . $product->title . ' >> will deliver within 3 hours, please confirm the receipt from Your Orders Panel immediately as you receive your product.', function ($mail) use ($user) {
+                Mail::raw("Congrats 🎉, Your order: << " . $product->title . " >> will deliver within 3 hours, \n \n Please confirm the receipt from Your Orders Panel immediately as you receive your product: \n".route('buyer.ordered_products'), function ($mail) use ($user) {
                     $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                     $mail->to($user->email)
                         ->subject('Your Order Is On Delivary...');
                 });
-                Mail::raw('Congrats 🎉, Your product: << ' . $product->title . ' >> has been ordered by ' . $user->username . ' You have 3 hours to deliver it to him, Please check Your Ordered Products Panel to get the buyer address, when you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.', function ($mail) use ($craftsman) {
+                Mail::raw("Congrats 🎉, Your product: << " . $product->title . " >> has been ordered by " . $user->username . " You have 3 hours to deliver it to him, \n \n Please chech Your Ordered Products Panel to get the buyer address: \n ".route('craftsman.ordered_products'). "\n When you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.", function ($mail) use ($craftsman) {
                     $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                     $mail->to($craftsman->email)
                         ->subject('You Have New Ordered Product');

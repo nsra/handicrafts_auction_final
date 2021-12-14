@@ -154,13 +154,13 @@ class Product extends Model
                 $this->update();
                 $user = Order::where('product_id', '=', $this->id)->first()->user;
                 $product = Order::where('product_id', '=', $this->id)->first()->product;
-                Mail::raw('Congrats 🎉, You had won new auction, its for product: << ' . $product->title . ' >>, the product will deliver within 3 hours, please confirm the receipt from Your Orders Panel immediately as you receive your product.', function ($mail) use ($user) {
+                Mail::raw("Congrats 🎉, You had won new auction, its for product: << " . $product->title . " >>, The product will deliver within 3 hours, \n \n Please confirm the receipt from Your Orders Panel immediately as you receive your product:\n".route('buyer.ordered_products'), function ($mail) use ($user) {
                     $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                     $mail->to($user->email)
                         ->subject('You had won new auction 🎉');
                 });
                 $craftsman = Product::where('id', '=', $this->id)->first()->user;
-                Mail::raw('Congrats 🎉, Your product: << ' . $product->title . ' >> has been ordered by the bidder auction winner:' . $user->username . ', You have 3 hours to deliver it to him, Please check Your Ordered Products Panel to get the buyer address, when you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.', function ($mail) use ($craftsman) {
+                Mail::raw("Congrats 🎉, Your product: << " . $product->title . " >> has been ordered by the bidder auction winner:" . $user->username . ", You have 3 hours to deliver it to him, \n \n Please check Your Ordered Products Panel to get the buyer address:\n".route('craftsman.ordered_products'). "\n When you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.", function ($mail) use ($craftsman) {
                     $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                     $mail->to($craftsman->email)
                         ->subject('Your Have New Ordered Product');

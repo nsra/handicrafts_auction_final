@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Craftsman;
-
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Image;
