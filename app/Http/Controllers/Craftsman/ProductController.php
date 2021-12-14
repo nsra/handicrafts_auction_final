@@ -128,8 +128,9 @@ class ProductController extends Controller
                 }
             }
             $admins = User::where('role_id', '=', 1)->get();
+            $productsURL= route('products.index');
             foreach ($admins as $user) {
-                Mail::raw("New product <<".$created_product->title.">> added, please check the system products.", function ($mail) use ($user) {
+                Mail::raw("New product <<".$created_product->title.">> added, \n \n please check the system products: \n".$productsURL, function ($mail) use ($user) {
                     $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                     $mail->to($user->email)
                         ->subject('New product added');
