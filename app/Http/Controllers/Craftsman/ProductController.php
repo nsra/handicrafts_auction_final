@@ -12,6 +12,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
@@ -66,12 +68,33 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
             $this->validate($request, [
-                'title' => ['required', 'string', 'max:50', 'unique:products,title,' . $id],
-                'description' => ['required', 'string'],
-                'orderNowPrice' => ['required', 'numeric'],
+                'title' => ['string', 'max:100', 'unique:products,title,'.$product->id],
+                'description' => ['string'],
+                'orderNowPrice' => ['numeric'],
+                'images.*' => ['image'],
             ]);
+
             $product->fill($request->all());
             $product->update();
+            
+            if ($request->hasfile('images')) {
+                foreach($product->images as $image){
+                    Image::find($image->id)->delete();
+                    Storage::delete('public/uploads/' . $image->name);
+                }
+                $images = $request->file('images');
+                foreach ($images as $image) {
+                    $name = $image->getClientOriginalName();
+                    $path = $image->storeAs('uploads', $name, 'public');
+                    $image = Image::create([
+                        'name' => $name,
+                        'product_id' => $product->id,
+                        'path' => '/storage/' . $path,
+                    ]);
+                    $image->save();
+                }
+            }
+
             return redirect()->back()->with('success', 'product updated successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'update product faild');
@@ -89,7 +112,7 @@ class ProductController extends Controller
     {
         try {
             $this->validate($request, [
-                'title' => ['required', 'string', 'max:50', 'unique:products'],
+                'title' => ['required', 'string', 'max:100', 'unique:products'],
                 'description' => ['required', 'string'],
                 'orderNowPrice' => ['required', 'numeric'],
                 'images' => ['required'],
@@ -103,7 +126,7 @@ class ProductController extends Controller
                 'orderNowPrice' => $request['orderNowPrice'],
                 'is_delete' => 0,
                 'start_auction' => Carbon::now(),
-                'end_auction' => Carbon::now(),
+                'end_auction' => Carbon::now() ,
                 'created_at' => Carbon::now(),
                 'user_id' => Auth::user()->id,
             ]);
@@ -112,8 +135,10 @@ class ProductController extends Controller
             $product->save();
 
             if ($request->hasfile('images')) {
+                
                 $images = $request->file('images');
                 foreach ($images as $image) {
+                    // dd($image);
                     $name = $image->getClientOriginalName();
                     $path = $image->storeAs('uploads', $name, 'public');
                     $image = Image::create([
@@ -166,6 +191,9 @@ class ProductController extends Controller
     {
         try {
             $product = Product::find($id);
+            foreach($product->images as $image){
+                Storage::delete('public/uploads/' . $image->name);
+            }
             $product->delete();
             return redirect()->route('craftsman.products')->with('success', 'product deleted successfuly');
         } catch (\Exception $e) {
@@ -183,6 +211,9 @@ class ProductController extends Controller
     {
         try {
             $product = Product::find($id);
+            foreach($product->images as $image){
+                Storage::delete('public/uploads/' . $image->name);
+            }
             $product->delete();
             return redirect()->route('index')->with('success', 'product deleted successfuly');
         } catch (\Exception $e) {
