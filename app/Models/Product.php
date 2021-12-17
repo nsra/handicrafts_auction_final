@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Bid;
 use App\Models\Order;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 class Product extends Model
 {
+    use HasFactory;
 
     protected $fillable = [
         'id',
