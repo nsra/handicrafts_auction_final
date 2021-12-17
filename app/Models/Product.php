@@ -22,7 +22,6 @@ class Product extends Model
         'description',
         'category_id',
         'orderNowPrice',
-        'is-ordered-by-auction',
         'is_delete'
     ];
 
