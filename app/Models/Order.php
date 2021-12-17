@@ -20,6 +20,7 @@ class Order extends Model
         'product_id',
         'price',
         'is_delivered',
+        'is-ordered-by-auction',
         'user_id'
     ];
 
