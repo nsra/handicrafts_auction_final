@@ -108,10 +108,8 @@ class ProductController extends Controller
                 'user_id' => Auth::user()->id,
             ]);
             $product->user_id = Auth::user()->id;
-            $product->save();
-            $created_product = Product::latest('id')->first();
             $product->end_auction = Carbon::now()->addDays(15);
-            $created_product->update();
+            $product->save();
 
             if ($request->hasfile('images')) {
                 $images = $request->file('images');
@@ -129,7 +127,7 @@ class ProductController extends Controller
             $admins = User::where('role_id', '=', 1)->get();
             $productsURL= route('products.index');
             foreach ($admins as $user) {
-                Mail::raw("New product <<".$created_product->title.">> added, \n \n please check the system products: \n".$productsURL, function ($mail) use ($user) {
+                Mail::raw("New product <<".$product->title.">> added, \n \n please check the system products: \n".$productsURL, function ($mail) use ($user) {
                     $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                     $mail->to($user->email)
                         ->subject('New product added');
