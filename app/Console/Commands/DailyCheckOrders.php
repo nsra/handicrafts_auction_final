@@ -84,7 +84,7 @@ class DailyCheckOrders extends Command
                     Mail::raw("Congrats 🎉, Your product: << " . $product->title . " >> has been ordered by the bidder auction winner:" . $user->username . ", You have 3 hours to deliver it to him, \n \n Please check Your Ordered Products Panel to get the buyer address:\n".route('craftsman.ordered_products'). "\n When you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.", function ($mail) use ($craftsman) {
                         $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                         $mail->to($craftsman->email)
-                            ->subject('Your Have New Ordered Product');
+                            ->subject('You Have New Ordered Product');
                     });
 
                     if (auth()->user() && $product->maxBidder()->id == auth()->user()->id) {
