@@ -64,7 +64,7 @@ class Product extends Model
         return ceil($this->orderNowPrice * (40 / 100));
     }
 
-    public function bidIncreament()
+    public function bidIncreament() // typing error increment
     {
         return ceil($this->orderNowPrice * (6 / 100));
     }
