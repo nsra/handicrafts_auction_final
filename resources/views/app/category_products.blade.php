@@ -90,82 +90,73 @@
                 <h2 class="p-2">{{ $category->name }} products</h2>
                 <div class="row">
                     @foreach ($products as $product)
-                        <div class="col-3 col-3 mb-4 mt-4">
-                            <div class="card">
-                                @if (!$product->isExpired())
-                                    <div id="countdown" class="clock{{ $product->id }} timer text-center"></div>
-                                    <script>
-                                        window.addEventListener('load', function() {
-                                            var duration{{ $product->id }} = {{ $product->remainingTime() }},
-                                                display = document.querySelector('.clock{{ $product->id }}');
-                                            startTimer(duration{{ $product->id }}, display);
-                                        });
-                                    </script>
-                                @else
-                                    <div class="timer">Expired</div>
-
-                                    @php
-                                        $product->order_by_auction();
-                                    @endphp
-                                @endif
-                                <a href="{{ route('product.details', $product->id) }}">
-                                    <img src="{{ asset($product->images->first()->path) }}" class="card-img-top"
-                                        alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="text-center">{{ $product->title }}</h5>
-                                    <div class="d-flex justify-content-between">
-                                        <span>${{ $product->orderNowPrice }}</span>
-                                        @if (!auth()->user() || (auth()->user() && auth()->user()->id != $product->user_id))
-                                            <button class="btn btn-secondary btn-sm"
-                                                onclick="window.location='{{ route('buyer.order_now', $product->id) }}'">
-                                                Order Now
-                                            </button>
-                                        @elseif(auth()->user() && auth()->user()->id == $product->user_id &&
-                                            !$product->is_delete && !$product->isAuctioned())
-                                            <div>
-                                                <button
-                                                    onclick="window.location='{{ route('craftsman.product.edit', $product->id) }}'"
-                                                    class="btn btn-dark btn-sm" data-value="{{ $product->id }}">
-                                                    <i class="far fa-edit"></i>
-                                                </button>
-                                                <a data-toggle="modal" class="btn btn-danger btn-sm" id="smallButton"
-                                                    data-target="#smallModal"
-                                                    data-attr="{{ route('craftsman.product.delete_out', $product->id) }}"
-                                                    title="Delete Product">
-                                                    <i class="fas fa-trash text-danger fa-lg"></i>
-                                                </a>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <br>
-                                    @if ($product->bids->count() === 0)
-                                        <p>StartingBid:{{ $product->startingBidPrice() }}$</p>
-                                    @else
-                                        <p>MaxBid:{{ $product->maxBidPrice() }}$</p>
-                                    @endif
-                                    <button class="btn text-center btn-light">{{ $product->bids->count() }} Bids</button>
-                                    @if (auth()->user() && auth()->user()->id == $product->user_id)
-                                        <button class="btn text-center btn-warning"
-                                            style="background-color: #ffbb00; color:black; width:65.5%">
-                                            Its Your Product!
-                                        </button>
-                                    @elseif(auth()->user() && $product->bids->contains('user_id', Auth::user()->id))
-                                        <button class="btn text-center btn-warning"
-                                            onclick="window.location='{{ route('buyer.product.show', $product->authUserBidId()) }}'"
-                                            style="background-color: #ffbb00; color:black; width:65.5%">
-                                            You Bid!
-                                        </button>
-                                    @else
-                                        <button class="btn text-center btn-warning"
-                                            onclick="window.location='{{ route('buyer.place_bid', $product->id) }}'"
-                                            style="background-color: #ffbb00; color:black; width:65.5%">
-                                            Place Bid
-                                        </button>
-                                    @endif
-                                </div>
+                    @if($product->is_delete==0)
+                    <div class="col-3 col-3 mb-4 mt-4">
+                      <div class="card">
+                        @if(!$product->isExpired())
+                        <div id="countdown" class="clock{{ $product->id }} timer text-center"></div>
+                        <script>
+                          window.addEventListener('load', function() {
+                              var duration{{ $product->id }} = {{$product->remainingTime()}},
+                              display = document.querySelector('.clock{{ $product->id }}');
+                              startTimer(duration{{ $product->id }}, display);
+                          });
+                        </script>
+                        @else 
+                        <div id="countdown" class="timer">Expired</div>
+                        @php 
+                          $product->order_by_auction()
+                        @endphp
+                        @endif
+                        <a href="{{route('product.details', $product->id) }}">
+                          <img src="{{asset($product->images->first()->path)}}" class="card-img-top" alt="...">
+                        </a>
+                        <div class="card-body">
+                          <h5 class="text-center">{{$product->title}}</h5>
+                          <div class="d-flex justify-content-between">
+                            <span>${{$product->orderNowPrice}}</span>
+                            @if(!auth()->user() || (auth()->user() && auth()->user()->id != $product->user_id))
+                            <button class="btn btn-secondary btn-sm" onclick="window.location='{{route('buyer.order_now', $product->id) }}'" >
+                              Order Now
+                            </button>
+                            @elseif(auth()->user() && auth()->user()->id == $product->user_id && !$product->is_delete && !$product->isAuctioned())
+                            <div>
+                              <button onclick="window.location='{{route('craftsman.product.edit', $product->id)}}'" class="btn btn-dark btn-sm" data-value="{{$product->id}}">
+                                <i class="far fa-edit"></i>
+                              </button>
+                              <a data-toggle="modal" class="btn btn-danger btn-sm" id="smallButton" data-target="#smallModal" data-attr="{{ route('craftsman.product.delete_out', $product->id) }}" title="Delete Product">
+                                <i class="fas fa-trash text-danger fa-lg"></i>
+                              </a> 
                             </div>
+                            @endif
+                          </div>
+                          <br>
+                          @if($product->bids->count() === 0) 
+                          <p>StartingBid:{{$product->startingBidPrice()}}$</p>
+                          @else
+                          <p>MaxBid:{{$product->maxBidPrice()}}$</p>
+                          @endif
+                          <button class="btn text-center btn-light">{{$product->bids->count()}} Bids</button>
+                          @if(auth()->user() && auth()->user()->id == $product->user_id)
+                          <button class="btn text-center btn-warning" 
+                            style="background-color: #ffbb00; color:black; width:65.5%" >
+                            Its Your Product!
+                          </button>
+                          @elseif(auth()->user() && $product->bids->contains('user_id', Auth::user()->id))
+                          <button class="btn text-center btn-warning" onclick="window.location='{{route('buyer.product.show', $product->id) }}'" 
+                            style="background-color: #ffbb00; color:black; width:65.5%" >
+                            You Bid!
+                          </button>
+                          @else
+                          <button class="btn text-center btn-warning" onclick="window.location='{{route('buyer.place_bid', $product->id) }}'" 
+                            style="background-color: #ffbb00; color:black; width:65.5%" >
+                            Place Bid
+                          </button>
+                          @endif
                         </div>
+                      </div>
+                    </div>
+                    @endif
                     @endforeach
                     <br>
 
@@ -199,58 +190,58 @@
 
 
 @section('script')
-    <script>
-        function startTimer(seconds, display) {
-          function timer() {
-            var days = Math.floor(seconds / 24 / 60 / 60);
-            var hoursLeft = Math.floor((seconds) - (days * 86400));
-            var hours = Math.floor(hoursLeft / 3600);
-            var minutesLeft = Math.floor((hoursLeft) - (hours * 3600));
-            var minutes = Math.floor(minutesLeft / 60);
-            var remainingSeconds = seconds % 60;
+<script>
+ function startTimer(seconds, display) {
+      function timer() {
+          var days        = Math.floor(seconds/24/60/60);
+          var hoursLeft   = Math.floor((seconds) - (days*86400));
+          var hours       = Math.floor(hoursLeft/3600);
+          var minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+          var minutes     = Math.floor(minutesLeft/60);
+          var remainingSeconds = seconds % 60;
+          function pad(n) {
+              return (n < 10 ? "0" + n : n);
+          }
+          display.textContent = pad(days) + ":" + pad(hours) + ":" + pad(minutes) + ":" + pad(remainingSeconds);
+          if (seconds == 0) {
+              display.textContent = "Expired";
+              location.reload();
+          } else {
+              seconds--;
+          }
+      };
+      timer();
+      setInterval(timer, 1000);
+    }
 
-            function pad(n) {
-                return (n < 10 ? "0" + n : n);
-            }
-            display.textContent = pad(days) + ":" + pad(hours) + ":" + pad(minutes) + ":" +
-                pad(remainingSeconds);
-            if (seconds == 0) {
-                display.textContent = "Expired";
-                location.reload();
-            } else {
-                seconds--;
-            }
-          };
-          timer();
-          setInterval(timer, 1000);
-        }
 
-        function removeBackdrop() {
-            $('.modal-backdrop').remove();
-        }
-        $(document).on('click', '#smallButton', function(event) {
-            event.preventDefault();
-            let
-                href = $(this).attr('data-attr');
-            $.ajax({
-                url: href,
-                beforeSend: function() {
-                    $('#loader').show();
-                }, // return the
-                result success: function(result) {
-                    $('#smallModal').modal("show");
-                    $('#smallBody').html(result).show();
-                },
-                complete: function() {
-                    $('#loader').hide();
-                },
-                error: function(jqXHR, testStatus, error) {
-                    console.log(error);
-                    alert("Page " + href + " cannot open. Error:" + error);
-                    $('#loader').hide();
-                },
-                timeout: 8000
-            })
-        });
-    </script>
+    function removeBackdrop(){
+        $('.modal-backdrop').remove();
+    }
+    $(document).on('click', '#smallButton', function(event) {
+      event.preventDefault();
+      let href = $(this).attr('data-attr');
+      $.ajax({
+          url: href
+          , beforeSend: function() {
+              $('#loader').show();
+          },
+          // return the result
+          success: function(result) {
+              $('#smallModal').modal("show");
+              $('#smallBody').html(result).show();
+          }
+          , complete: function() {
+              $('#loader').hide();
+          }
+          , error: function(jqXHR, testStatus, error) {
+              console.log(error);
+              alert("Page " + href + " cannot open. Error:" + error);
+              $('#loader').hide();
+          }
+          , timeout: 8000
+      })
+  });
+</script>
+   
 @endsection
