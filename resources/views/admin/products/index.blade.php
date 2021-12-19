@@ -65,7 +65,7 @@
                                         {{ $product->orderNowPrice }}$</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         <a
-                                            href="{{ route('admin.product.craftsman', $product->user->id) }}">{{ $product->user->username }}</a>
+                                            href="{{ route('admin.product.craftsman', $product->id) }}">{{ $product->user->username }}</a>
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
                                         {{ $product->category->name }}</td>
