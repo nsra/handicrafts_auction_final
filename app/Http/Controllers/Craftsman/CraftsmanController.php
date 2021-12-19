@@ -39,7 +39,7 @@ class CraftsmanController extends Controller
                 'username' => ['required', 'string', 'max:20', 'unique:users,username,' . $id],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id],
                 'address' => ['required', 'string'],
-                'mobile' => ['required', 'numeric', 'digits:10'],
+                'mobile' => ['required', 'numeric', 'digits:10', 'unique:users,mobile,' . $id],
             ]);
             $craftsman->fill($request->all());
             $craftsman->update();
