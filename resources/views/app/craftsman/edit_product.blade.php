@@ -1,4 +1,39 @@
 @extends('layouts.main_layout')
+@section('style')
+    <style>
+        input[type="file"] {
+            display: block;
+        }
+
+        .imageThumb {
+            height: 300px;
+            width: 200px;
+            border: 2px solid;
+            padding: 1px;
+            cursor: pointer;
+        }
+
+        .pip {
+            display: inline-block;
+            margin: 10px 10px 0 0;
+        }
+
+        .remove {
+            display: block;
+            background: #444;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .remove:hover {
+            background: white;
+            color: black;
+        }
+
+    </style>
+@endsection
 @section('content')
     <div class="row">
         <div class="col-md-11">
@@ -13,7 +48,7 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                                <div class="form group text-center" style="display:flex; justify-content: center">
+                                <div class="form group text-center" id="products_slider" style="display:flex; justify-content: center">
                                     <div style="width: 50%; " id="carouselExampleControlsNoTouching" class="carousel slide"
                                         data-bs-touch="false" data-bs-interval="false">
                                         <div class="carousel-inner">
@@ -39,6 +74,23 @@
                                         </button>
                                     </div>
                                 </div>
+                                <br>
+                                <br>
+                                <label for="image">Edit Product images</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group mt-1 text-center">
+                                            <input type="file" id="images" name="images[]" placeholder="Choose images" multiple accept="image/*">
+                                        </div>
+                                        @error('images')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                @error('images')
+                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                                <br>
                                 <div class="form-group ">
                                     <label for="title">{{ __('Auction Timer') }} </label>
                                     @if (!$product->isExpired())
@@ -79,7 +131,7 @@
                                     <label for="orderNowPrice">{{ __('orderNowPrice') }}</label>
                                     <input required type="text"
                                         class="form-control @error('orderNowPrice') is-invalid @enderror"
-                                        name="orderNowPrice" value="{{ $product->orderNowPrice }}$">
+                                        name="orderNowPrice" value="{{ $product->orderNowPrice }}">
                                     @error('orderNowPrice')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -125,7 +177,7 @@
                                     </div>
                                 @endif
                                 <div class="form-group">
-                                    <h6 for="orderNowPrice">{{ __('BidIncreament') }}: {{ $product->bidIncreament() }}
+                                    <h6 for="orderNowPrice">{{ __('BidIncreament') }}: {{ $product->bidIncreament() }}$
                                     </h6>
                                     <br>
                                     {{-- </div>
@@ -241,6 +293,36 @@
                 timeout: 8000
             })
         });
+
+        $(document).ready(function() {
+            if (window.File && window.FileList && window.FileReader) {
+                $("#images").on("change", function(e) {
+                    $("#products_slider").hide();
+                    var files = e.target.files,
+                        filesLength = files.length;
+                    for (var i = 0; i < filesLength; i++) {
+                        var f = files[i]
+                        var fileReader = new FileReader();
+                        fileReader.onload = (function(e) {
+                            var file = e.target;
+                            $("<span class=\"pip\">" +
+                                "<img class=\"imageThumb\" src=\"" + e.target.result +
+                                "\" title=\"" + file.name + "\" />" +
+                                "<br /><button class=\"remove\">Remove image</span>" +
+                                "</span>").insertAfter("#images");
+                            $(".remove").click(function() {
+                                $(this).parent(".pip").remove();
+                            });
+                        });
+                        fileReader.readAsDataURL(f);
+                    }
+                    console.log(files);
+                });
+            } else {
+                alert("Your browser doesn't support to File API")
+            }
+        });
+
     </script>
 
 @endsection

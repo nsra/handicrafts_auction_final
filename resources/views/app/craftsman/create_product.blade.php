@@ -48,7 +48,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-1 text-center">
-                                    <input type="file" id="images" name="images[]" placeholder="Choose images" multiple>
+                                    <input type="file" id="images" name="images[]" placeholder="Choose images" accept="image/*" multiple>
                                 </div>
                                 @error('images')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
