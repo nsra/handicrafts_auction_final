@@ -123,18 +123,18 @@ class Product extends Model
 
     public function order_by_auction()
     {
-        // if ($this->not_ordered() && $this->isExpired() && !$this->isAuctioned()) {
-        //     $product = Product::findOrFail($this->id);
-        //     $product->end_auction = $product->end_auction->addDays(15);
-        //     $product->save();
-        //     $craftsman = $product->user;
-        //     Mail::raw('We have extended the auction of Your product: << ' . $product->title . ' >> because it has\'t achieved any bids yet!, you can update the product description to be more attractive or you can even delete the product.', function ($mail) use ($craftsman) {
-        //         $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
-        //         $mail->to($craftsman->email)
-        //             ->subject('Your Product Auction Has Been Extended Automatically');
-        //     });
-        //     return redirect()->back();//->with('success', ' Acution on: << ' . $this->title . ' >> has been extended automaticlly due to No Bids');
-        // } else 
+        if ($this->not_ordered() && $this->isExpired() && !$this->isAuctioned()) {
+            $product = Product::findOrFail($this->id);
+            $product->end_auction = $product->end_auction->addDays(15);
+            $product->save();
+            $craftsman = $product->user;
+            Mail::raw('We have extended the auction of Your product: << ' . $product->title . ' >> because it has\'t achieved any bids yet!, you can update the product description to be more attractive or you can even delete the product.', function ($mail) use ($craftsman) {
+                $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                $mail->to($craftsman->email)
+                    ->subject('Your Product Auction Has Been Extended Automatically');
+            });
+            return redirect()->back();//->with('success', ' Acution on: << ' . $this->title . ' >> has been extended automaticlly due to No Bids');
+        } else 
         
         if ($this->not_ordered() && $this->isAuctioned() && $this->isExpired()) {
             $product = Product::findOrFail($this->id);
@@ -151,6 +151,14 @@ class Product extends Model
                 $this->update();
                 $user = Order::where('product_id', '=', $this->id)->first()->user;
                 $product = Order::where('product_id', '=', $this->id)->first()->product;
+                $otherBidders = User::where('id', '!=', $this->maxBidder()->id);
+                foreach($otherBidders as $otherBidder){
+                    Mail::raw($otherBidder->username." had won the auction on: << " . $product->title . " >>.", function ($mail) use ($otherBidder) {
+                        $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                        $mail->to($otherBidder->email)
+                            ->subject('Auction has finished');
+                    });
+                }
                 Mail::raw("Congrats 🎉, You had won new auction, its for product: << " . $product->title . " >>, The product will deliver within 3 hours, \n \n Please confirm the receipt from Your Orders Panel immediately as you receive your product:\n".route('buyer.ordered_products'), function ($mail) use ($user) {
                     $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
                     $mail->to($user->email)
