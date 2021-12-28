@@ -82,7 +82,7 @@
                                             <i class="fa fa-trash text-danger fa-lg"></i>
                                         </a>
                                         @else
-                                        <a class="btn btn-dark" style="color: aliceblue">
+                                        <a class="btn btn-default">
                                             ordered product
                                         </a>
                                         @endif
