@@ -96,7 +96,7 @@
                                     @if (!$product->isExpired())
                                         <div id="countdown" class=""></div>
                                     @else
-                                        <div class="salse text-center">Expired</div>
+                                        <div>Expired</div>
 
                                         @php
                                             $product->order_by_auction();
@@ -204,7 +204,7 @@
                                     name="days" style="width:92%">
                                 <br>
                                 <br>
-                                <button type="submit" class="btn btn-secondary">{{ __('extend auction') }}</button>
+                                <button type="submit" class="btn btn-secondary" {{$product->isOrdered()? 'disabled':''}}>{{ __('extend auction') }}</button>
                             </form>
                         </div>
                     </div>

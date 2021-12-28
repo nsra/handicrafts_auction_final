@@ -107,9 +107,6 @@
                     <div class="form-group">
                         <h6 for="orderNowPrice">{{ __('BidIncreament') }}: {{ $product->bidIncreament() }}$</h6>
                         <br>
-                        {{-- </div>
-                        <div class="form-action text-center"> --}}
-
                         <a href="{{ route('buyer.product.bids', $product->id) }}" name="cancel"
                             class="btn btn-warning">{{ __('Product Bids') }}:{{ $product->bids->count() }}</a>
                         <a href="{{ route('buyer.bids') }}" name="cancel"
@@ -119,28 +116,27 @@
                     <div class="form-action">
                         @if ($product->isOrderedByMy())
                             <button class="btn btn-success">You Have Ordered this product</button>
+                        @elseif ($product->isOrdered())
+                            <button class="btn btn-dark">This product is in-active now</button>
                         @elseif($product->authUserBidId() > 0)
                             <div class="form-group">
-
                                 <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal"
                                     data-attr="{{ route('buyer.bid.delete', $product->authUserBidId()) }}"
                                     title="Delete Bid">
                                     <i class="fa fa-trash text-danger fa-lg"></i>
                                 </a>
                                 <label for="delete">Delete your bid on this product </label>
-
                             </div>
                         @endif
                     </div>
                 </div>
-
             </div>
             <br>
             <br>
         </div>
     </div>
     <div class="text-center ">
-        <a href="{{ route('buyer.profile') }}" type="reset" name="cancel" class="btn btn-warning">{{ __('Cancel') }}</a>
+        <a href="{{ route('buyer.profile') }}" type="reset" name="cancel" class="btn btn-warning">{{ __('Your profile') }}</a>
     </div>
     <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
         aria-hidden="true">

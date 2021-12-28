@@ -20,7 +20,7 @@
                         <div class="col-3">
                             <h4><a href="{{ route('buyer.product.show', $bid->product->id) }}">{{ $bid->product->title }}
                                 </a></h4>
-                            <img src="{{ asset('/HandicraftsAuction/image/wool.jpg') }}" width="150px" height="100px"
+                            <img src="{{ asset($bid->product->images->first()->path) }}" width="150px" height="100px"
                                 class="p-1">
                         </div>
                         <div class="col-2">
@@ -39,16 +39,14 @@
                             <div class="col-2">
                                 you ordered this product
                             </div>
-                        @else
+                        @elseif(!$bid->product->isOrdered())
                             <div class="col-1">
                                 <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal"
                                     data-attr="{{ route('buyer.bid.delete', $bid->id) }}" title="Delete Bid">
                                     <i class="fa fa-trash text-danger fa-lg"></i>
                                 </a>
-
-                            </div>
+                            </div>                            
                         @endif
-
                     </div>
                     <hr>
                 @endforeach

@@ -74,13 +74,18 @@
                                             href="{{ route('admin.product.bids', $product->id) }}">{{ $product->isAuctioned() ? $product->maxBidPrice() . '$' : 'not auctioned' }}</a>
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-
+                                        @if(!$product->isOrdered())
                                         <a data-toggle="modal" class="btn btn-lg" id="smallButton"
                                             data-target="#smallModal"
                                             data-attr="{{ route('product.delete', $product->id) }}"
                                             title="Delete Product">
                                             <i class="fa fa-trash text-danger fa-lg"></i>
                                         </a>
+                                        @else
+                                        <a class="btn btn-dark" style="color: aliceblue">
+                                            ordered product
+                                        </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

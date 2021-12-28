@@ -152,6 +152,15 @@ class Product extends Model
                 $user = Order::where('product_id', '=', $this->id)->first()->user;
                 $product = Order::where('product_id', '=', $this->id)->first()->product;
                 $otherBidders = User::where('id', '!=', $this->maxBidder()->id);
+                $admins = User::where('role_id', '=', 1)->get();
+                $ordersURL= route('orders.index');
+                foreach($admins as $user) {
+                    Mail::raw("There was a new order <<".$product->title.">>, \n \n please check the system orders: \n".$ordersURL, function ($mail) use ($user) {
+                        $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                        $mail->to($user->email)
+                            ->subject('There was a new order');
+                    });
+                }
                 foreach($otherBidders as $otherBidder){
                     Mail::raw($otherBidder->username." had won the auction on: << " . $product->title . " >>.", function ($mail) use ($otherBidder) {
                         $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');

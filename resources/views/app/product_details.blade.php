@@ -89,8 +89,13 @@
                                 onclick="window.location='{{ route('buyer.order_now', $product->id) }}'">
                                 Order Now: {{ $product->orderNowPrice }}$
                             </button>
-
-                        @endif
+                        @elseif($product->is_delete!=0)
+                        <button class="btn btn-dark btn-lg"
+                            style="color:white; width:65.5%"
+                            >
+                            in-active now : {{ $product->orderNowPrice }}$
+                        </button>
+                    @endif
                     </div>
                 </div>
 
@@ -188,13 +193,10 @@
 
                 </div>
 
-
-
             </div>
-            <h4 style="margin-top: 4%; margin-bottom: 2%">Bids On This Product:{{ $bids->count() }}</h4>
-
+            <h4 style="margin-top: 4%; margin-bottom: 4%">Bids On This Product:{{ $bids->count() }}</h4>
+            
             <div>
-
                 @if ($bids->count() > 0)
                     @foreach ($bids as $bid)
                         <div class="row">
@@ -210,7 +212,7 @@
                                     {{ $bid->description }}
                                 </p>
                             </div>
-                            @if(auth()->user() && auth()->user()->role_id == 3 && $bid->user->id == auth()->user()->id && !$product->isOrderedByMy())
+                            @if(auth()->user() && ($bid->user->id == auth()->user()->id) && !$product->isOrdered())
                                 <div class="col-1">
                                     <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal"
                                         data-attr="{{ route('buyer.bid.delete', $product->authUserBidId()) }}" title="Delete Bid">
