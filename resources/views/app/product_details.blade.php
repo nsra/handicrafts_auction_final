@@ -276,7 +276,6 @@
                 clearInterval(countdownTimer);
                 document.getElementById('countdown').innerHTML = "Expired";
                 location.reload();
-
             } else {
                 seconds--;
             }

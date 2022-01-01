@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Bidupdate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,9 @@ class Bid extends Model
         'description',
     ];
 
+    protected $dates = ['created_at', 'updated_at'];
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -31,6 +35,11 @@ class Bid extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function bidupdates()
+    {
+        return $this->hasMany(Bidupdate::class);
     }
 
     public function isRelatedToSoftDeletedProduct()

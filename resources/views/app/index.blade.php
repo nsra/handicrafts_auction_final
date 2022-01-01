@@ -144,7 +144,7 @@
                   Its Your Product!
                 </button>
                 @elseif(auth()->user() && $product->bids->contains('user_id', Auth::user()->id))
-                <button class="btn text-center btn-warning" onclick="window.location='{{route('buyer.product.show', $product->id) }}'" 
+                <button class="btn text-center btn-warning" onclick="window.location='{{route('product.details', $product->id) }}'" 
                   style="background-color: #ffbb00; color:black; width:65.5%" >
                   You Bid!
                 </button>

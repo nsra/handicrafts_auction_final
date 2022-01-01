@@ -63,8 +63,8 @@
                       </div>
                   </div>
                   <div class="col-7 description-product">
-
                       <p for="orderNowPrice"><b>{{ __('Category') }}:</b> {{ $product->category->name }}</p>
+                      <br>
                       <p>{{ $product->description }}</p>
                       <br>
                       <span>
@@ -163,12 +163,9 @@
                                     {{ $bid->description }}
                                 </p>
                             </div>
-                            @if(auth()->user() && auth()->user()->role_id == 3 && $bid->user->id == auth()->user()->id && !$product->isOrderedByMy())
-                                <div class="col-1">
-                                    <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal"
-                                        data-attr="{{ route('buyer.bid.delete', $product->authUserBidId()) }}" title="Delete Bid">
-                                        <i class="fa fa-trash text-danger fa-lg"></i>
-                                    </a>
+                            @if(auth()->user() && $bid->user->id == auth()->user()->id && !$product->isOrdered())
+                                <div class="col-2">
+                                it's Your Bid
                                 </div>
                             @endif
                         </div>

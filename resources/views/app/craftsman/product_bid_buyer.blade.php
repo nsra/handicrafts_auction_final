@@ -88,7 +88,6 @@
                     </div>
                 </div>
                 <div class="row mb-4">
-
                     <div>
                         <div class="input-form text-center">
                             @if ($user->bids->count() > 0)
