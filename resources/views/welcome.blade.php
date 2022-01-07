@@ -133,7 +133,7 @@
             margin-right: auto
         }
 
-        .ml-1 {
+        .ms-1 {
             margin-left: .25rem
         }
 
@@ -145,7 +145,7 @@
             margin-right: .5rem
         }
 
-        .ml-2 {
+        .ms-2 {
             margin-left: .5rem
         }
 
@@ -153,7 +153,7 @@
             margin-top: 1rem
         }
 
-        .ml-4 {
+        .ms-4 {
             margin-left: 1rem
         }
 
@@ -161,7 +161,7 @@
             margin-top: 2rem
         }
 
-        .ml-12 {
+        .ms-12 {
             margin-left: 3rem
         }
 
@@ -315,7 +315,7 @@
                 height: 5rem
             }
 
-            .sm\:ml-0 {
+            .sm\:ms-0 {
                 margin-left: 0
             }
 
@@ -413,14 +413,14 @@
         @if (Route::has('show_multiguard_login'))
             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                 @auth
-                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Home')}}</a>
                 @else
                     <a href="{{ route('show_multiguard_login') }}"
-                        class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                        class="text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Log in')}}</a>
 
                     @if (Route::has('show_roleto_register'))
                         <a href="{{ route('show_roleto_register') }}"
-                            class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                            class="ms-4 text-sm text-gray-700 dark:text-gray-500 underline">{{ __('Register')}}</a>
                     @endif
                 @endauth
             </div>
@@ -456,7 +456,7 @@
 
                 </div>
 
-                <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
+                <div class="ms-4 text-center text-sm text-gray-500 sm:text-right sm:ms-0">
                 </div>
             </div>
         </div>

@@ -93,6 +93,7 @@ class RegisterController extends Controller
             'address' => $data['address'],
             'mobile' => $data['mobile'],
             'role_id' => $data['role_id'],
+            'is_delete' => 0
         ]);
         if ($user->save() === TRUE)
             return $user->role === "Craftsman" ? redirect()->route('craftsman_dashboard'): redirect()->route('buyer_dashboard');

@@ -21,7 +21,7 @@
                                 name="current_password">
                             @error('current_password')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>{{ __($message) }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -32,7 +32,7 @@
                                 name="password" autocomplete="new-password" value="{{ old('password') }}">
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>{{ __($message) }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -45,7 +45,7 @@
                                 name="password_confirmation" autocomplete="new-password">
                             @error('password_confirmation')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>{{ __($message) }}</strong>
                                 </span>
                             @enderror
                         </div>

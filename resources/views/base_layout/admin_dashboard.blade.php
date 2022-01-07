@@ -15,6 +15,10 @@
             padding: auto
         }
 
+        .text-right {
+            text-align: center !important;
+        }
+
         .borderd {
             border: solid black;
         }
@@ -59,10 +63,10 @@
                     <div class="row">
                         <div class="col-md-10">
                             <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <h1 class="panel-title" style="font-size: 28px">&nbsp; &nbsp; &nbsp; &nbsp;
-                                        &nbsp; &nbsp; {{ __('Quick Statistic    -    Handicrafts Auction ') }}<i
-                                            class="fa fa-gavel"></i></h1>
+                                <div class="panel-heading {{app()->getLocale() == 'en' ? '' : 'text-right' }}">
+                                    <h2 class="panel-title " style="font-size: 28px">{{ __('Quick Statistic    -    Handicrafts Auction ') }}
+                                        <i class="fa fa-gavel"></i>
+                                    </h2>
                                 </div>
                                 <div class="panel-body">
                                     <div class="row">
@@ -71,13 +75,13 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="col-xs-6 text-center">
-                                                    <a class="btn btn-default" href="{{ route('roles.index') }}">Roles:
+                                                    <a class="btn btn-default" href="{{ route('roles.index') }}">{{ __('Roles:')}}
                                                         {{ $roles }}</a>
                                                 </div>
 
                                                 <div class="col-xs-6 text-left">
                                                     &nbsp;
-                                                    <button class="btn btn-default" disabled>Bids:
+                                                    <button class="btn btn-default" disabled>{{ __('Bids:')}}
                                                         {{ $bids }}</a>
                                                 </div>
                                             </div>
@@ -87,12 +91,12 @@
                                             <div class="form-action md-2 ">
                                                 <div class="col-xs-6 text-center">
                                                     <a class="btn btn-default"
-                                                        href="{{ route('categories.index') }}">Ctegories:
+                                                        href="{{ route('categories.index') }}">{{ __('Ctegories:')}}
                                                         {{ $categories }}</a>
                                                 </div>
                                                 <div class="col-xs-6  text-left">
                                                     <a class="btn btn-default"
-                                                        href="{{ route('buyers.index') }}">Buyers:
+                                                        href="{{ route('buyers.index') }}">{{ __('Buyers:')}}
                                                         {{ $buyers }}</a>
                                                 </div>
                                             </div>
@@ -101,10 +105,10 @@
                                             <hr>
                                             <div class="form-action md-2">
                                                 <div class="col-xs-6  text-center">
-                                                    <a class="btn btn-default">Products: {{ $products }}</a>
+                                                    <a class="btn btn-default" href="{{ route('products.index') }}">{{ __('Products:')}} {{ $products }}</a>
                                                 </div>
                                                 <div class="col-xs-6  text-left">
-                                                    <a class="btn btn-default">Orders: {{ $orders }}</a>
+                                                    <a class="btn btn-default" href="{{ route('orders.index') }}">{{ __('Orders: ')}}{{ $orders }}</a>
                                                 </div>
                                                 <br>
                                                 <br>
@@ -113,7 +117,7 @@
                                             <div class="form-action md-2">
                                                 <div class="col-xs-10 text-center">
                                                     <a class="btn btn-default"
-                                                        href="{{ route('craftsmen.index') }}">Craftsmen:
+                                                        href="{{ route('craftsmen.index') }}">{{ __('Craftsmen:')}}
                                                         {{ $craftsmen }}</a>
                                                 </div>
                                                 <br>

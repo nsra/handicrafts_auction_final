@@ -3,7 +3,7 @@
     <!-- start My Products -->
     <div class="MyProduct">
         <div class="container container-myProduct">
-            <h2 class="mt-2">Craftsman Products</h2>
+            <h2 class="mt-2">{{__('Craftsman Products')}}</h2>
             <hr>
             <div class="my-product-content">
                 @foreach ($products as $product)
@@ -24,8 +24,8 @@
                             </a>
                         </div>
                         <div class="col-1">
-                            <h4><a
-                                    href="{{ route('buyer.product.bids', $product->id) }}">{{ $product->bids->count() }}Bids</a>
+                            <h4>
+                                <a href="{{ route('buyer.product.bids', $product->id) }}">{{ $product->bids->count() }} {{ __('Bids')}}</a>
                             </h4>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
         </div>
         <div class="input-form text-center">
             <a class="btn btn-lg " href="{{ route('buyer.product.craftsman', $user->id) }}"
-                style="background-color: #ffbb00; color:black">Cancel</a>
+                style="background-color: #ffbb00; color:black">{{ __('Cancel')}}</a>
         </div>
         <br>
         <br>

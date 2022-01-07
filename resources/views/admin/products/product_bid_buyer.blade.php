@@ -37,7 +37,7 @@
 
                     <div class="form-group">
                         <label for="address">
-                            <a href="{{ route('admin.buyer.bids', $buyer->id) }}">buyer bids :
+                            <a href="{{ route('admin.buyer.bids', $buyer->id) }}">{{ __('buyer bids :')}}
                                 {{ $buyer->bids->count() }}</a>
                         </label>
                     </div>

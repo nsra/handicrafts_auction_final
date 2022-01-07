@@ -6,19 +6,24 @@
 
 <script src="{{ asset('js/app.js') }}" defer></script>
 
+<link href="{{asset('/HandicraftsAuction/css/all.min.css" rel="stylesheet')}}">
 <link rel="stylesheet" href="{{asset('/HandicraftsAuction/css/all.min.css')}}">
+
+@if (app()->getLocale() == 'ar')
+<link rel="stylesheet" href="{{asset('/HandicraftsAuction/css/bootstrap-rtl.min.css')}}">
+@else
 <link rel="stylesheet" href="{{asset('/HandicraftsAuction/css/bootstrap.min.css')}}">
+@endif
 
 <link rel="stylesheet" href="{{asset('/HandicraftsAuction/css/HandicraftsAuction.css')}}">
-<script src="{{asset('/HandicraftsAuction/js/jquery.min.js')}}"></script>
-<script src="{{asset('/HandicraftsAuction/js/popper.min.js')}}"></script>
+<script src="{{asset('/HandicraftsAuction/js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{asset('/HandicraftsAuction/js/popper-1.16.1.min.js')}}"></script>
 <script src="{{asset('/HandicraftsAuction/js/bootstrap.min.js')}}"></script>
+
 <link type="text/javascript" src="{{asset('/HandicraftsAuction/js/all.min.js')}}">
 
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-<link rel="dns-prefetch" href="//fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
 <style>
     
@@ -35,6 +40,14 @@
     .preview-image img{
         padding: 10px;
         max-width: 100px;
+    }
+
+    .rtl {
+        direction: rtl !important
+    } 
+
+    .ltr {
+        direction: ltr !important
     }
 
     .error {
@@ -56,5 +69,6 @@
         font-size: 80%;
         color: #e3342f;
     }
+
   
 </style>

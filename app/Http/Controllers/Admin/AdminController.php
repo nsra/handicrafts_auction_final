@@ -42,23 +42,22 @@ class AdminController extends Controller
 
     public function update_admin_profile(Request $request)
     {
-        try {
-            $admin = User::findOrFail(Auth::user()->id);
-            $id = $admin->id;
-            $this->validate($request, [
-                'firstName' => ['required', 'string', 'max:20'],
-                'lastName' => ['required', 'string', 'max:20'],
-                'username' => ['required', 'string', 'max:20', 'unique:users,username,' . $id],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id],
-                'address' => ['required', 'string'],
-                'mobile' => ['required', 'numeric', 'digits:10', 'unique:users,mobile,' . $id],
-            ]);
-            $admin->fill($request->all());
-            $admin->update();
+        $admin = User::findOrFail(Auth::user()->id);
+        $id = $admin->id;
+        $this->validate($request, [
+            'firstName' => ['required', 'string', 'max:20'],
+            'lastName' => ['required', 'string', 'max:20'],
+            'username' => ['required', 'string', 'max:20', 'unique:users,username,' . $id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id],
+            'address' => ['required', 'string'],
+            'mobile' => ['required', 'numeric', 'digits:10', 'unique:users,mobile,' . $id],
+        ]);
+        $admin->fill($request->all());
+
+        if($admin->update() === True)
             return redirect()->back()->with('success', 'profile updated successfully');
-        } catch (Exception $e) {
+        else
             return redirect()->back()->with('error', 'update profile faild');
-        }
     }
 
     public function change_admin_password()
@@ -77,7 +76,7 @@ class AdminController extends Controller
 
         $user = User::findOrFail(Auth::user()->id);
         if (!Hash::check($request->current_password, $user->password)) {
-            return back()->with('error', 'Current password does not correct!');
+            return back()->with('error', 'Current password is not correct!');
         }
         $user->password = Hash::make($request->password);
         if ($user->save() === True)

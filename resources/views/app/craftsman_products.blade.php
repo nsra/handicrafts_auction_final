@@ -3,7 +3,7 @@
     <!-- start My Products -->
     <div class="MyProduct">
         <div class="container container-myProduct">
-            <h2 class="mt-2">Craftsman Products</h2>
+            <h2 class="mt-2">{{ __('Craftsman Products')}}</h2>
             <hr>
             <div class="my-product-content">
                 @foreach ($products as $product)
@@ -27,14 +27,14 @@
 
                             @if (auth()->user() && $product->bids->count() > 0 && auth()->user()->role_id == 3)
                                 <h4><a
-                                        href="{{ route('buyer.product.bids', $product->id) }}">{{ $product->bids->count() }}Bids</a>
+                                        href="{{ route('buyer.product.bids', $product->id) }}">{{ $product->bids->count() }} {{ __('Bids')}}</a>
                                 </h4>
                             @elseif(auth()->user() && $product->bids->count()>0 && auth()->user()->role_id == 2)
                                 <h4><a
-                                        href="{{ route('craftsman.product.bids', $product->id) }}">{{ $product->bids->count() }}Bids</a>
+                                        href="{{ route('craftsman.product.bids', $product->id) }}">{{ $product->bids->count() }}{{ __('Bids')}}</a>
                                 </h4>
                             @else
-                                <h4>{{ $product->bids->count() }} Bids</h4>
+                                <h4>{{ $product->bids->count() }} {{ __('Bids')}}</h4>
                             @endif
                         </div>
                     </div>
@@ -50,7 +50,7 @@
         <br>
         <div class="input-form text-center">
             <a class="btn btn-lg " href="{{ route('product.details', $product->id) }}"
-                style="background-color: #ffbb00; color:black">Cancel</a>
+                style="background-color: #ffbb00; color:black">{{ __('Cancel')}}</a>
         </div>
     </div>
     <!-- end my product -->

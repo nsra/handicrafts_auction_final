@@ -11,13 +11,13 @@
                     <table class="table table-bordered table-striped table-condensed flip-content">
                         <thead class="flip-content">
                             <tr>
-                                <th class="text-center">id</th>
-                                <th class="text-center">product</th>
-                                <th class="text-center">price</th>
-                                <th class="text-center">buyer</th>
-                                <th class="text-center">created_at</th>
-                                <th class="text-center">craftsman</th>
-                                <th style="text-align: center" class="text-center">Options</th>
+                                <th class="text-center">{{ __('id')}}</th>
+                                <th class="text-center">{{ __('product')}}</th>
+                                <th class="text-center">{{ __('price')}}</th>
+                                <th class="text-center">{{ __('buyer')}}</th>
+                                <th class="text-center">{{ __('created_at')}}</th>
+                                <th class="text-center">{{ __('craftsman')}}</th>
+                                <th style="text-align: center" class="text-center">{{ __('Options')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,11 +43,11 @@
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
                                         <a href="{{ route('admin.order.show', $order->id) }}" class="btn btn-primary">
-                                            order details
+                                            {{ __('order details')}}
                                         </a>
                                         <a data-toggle="modal" class="btn btn-lg" id="smallButton"
                                             data-target="#smallModal" data-attr="{{ route('order.delete', $order->id) }}"
-                                            title="Delete Order">
+                                            title="{{ __('Delete Order')}}">
                                             <i class="fa fa-trash text-danger fa-lg"></i>
                                         </a>
                                     </td>

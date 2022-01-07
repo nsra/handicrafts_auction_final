@@ -10,7 +10,9 @@
                     <hr>
                 </div>
                 <div class="card-body">
-
+                    <div class="form-group container-image-profile text-center" style="width: 140px;">
+                        <img src="{{asset($craftsman->image)}}" class="card-img-top" alt="...">
+                    </div>
                     <div class="form-group">
                         <label for="firstName">{{ __('firstName') }} </label>
                         <input type="text" class="form-control" name="firstName" value="{{ $craftsman->firstName }}">
@@ -39,7 +41,7 @@
 
                     <div class="form-group">
                         <label for="address">
-                            <a href="{{ route('admin.craftsman.products', $craftsman->id) }}">craftsman products :
+                            <a href="{{ route('admin.craftsman.products', $craftsman->id) }}">{{ __('craftsman products:')}}
                                 {{ $craftsman->products->count() }}</a>
                         </label>
                     </div>

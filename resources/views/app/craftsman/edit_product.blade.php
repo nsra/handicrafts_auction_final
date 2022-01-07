@@ -49,8 +49,8 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form group text-center" id="products_slider" style="display:flex; justify-content: center">
-                                    <div style="width: 50%; " id="carouselExampleControlsNoTouching" class="carousel slide"
-                                        data-bs-touch="false" data-bs-interval="false">
+                                    <div style="width: 80%; " id="carouselExampleControlsNoTouching" class="carousel slide"
+                                        data-ride="carousel">
                                         <div class="carousel-inner">
                                             @if ($product->images->count() > 0)
                                                 @foreach ($product->images as $image)
@@ -62,56 +62,41 @@
                                                 @endforeach
                                             @endif
                                         </div>
-                                        <button class="carousel-control-prev" type="button"
-                                            data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+                                        <a class="carousel-control-prev" href="#carouselExampleControlsNoTouching" role="button" data-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button"
-                                            data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+                                            <span class="sr-only">Previous</span>
+                                          </a>
+                                          <a class="carousel-control-next" href="#carouselExampleControlsNoTouching" role="button" data-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </button>
+                                            <span class="sr-only">Next</span>
+                                        </a>
                                     </div>
                                 </div>
                                 <br>
                                 <br>
-                                <label for="image">Edit Product images</label>
+                                <label for="image">{{ __('Edit Product images')}}</label>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group mt-1 text-center">
-                                            <input type="file" id="images" name="images[]" placeholder="Choose images" multiple accept="image/*">
+                                            <input type="file" id="images" name="images[]" class="@error('title') is-invalid @enderror" placeholder="Choose images" multiple accept="image/*">
                                         </div>
-                                        @error('images')
-                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                        @enderror
+                                      
                                     </div>
                                 </div>
                                 @error('images')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ __($message) }}</strong>
+                                    </span>
                                 @enderror
                                 <br>
                                 <div class="form-group ">
-                                    <label for="title">{{ __('Auction Timer') }} </label>
-                                    @if (!$product->isExpired())
-                                        <div id="countdown" class=""></div>
-                                    @else
-                                        <div>Expired</div>
-
-                                        @php
-                                            $product->order_by_auction();
-                                        @endphp
-                                    @endif
-                                    <br>
                                     <div class="form-group">
-
                                         @if (!$product->isAuctioned())
-
                                             <a data-toggle="modal" class="btn btn-lg" id="smallButton"
                                                 data-target="#smallModal"
                                                 data-attr="{{ route('craftsman.product.delete', $product->id) }}"
                                                 title="Delete Product">
-                                                <i class="fa fa-trash text-danger fa-lg"></i> &nbsp; Delete Your Product
+                                                <i class="fa fa-trash text-danger fa-lg"></i> &nbsp; {{ __('Delete Your Product')}}
                                             </a>
                                         @endif
                                     </div>
@@ -123,7 +108,7 @@
                                         name="title" value="{{ $product->title }}">
                                     @error('title')
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                            <strong>{{ __($message) }}</strong>
                                         </span>
                                     @enderror
                                 </div>
@@ -134,24 +119,24 @@
                                         name="orderNowPrice" value="{{ $product->orderNowPrice }}">
                                     @error('orderNowPrice')
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                            <strong>{{ __($message) }}</strong>
                                         </span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <h6 for="orderNowPrice">{{ __('Starting Bid Price') }}:
-                                        {{ $product->startingBidPrice() }}</h6>
+                                        {{ $product->startingBidPrice() }} $</h6>
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">{{ __('description') }} </label>
-                                    <textarea required type="text"
-                                        class="form-control text-left @error('description') is-invalid @enderror"
-                                        name="description" value="{{ $product->description }}">
+                                <div class="form-group ">
+                                    <label for="description">{{ __('description') }}</label> 
+                                    <textarea required type="text" 
+                                        class="{{app()->getLocale() == 'en' ? '' : 'text-right' }} form-control @error('description') is-invalid @enderror"
+                                        name="description" >
                                             {{ $product->description }}
                                         </textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                            <strong>{{ __($message) }}</strong>
                                         </span>
                                     @enderror
                                 </div>
@@ -162,19 +147,24 @@
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"
                                                 {{ $category->id == $product->category->id ? 'selected' : '' }}>
-                                                {{ $category->name }} </option>
+                                                {{ __($category->name) }} </option>
                                         @endforeach
                                     </select>
+                                    @error('category_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ __($message) }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 @if ($product->isAuctioned())
                                     <div class="form-group">
                                         <h4 for="orderNowPrice">{{ __('Max Bid') }}: {{ $product->maxBidPrice() }}$</h4>
                                     </div>
-                                @else
+                                {{-- @else
                                     <div class="form-group">
                                         <h4 for="orderNowPrice">{{ __('Starting Bid Price') }}:
                                             {{ $product->startingBidPrice() }}$</h4>
-                                    </div>
+                                    </div> --}}
                                 @endif
                                 <div class="form-group">
                                     <h6 for="orderNowPrice">{{ __('BidIncreament') }}: {{ $product->bidIncreament() }}$
@@ -198,9 +188,20 @@
                             </form>
                         </div>
                         <div class="col-4 text-center">
+                            <label for="title">{{ __('Auction Timer') }} </label>
+                            @if (!$product->isExpired())
+                                <div id="countdown" class=""></div>
+                            @else
+                                <div>{{ __('Expired')}}</div>
+
+                                @php
+                                    $product->order_by_auction();
+                                @endphp
+                            @endif
+                            <br>
                             <form action="{{ route('craftsman.product.extend_auction', $product->id) }}" method="GET">
-                                <label for="">Extend Auction</label>
-                                <input type="number" max="15" min="1" placeholder="Enter number of days to extend auction"
+                                <label for="">{{ __('Extend Auction')}}</label>
+                                <input required type="number" max="15" min="1" placeholder="{{ __('Enter number of days to extend auction')}}"
                                     name="days" style="width:92%">
                                 <br>
                                 <br>

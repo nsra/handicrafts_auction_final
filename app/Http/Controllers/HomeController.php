@@ -4,15 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Bid;
+use App\Models\Bidupdate;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
 
     public function __construct()
     {
+    }
+
+    public function change($lang)
+    {
+        Session::put('locale', $lang);
+        app()->setLocale($lang);
+        return redirect()->back();
     }
 
 
@@ -70,11 +80,17 @@ class HomeController extends Controller
 
     public function product_details($id)
     {
-
         $categories = Category::get();
         $product = Product::findOrFail($id);
         $bids = Bid::where('product_id', '=', $product->id)->orderBy('id', 'DESC')->paginate(8);
         return view('app.product_details', compact('categories', 'product', 'bids'));
+    }
+
+    public function bid_history($id)
+    {
+        $bid= Bid::find($id);
+        $bid_history = Bidupdate::where('bid_id', '=', $id)->orderBy('id', 'DESC')->paginate(8);
+        return view('app.bid_history', compact('bid_history'));
     }
 
     public function view_craftsman($id)

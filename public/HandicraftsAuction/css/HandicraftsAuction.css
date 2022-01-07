@@ -8,6 +8,14 @@
 	font-weight: bolder;
 	font-style: normal
 }
+
+body {
+	font-family: "JF Flat Regular", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+	/* font-size: 14px;
+	color: black;
+	line-height: 1.429; */
+}
+
 .navbar {
     font-weight: bold;
 }
@@ -73,9 +81,8 @@
     font-weight: bold;
     
 }
-.CraftsmanProfile .CraftsmanProfile-container .imge-profile{
+.CraftsmanProfile .CraftsmanProfile-container .imge-profile, .container-image-profile{
     width: 200px;
-    
 }
 /* end profile craftsman */
 
@@ -83,7 +90,8 @@
 .MyProfile .title h2{
     margin-left: 90px;
 }
- .MyProfile .MyProfile-container .container-image-profile{
+
+ .MyProfile .MyProfile-container .container-image-profile, .container-image-profile{
     border: 2px solid gray;
     border-radius: 50%;
     width: 120px;
@@ -91,7 +99,9 @@
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    overflow: hidden;
 } 
+
 .MyProfile .MyProfile-container .container-image-profile h6{
    flex: content; 
   
@@ -197,8 +207,12 @@
     font-weight: bold;
     margin-left: 20px;
  }
+
+ textarea {
+     /* margin-bottom: 5px !important; */
+ }
+
  .MyProduct .pagination-content{
-    
     margin-left:40%;
  }
  .MyProduct .pagination-content .pagination .page-item {
@@ -313,7 +327,8 @@ font-weight: bold;
     margin-bottom: -30px;
 }
 .Product_details .content-product_details hr,.confirmOrder .content-confirmeOrder hr{
-    height: 10px;
+    height: 10px !important;
+    /* opacity: 50 !important; */
 }
 .Product_details .content-product_details span a, .content-confirmeOrder span a{
     color: rgb(22, 148, 221);
@@ -333,7 +348,6 @@ font-weight: bold;
 }
 .Product_details .content-product_details form button{ 
     background-color: orange; 
-    margin-left: 20px;   
 }
 .Product_details .content-product_details form button span{ 
     background-color: gray; 
@@ -368,3 +382,65 @@ font-weight: bold;
     
 }
 /* end about us */
+
+.carousel-control-next, .carousel-control-prev {
+    position: absolute;
+    top: 20;
+    bottom: 0;
+    z-index: 1;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 5%;
+    background-color: transparent;
+    color: orange;
+    text-align: center;
+    opacity: 2; 
+    border: transparent;
+    font-size: 20px!important;
+}
+
+span.visually-hidden{
+    position: relative;
+    background-color: black;
+    height: auto;
+    top: 240px !important;
+    font-size: 30px !important;
+    border-radius: 20% !important;
+
+}
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    background-color: black !important;
+    border-radius: 20% !important;
+    position: relative !important;
+    top: 235px;
+}
+
+h2 {
+    font-size: 25px !important;
+}
+
+h3 {
+    font-size: 20px !important;
+}
+
+h4 {
+    font-size: 16px !important;
+}
+
+.btn-lg {
+    font-size: 16px !important;
+    font-weight: bold !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.form-group {
+    margin-bottom: 16px !important;
+}

@@ -14,7 +14,7 @@ class Bidupdate extends Model
      * The attributes that are mass assignable.
      *
      * @var string[]
-     */
+    */
     protected $fillable = [
         'price',
         'description',

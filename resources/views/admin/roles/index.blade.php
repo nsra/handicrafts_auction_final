@@ -19,7 +19,7 @@
                         <tbody>
                             @foreach ($roles as $role)
                                 <tr>
-                                    <td class="text-center">{{ $role->name }}</td>
+                                    <td class="text-center">{{ __($role->name) }}</td>
 
                                     <td class="text-center">
                                         <a href="{{ route('role.view_users', $role->id) }}" class="btn btn-primary ">

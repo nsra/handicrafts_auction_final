@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Buyer;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Bid;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\Order;
 use Exception;
@@ -90,18 +91,27 @@ class OrderController extends Controller
                 $product->update();
                 $user = Auth::user();
                 $craftsman = $product->user;
-                Mail::raw("Congrats 🎉, Your order: << " . $product->title . " >> will deliver within 3 hours, \n \n Please confirm the receipt from Your Orders Panel immediately as you receive your product: \n".route('buyer.ordered_products'), function ($mail) use ($user) {
-                    $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
-                    $mail->to($user->email)
-                        ->subject('Your Order Is On Delivary...');
-                });
-                Mail::raw("Congrats 🎉, Your product: << " . $product->title . " >> has been ordered by " . $user->username . " You have 3 hours to deliver it to him, \n \n Please chech Your Ordered Products Panel to get the buyer address: \n ".route('craftsman.ordered_products'). "\n When you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.", function ($mail) use ($craftsman) {
-                    $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
-                    $mail->to($craftsman->email)
-                        ->subject('You Have New Ordered Product');
-                });
-                return redirect()->back()->with('success', 'Congrats 🎉, Your order: << ' . $product->title . ' >> will deliver within 3 hours, please confirm the receipt from Your Orders Panel immediately as you receive your product.');
+                // Mail::raw(trans("Congrats 🎉, Your order: << ") . $product->title . trans(" >> will deliver within 3 hours,"). "\n \n". trans("Please confirm the receipt from Your Orders Panel immediately as you receive your product:"). "\n".route('buyer.ordered_products'), function ($mail) use ($user) {
+                //     $mail->from('laraveldemo2018@gmail.com', trans('Handicrafts Auction'));
+                //     $mail->to($user->email)
+                //         ->subject(trans('Your Order Is On Delivary...'));
+                // });
+                // Mail::raw(trans("Congrats 🎉, Your product: << ") . $product->title . trans(" >> has been ordered by ") . $user->username . trans(" You have 3 hours to deliver it to him,")." \n \n". trans("Please check Your Ordered Products Panel to get the buyer address:")." \n ".route('craftsman.ordered_products'). "\n".trans("When you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it."), function ($mail) use ($craftsman) {
+                //     $mail->from('laraveldemo2018@gmail.com', trans('Handicrafts Auction'));
+                //     $mail->to($craftsman->email)
+                //         ->subject(trans('You Have New Ordered Product'));
+                // });
+                // $admins = User::where('role_id', '=', 1)->get();
+                // $ordersURL= route('orders.index');
+                // foreach($admins as $user) {
+                //     Mail::raw(trans("There was a new order <<").$product->title.trans(">>, ")."\n \n".trans("Please check the system orders: ")."\n".$ordersURL, function ($mail) use ($user) {
+                //         $mail->from('laraveldemo2018@gmail.com', trans('Handicrafts Auction'));
+                //         $mail->to($user->email)
+                //             ->subject(trans('There was a new order'));
+                //     });
+                // }
+                return redirect()->back()->with('success', trans('Congrats 🎉, Your order: << ') . $product->title . trans(' >> will deliver within 3 hours, Please confirm the receipt from Your Orders Panel immediately as you receive your product.'));
             }
-        } else return redirect()->back()->with('error', 'orderring faild!, product is locked!');
-    }
+        } else return redirect()->back()->with('error', 'ordering failed!, product is locked!');
+    } 
 }

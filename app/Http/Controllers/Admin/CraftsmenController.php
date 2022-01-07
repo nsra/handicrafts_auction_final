@@ -19,7 +19,7 @@ class CraftsmenController extends Controller
 
     public function index(Request $request)
     {
-        $craftsmen = User::where('role_id', '=', '2');
+        $craftsmen = User::where([['role_id', '=', '2'], ['is_delete','=', 0]]);
         $search_item = $request->input('name');
         if ($request->has('name')) {
             $craftsmen = $craftsmen->where(function ($query) use ($search_item) {
@@ -84,7 +84,9 @@ class CraftsmenController extends Controller
     {
         try {
             $craftsman = User::findOrFail($id);
-            $craftsman->delete();
+            if ($craftsman->products->count() > 0) $craftsman->products()->delete();
+            $craftsman->is_delete= 1;
+            $craftsman->update();
             return redirect()->back()->with('success', 'craftsman deleted successfuly');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'fail to delete craftsman');

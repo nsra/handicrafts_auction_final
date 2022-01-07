@@ -3,7 +3,7 @@
     <div class="modal-body">
         @csrf
         @method('DELETE')
-        <h5 class="text-center">Are you sure you want to delete {{ $product->title }} with all related bids?</h5>
+        <h5 class="text-center">{{ __('Are you sure you want to delete ')}}{{ $product->title }} {{ __('with all related bids?')}}</h5>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

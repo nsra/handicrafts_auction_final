@@ -1,11 +1,12 @@
 <!Doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
   <head>
   @include('layouts.partials.head')
   @yield('style')
   </head>
 
-  <body>
+  <body class="{{app()->getlocale()== 'en' ? 'ltr': 'rtl'}}">
     <header>
       @include('layouts.partials.header')
     </header>
@@ -13,11 +14,11 @@
       <br>
       @if(session('error'))
       <div class="alert alert-danger">
-          {{session('error')}}
+          {{ __(session('error'))}}
       </div>
       @elseif(session('success'))
           <div class="alert alert-success">
-              {{session('success')}}
+              {{ __(session('success'))}}
           </div>
       @endif
       @yield('content')

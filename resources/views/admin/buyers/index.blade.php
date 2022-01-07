@@ -54,7 +54,7 @@
                                     <td class="text-center">{{ $buyer->email }} </td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.buyer.bids', $buyer->id) }}" class="btn btn-primary ">
-                                            <i class="fa fa-tasks"></i>
+                                         {{$buyer->bids->count()}} <i class="fa fa-gavel"></i>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -64,7 +64,7 @@
 
                                         <a data-toggle="modal" class="btn btn-lg" id="smallButton"
                                             data-target="#smallModal" data-attr="{{ route('buyer.delete', $buyer->id) }}"
-                                            title="Delete Buyer">
+                                            title="{{ __('Delete Buyer') }}">
                                             <i class="fa fa-trash text-danger fa-lg"></i>
                                         </a>
                                     </td>

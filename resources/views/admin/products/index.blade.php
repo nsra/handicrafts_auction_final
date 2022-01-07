@@ -12,14 +12,14 @@
                         <div class="col-md-12">
                             <form action="{{ route('products.index') }}" method="GET">
                                 <input type="search" name="name" size="80"
-                                    placeholder="Enter Product title or price to search with"
+                                    placeholder="{{ __('Enter Product title or price to search with')}}"
                                     value="{{ app('request')->get('name') }}">
                                 <select name="category" id="">
-                                    <option value="">Select category to search with</option>
+                                    <option value="">{{__('Select category to search with')}}</option>
                                     @foreach ($categories as $category)
                                         <option value={{ $category->id }}
                                             {{ app('request')->get('category') == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}</option>
+                                            {{ __($category->name) }}</option>
                                     @endforeach
                                 </select>
                                 <div class="form-action md-2 text-right">
@@ -44,11 +44,11 @@
                             <tr>
                                 <th class="text-center">
                                 </th>
-                                <th class="text-center">OrderNowPrice</th>
-                                <th class="text-center">OwnerName</th>
-                                <th class="text-center">Category</th>
-                                <th class="text-center">MaxBid</th>
-                                <th style="text-align: center" class="text-center">Options</th>
+                                <th class="text-center">{{ __('OrderNowPrice')}}</th>
+                                <th class="text-center">{{ __('OwnerName')}}</th>
+                                <th class="text-center">{{__('Category')}}</th>
+                                <th class="text-center">{{ __('MaxBid')}}</th>
+                                <th style="text-align: center" class="text-center">{{ __('Options')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,22 +68,22 @@
                                             href="{{ route('admin.product.craftsman', $product->id) }}">{{ $product->user->username }}</a>
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        {{ $product->category->name }}</td>
+                                        {{ __($product->category->name) }}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         <a
-                                            href="{{ route('admin.product.bids', $product->id) }}">{{ $product->isAuctioned() ? $product->maxBidPrice() . '$' : 'not auctioned' }}</a>
+                                            href="{{ route('admin.product.bids', $product->id) }}">{{ $product->isAuctioned() ? $product->maxBidPrice() . '$' : '0' }}</a>
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
                                         @if(!$product->isOrdered())
                                         <a data-toggle="modal" class="btn btn-lg" id="smallButton"
                                             data-target="#smallModal"
                                             data-attr="{{ route('product.delete', $product->id) }}"
-                                            title="Delete Product">
+                                            title="{{ __('Delete Product')}}">
                                             <i class="fa fa-trash text-danger fa-lg"></i>
                                         </a>
                                         @else
                                         <a class="btn btn-default">
-                                            ordered product
+                                            {{__('ordered product')}}
                                         </a>
                                         @endif
                                     </td>

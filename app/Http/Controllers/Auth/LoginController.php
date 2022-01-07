@@ -54,6 +54,12 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
 
+        if (User::where('email', $request->email )->exists()) {
+            $existing_user= User::where('email', $request->email )->first();
+            if ($existing_user->is_delete) 
+                return redirect()->back()->with('error', 'You are blocked');
+        }
+
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
             $user_role = User::where('email', $request->email)->first()->role->name;
             if ($user_role === "Admin") {

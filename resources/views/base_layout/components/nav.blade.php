@@ -1,6 +1,6 @@
 <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
 <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-<div class="page-sidebar navbar-collapse collapse">
+<div class="page-sidebar navbar-collapse collapse {{app()->getLocale() == 'en' ? 'ltr' : 'rtl' }}">
 
     <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true"
         data-slide-speed="200" style="padding-top: 20px">

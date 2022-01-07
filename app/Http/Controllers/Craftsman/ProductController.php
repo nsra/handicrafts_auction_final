@@ -57,7 +57,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         if ($product->user_id != Auth::user()->id)
-            return redirect()->back()->with('error', 'You cant handle other craftsmen products!');
+            return redirect()->back()->with('error', 'You can\'t handle other craftsmen products!');
         $craftsman = $product->user;
         $categories = Category::All();
         return view('app.craftsman.edit_product', compact('product', 'categories', 'craftsman'));
@@ -65,40 +65,38 @@ class ProductController extends Controller
 
     public function update($id, Request $request)
     {
-        try {
-            $product = Product::findOrFail($id);
-            $this->validate($request, [
-                'title' => ['string', 'max:100', 'unique:products,title,'.$product->id],
-                'description' => ['string'],
-                'orderNowPrice' => ['numeric'],
-                'images.*' => ['image'],
-            ]);
+        $product = Product::findOrFail($id);
+        $this->validate($request, [
+            'title' => ['string', 'max:100', 'unique:products,title,'.$product->id],
+            'description' => ['string'],
+            'orderNowPrice' => ['numeric'],
+            'images.*' => ['image'],
+        ]);
 
-            $product->fill($request->all());
-            $product->update();
-            
-            if ($request->hasfile('images')) {
-                foreach($product->images as $image){
-                    Image::find($image->id)->delete();
-                    Storage::delete('public/uploads/' . $image->name);
-                }
-                $images = $request->file('images');
-                foreach ($images as $image) {
-                    $name = $image->getClientOriginalName();
-                    $path = $image->storeAs('uploads', $name, 'public');
-                    $image = Image::create([
-                        'name' => $name,
-                        'product_id' => $product->id,
-                        'path' => '/storage/' . $path,
-                    ]);
-                    $image->save();
-                }
+        $product->fill($request->all());
+        // $product->update();
+
+        if ($request->hasfile('images')) {
+            // foreach($product->images as $image){
+            //     Image::find($image->id)->delete();
+            //     Storage::delete('public/uploads/' . $image->name);
+            // }
+            $images = $request->file('images');
+            foreach ($images as $image) {
+                $name = $image->getClientOriginalName();
+                $path = $image->storeAs('uploads', $name, 'public');
+                $image = Image::create([
+                    'name' => $name,
+                    'product_id' => $product->id,
+                    'path' => '/storage/' . $path,
+                ]);
+                $image->save();
             }
-
-            return redirect()->back()->with('success', 'product updated successfully');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', 'update product faild');
         }
+        if($product->update() === True)
+            return redirect()->back()->with('success', 'product updated successfully');
+        else
+            return redirect()->back()->with('error', 'update product faild');
     }
 
     public function create()
@@ -110,58 +108,56 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $this->validate($request, [
-                'title' => ['required', 'string', 'max:100', 'unique:products'],
-                'description' => ['required', 'string'],
-                'orderNowPrice' => ['required', 'numeric'],
-                'images' => ['required'],
-                'images.*' => ['image'],
-            ]);
+        $this->validate($request, [
+            'title' => ['required', 'string', 'max:100', 'unique:products'],
+            'description' => ['required', 'string'],
+            'orderNowPrice' => ['required', 'numeric'],
+            'images' => ['required'],
+            'images.*' => ['image'],
+        ]);
 
-            $product = Product::create([
-                'title' => $request['title'],
-                'description' => $request['description'],
-                'category_id' => $request['category_id'],
-                'orderNowPrice' => $request['orderNowPrice'],
-                'is_delete' => 0,
-                'start_auction' => Carbon::now(),
-                'end_auction' => Carbon::now() ,
-                'created_at' => Carbon::now(),
-                'user_id' => Auth::user()->id,
-            ]);
-            $product->user_id = Auth::user()->id;
-            $product->end_auction = Carbon::now()->addDays(15);
-            $product->save();
+        $product = Product::create([
+            'title' => $request['title'],
+            'description' => $request['description'],
+            'category_id' => $request['category_id'],
+            'orderNowPrice' => $request['orderNowPrice'],
+            'is_delete' => 0,
+            'start_auction' => Carbon::now(),
+            'end_auction' => Carbon::now() ,
+            'created_at' => Carbon::now(),
+            'user_id' => Auth::user()->id,
+        ]);
+        $product->user_id = Auth::user()->id;
+        $product->end_auction = Carbon::now()->addDays(15);
+        // $product->save();
 
-            if ($request->hasfile('images')) {
-                
-                $images = $request->file('images');
-                foreach ($images as $image) {
-                    // dd($image);
-                    $name = $image->getClientOriginalName();
-                    $path = $image->storeAs('uploads', $name, 'public');
-                    $image = Image::create([
-                        'name' => $name,
-                        'product_id' => $product->id,
-                        'path' => '/storage/' . $path,
-                    ]);
-                    $image->save();
-                }
+        if ($request->hasfile('images')) {
+            
+            $images = $request->file('images');
+            foreach ($images as $image) {
+                $name = $image->getClientOriginalName();
+                $path = $image->storeAs('uploads', $name, 'public');
+                $image = Image::create([
+                    'name' => $name,
+                    'product_id' => $product->id,
+                    'path' => '/storage/' . $path,
+                ]);
+                $image->save();
             }
-            $admins = User::where('role_id', '=', 1)->get();
-            $productsURL= route('products.index');
-            foreach ($admins as $user) {
-                Mail::raw("New product <<".$product->title.">> added, \n \n please check the system products: \n".$productsURL, function ($mail) use ($user) {
-                    $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
-                    $mail->to($user->email)
-                        ->subject('New product added');
-                });
-            }
-            return redirect()->back()->with('success', 'product created successfully');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', 'create product faild');
         }
+        $admins = User::where('role_id', '=', 1)->get();
+        $productsURL= route('products.index');
+        // foreach ($admins as $user) {
+        //     Mail::raw(trans("New product <<").$product->title.trans(">> added,"). "\n \n". trans("please check the system products:")." \n".$productsURL, function ($mail) use ($user) {
+        //         $mail->from('laraveldemo2018@gmail.com', trans('Handicrafts Auction'));
+        //         $mail->to($user->email)
+        //             ->subject(trans('New product added'));
+        //     });
+        // }
+        if($product->save() === True)
+            return redirect()->back()->with('success', 'product created successfully');
+        else
+            return redirect()->back()->with('error', 'create product failed');
     }
 
     public function view_product_bids($id, Request $request)
@@ -234,16 +230,24 @@ class ProductController extends Controller
         return view('app.craftsman.buyer_bids', compact('user', 'bids'));
     }
 
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+        $buyer = auth()->user()->id;
+        $categories = Category::All();
+        return view('app.craftsman.bid_product', compact('product', 'categories', 'buyer'));
+    }
+    
     public function extend_auction(Request $request, $id)
     {
         $days = $request->days;
         if ($days > 15 || $days < 1)
-            return redirect()->back()->with('error', 'extending auction faild!, days should be from 1 to 15');
+            return redirect()->back()->with('error', 'extending auction failed!, days should be from 1 to 15');
         else {
             $product = Product::findOrFail($id);
             $product->end_auction = $product->end_auction->addDays($days);
             $product->save();
-            return redirect()->back()->with('success', 'auction extended till' . $product->end_auction->toDateString());
+            return redirect()->back()->with('success', trans('auction extended till ') . $product->end_auction->toDateString());
         }
     }
 }

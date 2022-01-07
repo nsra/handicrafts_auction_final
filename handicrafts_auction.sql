@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2021 at 07:44 PM
+-- Generation Time: Jan 01, 2022 at 09:52 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.27
 
@@ -36,6 +36,39 @@ CREATE TABLE `bids` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `bids`
+--
+
+INSERT INTO `bids` (`id`, `user_id`, `price`, `product_id`, `description`, `created_at`, `updated_at`) VALUES
+(31, 8, 100.00, 73, 'i will get it', '2021-12-26 18:46:09', '2021-12-26 18:46:09'),
+(32, 8, 90.00, 72, 'i will pay 90 on delivery', '2021-12-26 18:48:17', '2021-12-26 18:48:17'),
+(34, 20, 150.00, 73, 'i will get it mine', '2021-12-28 04:58:54', '2021-12-28 04:58:54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bidupdates`
+--
+
+CREATE TABLE `bidupdates` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `price` double(19,2) NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bid_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `bidupdates`
+--
+
+INSERT INTO `bidupdates` (`id`, `price`, `description`, `bid_id`, `created_at`, `updated_at`) VALUES
+(1, 105.00, 'i updated my bid', 31, '2022-01-01 08:49:42', NULL),
+(2, 100.00, 'i update to 100$', 32, '2022-01-01 08:50:29', NULL),
+(3, 170.00, 'i will get it with the updated bid 170$', 34, '2022-01-01 08:50:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -107,9 +140,6 @@ CREATE TABLE `images` (
 INSERT INTO `images` (`id`, `name`, `path`, `product_id`, `created_at`, `updated_at`) VALUES
 (13, 'p2a.jpg', '/storage/uploads/p2a.jpg', 66, '2021-12-08 17:15:44', '2021-12-08 17:15:44'),
 (14, 'p2b.jpg', '/storage/uploads/p2b.jpg', 66, '2021-12-08 17:15:44', '2021-12-08 17:15:44'),
-(15, 'p3c.jpg', '/storage/uploads/p3c.jpg', 67, '2021-12-08 17:22:56', '2021-12-08 17:22:56'),
-(16, 'p3b.jpg', '/storage/uploads/p3b.jpg', 67, '2021-12-08 17:22:56', '2021-12-08 17:22:56'),
-(17, 'p3a.jpg', '/storage/uploads/p3a.jpg', 67, '2021-12-08 17:22:56', '2021-12-08 17:22:56'),
 (19, 'p4a.jpg', '/storage/uploads/p4a.jpg', 68, '2021-12-08 17:28:25', '2021-12-08 17:28:25'),
 (20, 'p4b.jpg', '/storage/uploads/p4b.jpg', 68, '2021-12-08 17:28:25', '2021-12-08 17:28:25'),
 (21, 'p5a.jpg', '/storage/uploads/p5a.jpg', 69, '2021-12-08 17:42:58', '2021-12-08 17:42:58'),
@@ -121,12 +151,13 @@ INSERT INTO `images` (`id`, `name`, `path`, `product_id`, `created_at`, `updated
 (27, 'p7a.jpg', '/storage/uploads/p7a.jpg', 71, '2021-12-08 18:03:46', '2021-12-08 18:03:46'),
 (28, 'p7b.jpg', '/storage/uploads/p7b.jpg', 71, '2021-12-08 18:03:46', '2021-12-08 18:03:46'),
 (29, 'p7c.jpg', '/storage/uploads/p7c.jpg', 71, '2021-12-08 18:03:46', '2021-12-08 18:03:46'),
-(30, 'p8a.jpg', '/storage/uploads/p8a.jpg', 72, '2021-12-08 18:09:18', '2021-12-08 18:09:18'),
-(31, 'p8b.jpg', '/storage/uploads/p8b.jpg', 72, '2021-12-08 18:09:18', '2021-12-08 18:09:18'),
 (32, 'p9a.jpg', '/storage/uploads/p9a.jpg', 73, '2021-12-08 18:17:58', '2021-12-08 18:17:58'),
 (33, 'p9b.jpg', '/storage/uploads/p9b.jpg', 73, '2021-12-08 18:17:58', '2021-12-08 18:17:58'),
 (34, 'p10a.jpg', '/storage/uploads/p10a.jpg', 74, '2021-12-08 18:23:21', '2021-12-08 18:23:21'),
-(35, 'p10b.jpg', '/storage/uploads/p10b.jpg', 74, '2021-12-08 18:23:22', '2021-12-08 18:23:22');
+(35, 'p10b.jpg', '/storage/uploads/p10b.jpg', 74, '2021-12-08 18:23:22', '2021-12-08 18:23:22'),
+(122, 'clay2.jpg', '/storage/uploads/clay2.jpg', 72, '2021-12-21 15:54:08', '2021-12-21 15:54:08'),
+(124, 'p3a.jpg', '/storage/uploads/p3a.jpg', 67, '2021-12-28 07:44:33', '2021-12-28 07:44:33'),
+(125, 'p3c.jpg', '/storage/uploads/p3c.jpg', 67, '2021-12-28 07:44:33', '2021-12-28 07:44:33');
 
 -- --------------------------------------------------------
 
@@ -167,7 +198,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2021_11_17_175303_create_permission_role_table', 10),
 (21, '2021_11_19_192743_add_user_id_to_orders_table', 10),
 (22, '2021_11_18_181247_add_is-ordered-by-auction_to_orders_table', 11),
-(23, '2021_12_08_080636_create_images_table', 11);
+(23, '2021_12_08_080636_create_images_table', 11),
+(24, '2021_12_08_080636_create_bidUpdates_table', 12);
 
 -- --------------------------------------------------------
 
@@ -203,7 +235,7 @@ CREATE TABLE `password_resets` (
 
 INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 ('laraveldemo2018@gmail.com', '$2y$10$EwXpHFwaSwiUu9PObP9creXsF9MbiK85Zll2tn9ZOZH1POZflYRMO', '2021-11-17 17:04:07'),
-('entesar.2000banna@gmail.com', '$2y$10$dVz5lkF114eS0q2g3asAeet.akUpEjDzPfd/s/yOsFVL4kEFNArN.', '2021-12-06 19:04:26');
+('entesar.2000banna@gmail.com', '$2y$10$mqS4Zh4Bln46rhcZI2hatuIkMCIYvD2dfdLfrL1h.LEBj3Hs4wvuO', '2021-12-13 04:30:10');
 
 -- --------------------------------------------------------
 
@@ -248,15 +280,15 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `title`, `description`, `category_id`, `orderNowPrice`, `is_delete`, `start_auction`, `end_auction`, `created_at`, `updated_at`, `user_id`) VALUES
-(66, 'Wool Yarn', '1. Content: 100% Extraordinarily Luxurious Merino wool\r\n2. Specification: 127yd / 116 m ( 1.76 oz / 50 g ), Needle Size: 4-8mm, 1 ball * 50g.\r\n3. Excellent Sourcing: Merino wool is a material derived from Merino sheep and is known for its outstanding characteristics including its excellent softness, gloss and breathability. Merino wool yarn is softer, thinner and warmer than many others.', 4, 84.99, 0, '2021-12-08 17:15:44', '2021-12-31 17:15:44', '2021-12-08 17:15:44', '2021-12-08 17:15:50', 4),
-(67, 'Fuyit Natural Wood Slices', 'Natural & Original: Wood Circles are made of natural wood with barks, have a rustic beauty and are in good shape. Some wood bark may fall partially from the slices.\r\nPre-sanded & Polished: Each slice was sanded to make the surface smooth and safe enough for painting, drawing or writing.\r\nEasy to use: Every slice was pre-drilled with a small hole so that you can making personalized hanging ornaments easily with attched twine for home and festival decoration, especially for Christmas tree decoration.', 5, 80.00, 0, '2021-12-08 17:22:56', '2021-12-31 17:22:56', '2021-12-08 17:22:56', '2021-12-08 17:23:03', 4),
-(68, 'Best Kit With No Tools Needed', 'Whether you are a jewelry making aficionado or just wanting to start a new hobby, a jewelry making kit is a must-have. These kits come will all the supplies you need to make earrings, necklaces, bracelets, anklets, and more, while also coming in handy when fast, timely repairs are needed.Whether you are a jewelry making aficionado or just wanting to start a new hobby, a jewelry making kit is a must-have. These kits come will all the supplies you need to make earrings, necklaces, bracelets, anklets, and more, while also coming in handy when fast, timely repairs are needed.', 6, 59.99, 0, '2021-12-08 17:28:25', '2021-12-23 17:28:25', '2021-12-08 17:28:25', '2021-12-08 17:28:28', 4),
-(69, '4Sets Embroidery Starter Kit with Christmas Pattern', 'Package Include: 1 x plastic embroidery hoop 7.9 inch (20 cm), 3 x Embroidered cloth with pattern, 6 x embroidery needles, 3 x English instructions, 3 x Pack color threads.\r\nBeautiful Christmas Patterns: The Embroidery cloth is with beautiful colored Christmas pattern to make your room more glamorous and full of Christmas atmosphere. You just need to soak the cloth in water directly, the pattern will disappear. So keep the them away from water or any other liquids before you finish it.', 3, 77.99, 0, '2021-12-08 17:42:58', '2021-12-23 17:42:58', '2021-12-08 17:42:58', '2021-12-08 17:43:46', 4),
-(70, 'LifeAround2Angels Bath Bombs Gift Set 12 USA made Fizzies', '12 uniquely handcrafted bath bombs. Functional and relaxing. Great Mothers day gifts.\r\nTruly made in California, USA freshly with premium USA natural ingredients - fizzes with colors, will not stain your tub!\r\nTherapeutic and Moisturizing bath bombs, formulated for Normal/Dry skin\r\nDeveloped and Created by us, a bath bomb company with passion\r\nBath Bomb Individually Wrapped. Perfect gift ideas for party favors and wedding. This bath bomb gift sets is on many\'s wish list. Perfect for Fathers Day gifts, birthday gift, gifts for her, spa/bath gifts, for the special one, perfect gifts for mom, wife, girlfriend or women you love.', 2, 129.99, 0, '2021-12-08 17:57:10', '2021-12-23 17:57:10', '2021-12-08 17:57:10', '2021-12-08 17:58:26', 6),
-(71, 'Hummingbird Feeder', '✨【VIBRANT BEAUTIFUL COLORS & PATTERN】✨- Attract hummingbirds easily and successfully keeps out insects with the included ant moat and four red flower guards. The different color dotes on the blue glass bottle make it more attractive for birds. Delightful little birds with remarkable flying abilities, hummingbirds are a joy to behold. Lure them to your yard with our hummingbird feeder\r\n💕【EASY TO CLEAN & FILL NECTAR】💕 - Features wide mouth opening with disassembling top & base for easy filling and cleaning. An attached small brush can be used to clean the flower-shaped feeding ports. The clear beautiful glass bottle allows you to more easily see when the food level is low or the unit needs cleaning\r\n💫【100% LEAKPROOF TECHNOLOGY & 40 OZ LARGE CAPACITY】💫- An innovative gasket in the base creates a tight seal to prevent messy leakage. No worry about leaking! Aucied\'s extra-large feeder offers more food for the birds and more viewing time for you with a 40-ounce nectar reservoir. The feeder is ready to hang with a metal hanger to fit most hooks and poles', 10, 110.00, 0, '2021-12-08 18:03:46', '2021-12-23 18:03:46', '2021-12-08 18:03:46', '2021-12-08 18:05:00', 6),
-(72, 'Jeevam Clay Products Clay Earthen Cooker with Lid', 'Is Discontinued By Manufacturer ‏ : ‎ No\r\nDate First Available ‏ : ‎ 9 June 2017\r\nManufacturer ‏ : ‎ Jeevam Clay Products\r\nASIN ‏ : ‎ B072K4PTNC\r\nItem part number ‏ : ‎ JVM-3LTR-C0001\r\nManufacturer ‏ : ‎ Jeevam Clay Products\r\nIncluded Components ‏ : ‎ Cooker with lid', 11, 160.00, 0, '2021-12-08 18:09:18', '2021-12-23 18:09:18', '2021-12-08 18:09:18', '2021-12-08 18:09:31', 6),
-(73, 'Leather Bound Journal Gift Set', 'Essential Alchemist is an American company that provides a variety of novelty products for customers that care about quality, design, and details. Our products can be collectables or used as gifts during special occasions. It’s also good for personal use and it’s easily portable. Our latest product, the vintage leather bound journal gift set, comes in three different colors to choose from. Don’t wait, join our family now and become an essential alchemist!\r\nWe also want to provide great customer service for everyone. Our customer service team is friendly and responsible, so if you have any questions, concerns or suggestions, feel free to contact us. We would love to hear your valuable feedback.', 8, 199.00, 0, '2021-12-08 18:17:58', '2021-12-23 18:17:58', '2021-12-08 18:17:58', '2021-12-08 18:51:37', 6),
-(74, '(200Pcs)100pcs Translucent Plastic Bags/Cellophane Bags ', 'PACK INCLUDE: 100 Packaging Bag with 100 black stickers. does not contain any other decorative items.\r\nMATERIAL : Plastic Translucent Bags. This packaging bag is flat bags don\'t have self adhesive seal function.\r\nUSAGE : Perfect for packaging home-made cookies, candies, pastries, doughnut and more.It also ideal for packing small gifts or accessories. Good choice for gifts.\r\nSIZE:Packaging Bag:8.7*22.8cm,Hand made stickers：10*3cm\r\nClick the Palksky link above to see all of our products', 9, 230.00, 0, '2021-12-08 18:23:21', '2021-12-23 18:23:21', '2021-12-08 18:23:21', '2021-12-08 18:23:52', 6);
+(66, 'Wool Yarn', '1. Content: 100% Extraordinarily Luxurious Merino wool\r\n2. Specification: 127yd / 116 m ( 1.76 oz / 50 g ), Needle Size: 4-8mm, 1 ball * 50g.\r\n3. Excellent Sourcing: Merino wool is a material derived from Merino sheep and is known for its outstanding characteristics including its excellent softness, gloss and breathability. Merino wool yarn is softer, thinner and warmer than many others.', 4, 84.99, 0, '2021-12-08 17:15:44', '2022-01-11 08:33:21', '2021-12-08 17:15:44', '2021-12-27 08:33:21', 4),
+(67, 'Fuyit Natural Wood Slices', 'Natural & Original: Wood Circles are made of natural wood with barks, have a rustic beauty and are in good shape. Some wood bark may fall partially from the slices.\r\nPre-sanded & Polished: Each slice was sanded to make the surface smooth and safe enough for painting, drawing or writing.\r\nEasy to use: Every slice was pre-drilled with a small hole so that you can making personalized hanging ornaments easily with attched twine for home and festival decoration, especially for Christmas tree decoration.', 5, 80.00, 0, '2021-12-08 17:22:56', '2022-01-12 07:49:55', '2021-12-08 17:22:56', '2021-12-28 07:50:03', 4),
+(68, 'Best Kit With No Tools Needed', 'Whether you are a jewelry making aficionado or just wanting to start a new hobby, a jewelry making kit is a must-have. These kits come will all the supplies you need to make earrings, necklaces, bracelets, anklets, and more, while also coming in handy when fast, timely repairs are needed.Whether you are a jewelry making aficionado or just wanting to start a new hobby, a jewelry making kit is a must-have. These kits come will all the supplies you need to make earrings, necklaces, bracelets, anklets, and more, while also coming in handy when fast, timely repairs are needed.', 6, 59.99, 0, '2021-12-08 17:28:25', '2022-01-03 17:28:25', '2021-12-08 17:28:25', '2021-12-08 17:28:28', 4),
+(69, '4 Sets Embroidery Starter Kit with Christmas Patterny', 'Package Include: 1 x plastic embroidery hoop 7.9 inch (20 cm), 3 x Embroidered cloth with pattern, 6 x embroidery needles, 3 x English instructions, 3 x Pack color threads.\r\nBeautiful Christmas Patterns: The Embroidery cloth is with beautiful colored Christmas pattern to make your room more glamorous and full of Christmas atmosphere. You just need to soak the cloth in water directly, the pattern will disappear. So keep the them away from water or any other liquids before you finish it.', 3, 77.99, 0, '2021-12-08 17:42:58', '2022-01-03 17:42:58', '2021-12-08 17:42:58', '2021-12-17 16:05:46', 4),
+(70, 'LifeAround2Angels Bath Bombs Gift Set 12 USA made Fizzies', '12 uniquely handcrafted bath bombs. Functional and relaxing. Great Mothers day gifts.\r\nTruly made in California, USA freshly with premium USA natural ingredients - fizzes with colors, will not stain your tub!\r\nTherapeutic and Moisturizing bath bombs, formulated for Normal/Dry skin\r\nDeveloped and Created by us, a bath bomb company with passion\r\nBath Bomb Individually Wrapped. Perfect gift ideas for party favors and wedding. This bath bomb gift sets is on many\'s wish list. Perfect for Fathers Day gifts, birthday gift, gifts for her, spa/bath gifts, for the special one, perfect gifts for mom, wife, girlfriend or women you love.', 2, 129.99, 0, '2021-12-08 17:57:10', '2022-01-12 07:24:10', '2021-12-08 17:57:10', '2021-12-28 07:24:10', 6),
+(71, 'Hummingbird Feeder', '✨【VIBRANT BEAUTIFUL COLORS & PATTERN】✨- Attract hummingbirds easily and successfully keeps out insects with the included ant moat and four red flower guards. The different color dotes on the blue glass bottle make it more attractive for birds. Delightful little birds with remarkable flying abilities, hummingbirds are a joy to behold. Lure them to your yard with our hummingbird feeder\r\n💕【EASY TO CLEAN & FILL NECTAR】💕 - Features wide mouth opening with disassembling top & base for easy filling and cleaning. An attached small brush can be used to clean the flower-shaped feeding ports. The clear beautiful glass bottle allows you to more easily see when the food level is low or the unit needs cleaning\r\n💫【100% LEAKPROOF TECHNOLOGY & 40 OZ LARGE CAPACITY】💫- An innovative gasket in the base creates a tight seal to prevent messy leakage. No worry about leaking! Aucied\'s extra-large feeder offers more food for the birds and more viewing time for you with a 40-ounce nectar reservoir. The feeder is ready to hang with a metal hanger to fit most hooks and poles', 10, 110.00, 0, '2021-12-12 18:11:10', '2022-01-12 08:26:15', '2021-12-08 18:34:46', '2021-12-28 08:26:15', 6),
+(72, 'Jeevam Clay Products Clay Earthen Cooker with Lid', 'Is Discontinued By Manufacturer ‏ : ‎ No\r\nDate First Available ‏ : ‎ 9 June 2017\r\nManufacturer ‏ : ‎ Jeevam Clay Products\r\nASIN ‏ : ‎ B072K4PTNC\r\nItem part number ‏ : ‎ JVM-3LTR-C0001\r\nManufacturer ‏ : ‎ Jeevam Clay Products\r\nIncluded Components ‏ : ‎ Cooker with lid', 11, 160.00, 0, '2021-12-08 18:09:18', '2022-01-28 08:25:55', '2021-12-08 18:09:18', '2021-12-28 04:03:29', 6),
+(73, 'Leather Bound Journal Gift Set', 'Essential Alchemist is an American company that provides a variety of novelty products for customers that care about quality, design, and details. Our products can be collectables or used as gifts during special occasions. It’s also good for personal use and it’s easily portable. Our latest product, the vintage leather bound journal gift set, comes in three different colors to choose from. Don’t wait, join our family now and become an essential alchemist!\r\nWe also want to provide great customer service for everyone. Our customer service team is friendly and responsible, so if you have any questions, concerns or suggestions, feel free to contact us. We would love to hear your valuable feedback.', 8, 199.00, 0, '2021-12-08 18:17:58', '2022-01-21 07:20:55', '2021-12-08 18:17:58', '2021-12-28 07:20:55', 6),
+(74, '(200Pcs)100pcs Translucent Plastic Bags/Cellophane Bags ', 'PACK INCLUDE: 100 Packaging Bag with 100 black stickers. does not contain any other decorative items.\r\nMATERIAL : Plastic Translucent Bags. This packaging bag is flat bags don\'t have self adhesive seal function.\r\nUSAGE : Perfect for packaging home-made cookies, candies, pastries, doughnut and more.It also ideal for packing small gifts or accessories. Good choice for gifts.\r\nSIZE:Packaging Bag:8.7*22.8cm,Hand made stickers：10*3cm\r\nClick the Palksky link above to see all of our products', 9, 230.00, 0, '2021-12-08 18:23:21', '2022-01-03 18:23:21', '2021-12-08 18:23:21', '2021-12-08 18:23:52', 6);
 
 -- --------------------------------------------------------
 
@@ -307,11 +339,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `username`, `email`, `password`, `address`, `mobile`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`, `role_id`) VALUES
-(1, 'admin', 'admin', 'admin2022', 'laraveldemo2018@gmail.com', '$2y$10$l9icgrL0l84VOJDsLgRde.ZdHUMBRjr5A.eVNLDrPPH62NuSOBkV2', 'Gaza ElRemal Street', '0592684956', NULL, '5Wur1cSr2PtwgyTZDOXRvylatscciscgDioVsgAiD3QWJpHt1kP5XTza7gHc', NULL, '2021-11-21 09:58:20', 1),
-(4, 'entesar', 'elbanna', 'firstcraftsman', 'entesar.2000banna@gmail.com', '$2y$10$rNSVfHwtQ9JOvmlRnEafj.iW0bSjiSk8/1/sSJyu/9QJY1YjLxe2G', 'elreemal', '1234567898', NULL, 'Q3EdQy1WaSzGXKS19qHqwqMeWKbHDivVcyltCFBCW0QWcxrntOLoq9PNLNgT', '2021-11-18 06:35:38', '2021-11-23 08:51:19', 2),
+(1, 'admin', 'admin', 'admin2022', 'laraveldemo2018@gmail.com', '$2y$10$l9icgrL0l84VOJDsLgRde.ZdHUMBRjr5A.eVNLDrPPH62NuSOBkV2', 'Gaza ElRemal Street', '0592684956', NULL, 'S9H4eRPe9Mb2Nc7Y0W0U2LFwGqAU2Vb6MgE1fjEgOh4ZDJrRsMGWG2SH9vhR', NULL, '2021-11-21 09:58:20', 1),
+(4, 'entesar', 'elbanna', 'firstcraftsman', 'entesar.2000banna@gmail.com', '$2y$10$rNSVfHwtQ9JOvmlRnEafj.iW0bSjiSk8/1/sSJyu/9QJY1YjLxe2G', 'elreemal', '1234567898', NULL, 'qYyz6rJ00y6zqoOs6TxJEOVAaTTbK5NbhVvgRUrev4VXP8Ze7nAyJZnX292O', '2021-11-18 06:35:38', '2021-11-23 08:51:19', 2),
 (6, 'sara', 'elbanna', 'secondcraftsman', 'sara.2000banna@gmail.com', '$2y$10$eP6vqOob50mAhongIlR3kenbsujQSbRUq.LqjzkzBHgzM0zZyN4Di', 'remal', '8765432876', NULL, NULL, '2021-11-18 06:56:22', '2021-11-28 04:20:42', 2),
-(7, 'rawand', 'ElBanna', 'firstbuyer', 'rawand.2000banna@gmail.com', '$2y$10$x979RXJML3Sq.kayZZ8qgu1GFOXcBsAyQ8FzA0BZNkVXQqev50KQu', 'remal', '1234567899', NULL, NULL, '2021-11-18 13:34:08', '2021-11-18 13:34:08', 3),
-(8, 'malak', 'elbanna', 'malak2000', 'malak.2000banna@gmail.com', '$2y$10$Y4a2qwXBGW7juivdRlFbFe2qa9cvb93FwclB7cPx6586RftXFa4IW', 'el remal', '9999999999', NULL, NULL, '2021-11-19 17:38:22', '2021-11-19 17:38:22', 3);
+(8, 'malak', 'elbanna', 'malak2000', 'hsoubcontrolpanel@gmail.com', '$2y$10$Y4a2qwXBGW7juivdRlFbFe2qa9cvb93FwclB7cPx6586RftXFa4IW', 'el remal', '9999999999', NULL, NULL, '2021-11-19 17:38:22', '2021-11-19 17:38:22', 3),
+(20, 'rawand', 'elbanna', 'rawand2000', 'rawand.2000banna@gmail.com', '$2y$10$NRUmkYygsvM/ygguK0DX1uzQP7NVV1FFP6oq01t5yFwcAE7SFNLGq', 'elremal', '1234567895', NULL, NULL, '2021-12-28 04:56:28', '2021-12-28 04:56:28', 3);
 
 --
 -- Indexes for dumped tables
@@ -324,6 +356,13 @@ ALTER TABLE `bids`
   ADD PRIMARY KEY (`id`),
   ADD KEY `bids_user_id_foreign` (`user_id`),
   ADD KEY `bids_product_id_foreign` (`product_id`);
+
+--
+-- Indexes for table `bidupdates`
+--
+ALTER TABLE `bidupdates`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bidupdates_bid_id_foreign` (`bid_id`);
 
 --
 -- Indexes for table `categories`
@@ -408,7 +447,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bids`
 --
 ALTER TABLE `bids`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `bidupdates`
+--
+ALTER TABLE `bidupdates`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -426,19 +471,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -450,7 +495,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -462,7 +507,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
@@ -474,6 +519,12 @@ ALTER TABLE `users`
 ALTER TABLE `bids`
   ADD CONSTRAINT `bids_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `bids_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `bidupdates`
+--
+ALTER TABLE `bidupdates`
+  ADD CONSTRAINT `bidupdates_bid_id_foreign` FOREIGN KEY (`bid_id`) REFERENCES `bids` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `images`

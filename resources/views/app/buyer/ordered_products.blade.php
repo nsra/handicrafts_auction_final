@@ -3,19 +3,18 @@
     <!-- start My Products -->
     <div class="MyProduct">
         <div class="container container-myProduct">
-            <h2 class="mt-2">Ordered Products</h2>
+            <h2 class="mt-2">{{ __('Ordered Products')}}</h2>
             <div class="form group mt-4 mb-3">
                 <form action="{{ route('buyer.ordered_products') }}" method="GET">
                     <input name="name" size="66" value="{{ app('request')->get('name') }}" type="search"
-                        placeholder="Search for Order by product title">
+                        placeholder="{{ __('Search for Order by product title')}}">
                     <button type="submit" class="btn btn-light">
                         <span><i class="fas fa-search fa-2x"></i></span>
                     </button>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     &nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp;
-                    <a class="btn btn-lg  btn-warning" href="{{ route('buyer.bids') }}" style="color:black">All Bids</a>
+                   
+                    <a class="btn btn-lg  btn-warning" href="{{ route('buyer.bids') }}" style="color:black">{{ __('All Bids')}}</a>
                 </form>
             </div>
             <hr>
@@ -23,7 +22,7 @@
                 @foreach ($products as $product)
                     @if ($product->isOrderedByMy())
                         <div class="row ">
-                            <div class="col-2">
+                            <div class="col-3">
                                 <a href="{{ route('buyer.product.show', $product->id) }}">
                                     <h5>{{ $product->title }}</h5>
                                 </a>
@@ -31,23 +30,21 @@
                                     class="p-1">
                             </div>
                             <div class="col-3">
-                                <h5>ProductOwner:<a
+                                <h5>{{ __('ProductOwner: ')}}<a
                                         href="{{ route('buyer.product.user', $product->order->id) }}">{{ $product->user->username }}
                                 </h5></a>
                             </div>
                             <div class="col-2">
-                                <h5>OrderPrice:{{ $product->order->price }}$</h5>
+                                <h5>{{ __('OrderPrice:')}} {{ $product->order->price }}$</h5>
                             </div>
                             <div class="col-3">
-                                <h5>OrderDate:{{ $product->order->created_at }}</h5>
+                                <h5>{{ __('OrderDate: ')}} {{ $product->order->created_at }}</h5>
                             </div>
                             <div class="col-1">
-
-
                                 <a data-toggle="modal" class="btn  btn-success" id="smallButton" data-target="#smallModal"
                                     data-attr="{{ route('buyer.order.delete', $product->order->id) }}"
                                     title="Converm Product Delivary">
-                                    Confirm Delivary <i class="fa fa-check "></i>
+                                    {{ __('Confirm Delivary')}} <i class="fa fa-check "></i>
                                 </a>
                             </div>
                         </div>

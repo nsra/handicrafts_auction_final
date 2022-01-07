@@ -93,37 +93,43 @@
                     </div>
                     <div class="form-group">
                         <h1>Product</h1>
-                        <h4>{{ __('Title') }}: {{ $product->title }} </h4>
-                        <h4>{{ __('OrderNowPrice') }}: {{ $product->orderNowPrice }}$ </h4>
+                        <h4><b>{{ __('Title') }}:</b> {{ $product->title }} </h4>
+                        <h4><b>{{ __('OrderNowPrice') }}:</b> {{ $product->orderNowPrice }}$ </h4>
                         @if ($product->isAuctioned())
                             <div class="form-group">
-                                <h4 for="orderNowPrice">{{ __('Max Bid') }}: {{ $product->maxBidPrice() }}$</h4>
+                                <h4 for="orderNowPrice"><b>{{ __('Max Bid') }}:</b> {{ $product->maxBidPrice() }}$</h4>
                             </div>
                         @else
                             <div class="form-group">
-                                <h4 for="orderNowPrice">{{ __('Starting Bid Price') }}: {{ $product->startingBidPrice() }}$
+                                <h4 for="orderNowPrice"><b>{{ __('Starting Bid Price') }}:</b> {{ $product->startingBidPrice() }}$
                                 </h4>
                             </div>
                         @endif
-                        <h4>{{ __('description') }}: {{ $product->description }} </h4>
-                        <h4>{{ __('category') }}: {{ $product->category->name }} </h4>
+                        <h4><b>{{ __('description') }}:</b> {{ $product->description }} </h4>
+                        <h4><b>{{ __('category') }}:</b> {{ __($product->category->name) }} </h4>
                         <hr>
                         <h1>Buyer</h1>
-                        <h4>{{ __('Username') }}: {{ $buyer->username }} </h4>
-                        <h4>{{ __('firstName') }}: {{ $buyer->firstName }} </h4>
-                        <h4>{{ __('lastName') }}: {{ $buyer->lastName }} </h4>
-                        <h4>{{ __('email') }}: {{ $buyer->email }} </h4>
-                        <h4>{{ __('mobile') }}: {{ $buyer->mobile }} </h4>
-                        <h4>{{ __('address') }}: {{ $buyer->address }} </h4>
+                        <div class="form-group container-image-profile text-center" style="width: 140px;">
+                            <img src="{{asset($buyer->image)}}" class="card-img-top" alt="...">
+                        </div>
+                        <h4><b>{{ __('Username') }}:</b> {{ $buyer->username }} </h4>
+                        <h4><b>{{ __('firstName') }}:</b> {{ $buyer->firstName }} </h4>
+                        <h4><b>{{ __('lastName') }}:</b> {{ $buyer->lastName }} </h4>
+                        <h4><b>{{ __('email') }}:</b> {{ $buyer->email }} </h4>
+                        <h4><b>{{ __('mobile') }}:</b> {{ $buyer->mobile }} </h4>
+                        <h4><b>{{ __('address') }}:</b> {{ $buyer->address }} </h4>
                         <hr>
 
                         <h1>Craftsman</h1>
-                        <h4>{{ __('Username') }}: {{ $craftsman->username }} </h4>
-                        <h4>{{ __('firstName') }}: {{ $craftsman->firstName }} </h4>
-                        <h4>{{ __('lastName') }}: {{ $craftsman->lastName }} </h4>
-                        <h4>{{ __('email') }}: {{ $craftsman->email }} </h4>
-                        <h4>{{ __('mobile') }}: {{ $craftsman->mobile }} </h4>
-                        <h4>{{ __('address') }}: {{ $buyer->address }} </h4>
+                        <div class="form-group container-image-profile text-center" style="width: 140px;">
+                            <img src="{{asset($craftsman->image)}}" class="card-img-top" alt="...">
+                        </div>
+                        <h4><b>{{ __('Username') }}:</b> {{ $craftsman->username }} </h4>
+                        <h4><b>{{ __('firstName') }}:</b> {{ $craftsman->firstName }} </h4>
+                        <h4><b>{{ __('lastName') }}:</b> {{ $craftsman->lastName }} </h4>
+                        <h4><b>{{ __('email') }}:</b> {{ $craftsman->email }} </h4>
+                        <h4><b>{{ __('mobile') }}:</b> {{ $craftsman->mobile }} </h4>
+                        <h4><b>{{ __('address') }}:</b> {{ $buyer->address }} </h4>
                         <hr>
 
                         @if ($product->isAuctioned())
@@ -158,78 +164,11 @@
 
 
             <div class="input-form text-center">
-                <a class="btn btn-lg btn-primary" href="{{ route('orders.index') }}">Cancel</a>
+                <a class="btn btn-lg btn-primary" href="{{ route('orders.index') }}">{{ __('Cancel')}}</a>
             </div>
 
         </div>
     </div>
 
-
-@endsection
-
-@section('script')
-    <script>
-        var upgradeTime = {!! json_encode($product->remainingTime(), JSON_HEX_TAG) !!};
-        var seconds = upgradeTime;
-
-        function timer() {
-            var days = Math.floor(seconds / 24 / 60 / 60);
-            var hoursLeft = Math.floor((seconds) - (days * 86400));
-            var hours = Math.floor(hoursLeft / 3600);
-            var minutesLeft = Math.floor((hoursLeft) - (hours * 3600));
-            var minutes = Math.floor(minutesLeft / 60);
-            var remainingSeconds = seconds % 60;
-
-            function pad(n) {
-                return (n < 10 ? "0" + n : n);
-            }
-            document.getElementById('countdown').innerHTML = pad(days) + ":" + pad(hours) + ":" + pad(minutes) + ":" + pad(
-                remainingSeconds);
-            if (seconds == 0) {
-                clearInterval(countdownTimer);
-                document.getElementById('countdown').innerHTML = "Expired";
-            } else {
-                seconds--;
-            }
-        }
-        var countdownTimer = setInterval('timer()', 1000);
-
-        $('.delete-order').click(function() {
-            var id = $(this).data('value')
-            swal({
-                    title: "Delete order",
-                    text: "Are you sure you want to delete order!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "yes",
-                    cancelButtonText: "no",
-                    closeOnConfirm: false
-                },
-                function() {
-                    /**
-                     *
-                     * send ajax request for deleting order
-                     *
-                     */
-
-                    $.ajax({
-
-                        method: 'GET',
-                        data: {
-                            body: '',
-                            _token: '{{ csrf_token() }}'
-                        }
-                    }).success(function(response) {
-                        if (response.status == 200) {
-                            swal("@lang('lang.alert')", response.message, "success")
-                            window.location.reload()
-                        } else {
-                            swal("@lang('lang.alert')", response.message, "error")
-                        }
-                    })
-                });
-        })
-    </script>
 
 @endsection

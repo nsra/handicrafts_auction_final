@@ -23,14 +23,14 @@
                                 value="{{ old('firstName', optional($user)->firstName) }}">
                             @error('firstName')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>{{ __($message) }}</strong>
                                 </span>
                             @enderror
                         </div>
 
                         <div class="form-group">
                             <label for="lastName">{{ __('lastName') }} <span class="required">*</span></label>
-                            <input type="text" class="@error('lasttName') is-invalid @enderror form-control" name="lastName"
+                            <input type="text" class="@error('lastName') is-invalid @enderror form-control" name="lastName"
                                 value="{{ old('lastName', optional($user)->lastName) }}">
                             <span class="error">{{ $errors->first('lastName') }}</span>
                         </div>
@@ -41,7 +41,7 @@
                                 value="{{ old('username', optional($user)->username) }}">
                             @error('username')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>{{ __($message) }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -52,7 +52,7 @@
                                 value="{{ old('email', optional($user)->email) }}">
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>{{ __($message) }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -71,7 +71,7 @@
                                 value="{{ old('mobile', optional($user)->mobile) }}">
                             @error('mobile')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>{{ __($message) }}</strong>
                                 </span>
                             @enderror
                         </div>

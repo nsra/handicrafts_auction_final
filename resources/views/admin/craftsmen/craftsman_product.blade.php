@@ -119,7 +119,7 @@
                     </div>
                     <div class="form-group">
                         <label for="category">{{ __('category') }} </label>
-                        <input type="text" class="form-control" name="category" value="{{ $product->category->name }}">
+                        <input type="text" class="form-control" name="category" value="{{ __($product->category->name) }}">
                     </div>
                     @if ($product->isAuctioned())
                         <div class="form-group">
@@ -138,7 +138,7 @@
                     </div>
                     <div class="form-action text-left">
                         <a href="{{ route('admin.craftsman.product.bids', $product->id) }}" type="reset" name="bids"
-                            class="btn btn-primary">{{ __('Show product Bids') }}</a>
+                            class="btn btn-primary">{{ __('Show product Bids') }}: {{$product->bids->count()}}</a>
                     </div>
                     <div class="form-action text-center">
                         <a href="{{ route('admin.craftsman.products', $craftsman->id) }}" name="cancel"

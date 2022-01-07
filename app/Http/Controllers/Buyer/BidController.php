@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Buyer;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Bid;
+use App\Models\Bidupdate;
 use App\Models\Category;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 
 class BidController extends Controller
@@ -61,6 +64,11 @@ class BidController extends Controller
         try {
             $bid = Bid::findOrFail($id);
             $product = $bid->product;
+
+            if(floor($product->remainingTime()/3600) < 10) {
+                return redirect()->back()->with('error', 'cant delete bid in last 10 hours of auction');
+            }
+
             if ($product->isOrderedByMy())
                 return redirect()->back()->with('error', 'you ordered this product');
             $bid->delete();
@@ -70,10 +78,47 @@ class BidController extends Controller
         }
     }
 
+    
+    public function update($id, Request $request)
+    {
+        $bid = Bid::findOrFail($id);
+        $product = $bid->product;
+
+        if(floor($product->remainingTime()/3600) < 10) {
+            return redirect()->back()->with('error', 'cant delete bid in last 10 hours of auction');
+        }
+
+        $min = !$product->isAuctioned() ? $product->startingBidPrice(): $product->maxBidPrice() + $product->bidIncreament();
+        $this->validate($request, [
+            'price' => 'required|numeric|min:' . $min,
+            'description' => ['required', 'string'],
+        ]);
+
+        $bid->fill($request->all());
+        if($bid->update()){
+            $bid_updates = Bidupdate::create([
+                'price' => $bid->price,
+                'description' => $bid->description,
+                'bid_id' => $bid->id,
+                'created_at' => Carbon::now()
+            ]);
+        }
+        if($bid_updates->save() === True)
+            return redirect()->back()->with('success', 'bid updated successfully');
+        else
+            return redirect()->back()->with('error', 'update bid faild');
+    }
+
     public function delete($id)
     {
         $bid = Bid::find($id);
         return view('app.buyer.delete', compact('bid'));
+    }
+
+    public function edit($id)
+    {
+        $bid = Bid::find($id);
+        return view('app.buyer.edit', compact('bid'));
     }
 
     public function place_bid($id)
@@ -86,28 +131,35 @@ class BidController extends Controller
 
     public function stor_place_bid($id, Request $request)
     {
-        try {
-            $product = Product::findOrFail($id);
+        $product = Product::findOrFail($id);
 
-            if ($product->authUserBidId() > 0)
-                return redirect()->back()->with('error', 'You have already bid on this product');
+        if ($product->authUserBidId() > 0)
+            return redirect()->back()->with('error', 'You have already bid on this product, you can update your bid');
 
-            $min = $product->isAuctioned() ? $product->startingBidPrice(): $product->maxBidPrice() + $product->bidIncreament();
-            $this->validate($request, [
-                'price' => 'required|numeric|min:' . $min,
-                'description' => ['required', 'string'],
-            ]);
-            $bid = Bid::create([
-                'price' => $request['price'],
-                'description' => $request['description'],
+        $min = !$product->isAuctioned() ? $product->startingBidPrice() : $product->maxBidPrice() + $product->bidIncreament();
+        $this->validate($request, [
+            'price' => 'required|numeric|min:' . $min,
+            'description' => ['required', 'string'],
+        ]);
+        $bid = Bid::create([
+            'price' => $request['price'],
+            'description' => $request['description'],
+            'user_id' => auth()->user()->id,
+            'product_id' => $id,
+            'created_at' => Carbon::now()
+        ]);           
+        if ($bid->save() === True){
+            $bid_updates = Bidupdate::create([
+                'price' => $bid->price,
+                'description' => $bid->description,
                 'user_id' => auth()->user()->id,
-                'product_id' => $id,
+                'bid_id' => $bid->id,
+                'created_at' => Carbon::now()
             ]);
-            $bid->user_id = Auth::user()->id;
-            if ($bid->save() === TRUE)
-                return redirect()->back()->with('success', 'bid added successfully');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', 'bidding faild!');
         }
+        if($bid_updates->save() === True)
+            return redirect()->back()->with('success', 'bid added successfully');
+        else
+            return redirect()->back()->with('error', 'bidding failed!');
     }
 }

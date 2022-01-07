@@ -19,7 +19,7 @@ class BuyersController extends Controller
 
     public function index(Request $request)
     {
-        $buyers = User::where('role_id', '=', '3');
+        $buyers = User::where([['role_id', '=', '3'], ['is_delete','=', 0]]);
         $search_item = $request->input('name');
         if ($request->has('name')) {
             $buyers = $buyers->where(function ($query) use ($search_item) {
@@ -76,7 +76,8 @@ class BuyersController extends Controller
         try {
             $buyer = User::findOrFail($id);
             if ($buyer->bids->count() > 0) $buyer->bids()->delete();
-            $buyer->delete();
+            $buyer->is_delete= 1;
+            $buyer->update();
             return redirect()->back()->with('success', 'buyer with his bids deleted successfuly');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'fail to delete buyer');

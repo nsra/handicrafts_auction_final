@@ -19,12 +19,12 @@
                         <tbody>
                             @foreach ($categories as $category)
                                 <tr>
-                                    <td class="text-left">{{ $category->name }}</td>
-                                    <td class="text-left">{{ $category->description }}</td>
+                                    <td class="text-left">{{ __($category->name) }}</td>
+                                    <td class="text-left">{{ __($category->description) }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('category.view_products', $category->id) }}"
                                             class="btn btn-primary ">
-                                            <i class="fa fa-eye"></i>
+                                            {{$category->products->count()}} <i class="fa fa-eye"></i>
                                         </a>
                                     </td>
                                 </tr>

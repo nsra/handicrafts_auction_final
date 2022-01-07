@@ -21,7 +21,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="text-center">{{ __('Roles') }}: {{ $role->name }}</h3>
+                        <h2 class="text-center">{{ __('Role') }}: {{ __($role->name) }}</h3>
                     </div>
                 </div>
             </div>
@@ -45,11 +45,11 @@
                             <td class="text-center">
                                 @if ($user->role->name === 'Craftsman')
                                     <a href="{{ route('admin.craftsman.products', $user->id) }}" class="btn btn-primary ">
-                                        products count: {{ $user->products->count() }}
+                                       {{ __('products count: ')}}{{ $user->products->count() }}
                                     </a>
                                 @elseif($user->role->name === 'Buyer')
                                     <a href="{{ route('admin.buyer.bids', $user->id) }}" class="btn btn-primary ">
-                                        bids count: {{ $user->bids->count() }}
+                                        {{ __('bids count:')}} {{ $user->bids->count() }}
                                     </a>
                                 @endif
                                 {{-- @if ($user->role->name !== 'Admin')

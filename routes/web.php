@@ -24,11 +24,18 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
     Auth::routes();
 
+    Route::get('/language/{lang?}', [
+        'as' => 'language.change',
+        'uses' => 'HomeController@change'
+    ]);
+
     Route::get('/category/{id}/products', 'HomeController@category_products')->name('category_products');
     Route::get('/about_us', 'HomeController@about_us')->name('about_us');
     Route::get('/test_timer', 'HomeController@test_timer')->name('test_timer');
 
     Route::get('product/{id}', ['as' => 'product.details', 'uses' => 'HomeController@product_details']);
+    Route::get('bidhistory/{id}', ['as' => 'bid.history', 'uses' => 'HomeController@bid_history']);
+
     Route::get('/logout/custom', ['as' => 'logout.custom', 'uses' => 'Controller@userLogout']);
     
     Route::get('/multiguard_login', 'Auth\LoginController@showLoginForm')->name('show_multiguard_login');
@@ -111,7 +118,11 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::get('product/{id}', ['as' => 'craftsman.product.edit', 'uses' => 'Craftsman\ProductController@edit']);
         Route::put('product/{id}', ['as'=>'craftsman.product.update','uses'=>'Craftsman\ProductController@update']);
         Route::get('buyer/{id}/bids', ['as'=>'craftsman.buyer.bids','uses'=>'Craftsman\ProductController@view_buyer_bids']);
-        
+        Route::get('/bid/product/{id}', ['as' => 'craftsman.product.show', 'uses' => 'Craftsman\ProductController@show']);
+
+        Route::get('craftsman/edit_image/{id}', ['as' => 'craftsman.edit_image', 'uses' => 'Craftsman\CraftsmanController@edit_image']);
+        Route::put('craftsman/update_image/{id}', ['as' => 'craftsman.update_image', 'uses' => 'Craftsman\CraftsmanController@update_image']);
+
         Route::get('product/delete/{id}', ['as' => 'craftsman.product.delete', 'uses' => 'Craftsman\ProductController@delete']);
         Route::delete('product/destroy/{id}', ['as' => 'craftsman.product.destroy', 'uses' => 'Craftsman\ProductController@destroy']);
 
@@ -137,6 +148,12 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
         Route::get('order/delete/{id}', ['as' => 'buyer.order.delete', 'uses' => 'Buyer\OrderController@delete']);
         Route::delete('order/destroy/{id}', ['as' => 'buyer.order.destroy', 'uses' => 'Buyer\OrderController@destroy']);
+
+        Route::get('bid/edit/{id}', ['as' => 'buyer.bid.edit', 'uses' => 'Buyer\BidController@edit']);
+        Route::put('bid/update/{id}', ['as' => 'buyer.bid.update', 'uses' => 'Buyer\BidController@update']);
+
+        Route::get('buyer/edit_image/{id}', ['as' => 'buyer.edit_image', 'uses' => 'Buyer\BuyerController@edit_image']);
+        Route::put('buyer/update_image/{id}', ['as' => 'buyer.update_image', 'uses' => 'Buyer\BuyerController@update_image']);
 
         Route::get('place_bid/{id}', ['as' => 'buyer.place_bid', 'uses' => 'Buyer\BidController@place_bid']);
         Route::post('place_bid/{id}', ['as' => 'buyer.store_placed_bid', 'uses' => 'Buyer\BidController@stor_place_bid']);

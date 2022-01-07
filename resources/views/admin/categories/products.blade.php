@@ -21,7 +21,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="text-center">{{ __('Category') }}: {{ $category->name }}</h3>
+                        <h2 class="text-center">{{ __('Category') }}: {{ __($category->name) }}</h3>
                     </div>
                 </div>
             </div>
@@ -36,8 +36,8 @@
                 <tbody>
                     @foreach ($products as $product)
                         <tr>
-                            <td class="text-left">{{ $product->title }}</td>
-                            <td class="text-left">{{ $category->description }}</td>
+                            <td class="text-center">{{ $product->title }}</td>
+                            <td class="text-center">{{\Illuminate\Support\Str::limit($product->description, 100, '...') }}</td>
                             <td class="text-center">
                                 <a href="{{ route('admin.products.show', $product->id) }}" class="btn btn-primary ">
                                     <i class="fa fa-eye"></i>

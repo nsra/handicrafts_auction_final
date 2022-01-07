@@ -4,17 +4,17 @@
 
     @if ((auth()->user() && auth()->user()->role_id == 1) || (auth()->user() && auth()->user()->role_id == 2))
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>You are not allowed to bidding!</strong> Create a buyer account to order products.
+            <strong>{{ __('You are not allowed to bidding!')}}</strong>{{ __('Create a buyer account to order products.')}}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
     @endif
     <div class="Product_details">
-        <h2 class="p-3">Product Details</h2>
+        <h2 class="p-3">{{ __('Product Details')}}</h2>
         <br>
         <div class="container">
-            <div class="content-product_details">
+            <div class="content-product_details mb-5">
                 <div class="row">
                     <div class="col-4">
                         <div class="d-flex text-center ">
@@ -26,7 +26,7 @@
                             @if (!$product->isExpired())
                                 <div id="countdown" class="salse timer text-center"></div>
                             @else
-                                <div class="salse text-center">Expired</div>
+                                <div class="salse text-center">{{__('Expired')}}</div>
 
                                 @php
                                     $product->order_by_auction();
@@ -40,7 +40,7 @@
                             <div class="form-group ">
                                 <h5 for="orderNowPrice"><b>{{ __('Max Bid') }}:</b> {{ $product->maxBidPrice() }}$</h5>
                                 <button class="btn btn-default" data-value="{{ $product->id }}" style="margin-top: 1%">
-                                    OrderNow:{{ $product->orderNowPrice }}<i class="fas fa-dollar-sign"></i>
+                                    {{__('OrderNow:')}} {{ $product->orderNowPrice }}<i class="fas fa-dollar-sign"></i>
                                 </button>
                             </div>
                         @else
@@ -48,7 +48,7 @@
                                 <h5 for="orderNowPrice">{{ __('Starting Bid Price') }}: {{ $product->startingBidPrice() }}$
                                 </h5>
                                 <button class="btn btn-default" data-value="{{ $product->id }}" style="margin-top: 1%">
-                                    OrderNow:{{ $product->orderNowPrice }}<i class="fas fa-dollar-sign"></i>
+                                    {{__('OrderNow:')}} {{ $product->orderNowPrice }}<i class="fas fa-dollar-sign"></i>
                                 </button>
                             </div>
                         @endif
@@ -58,7 +58,7 @@
                             <button class="btn btn-warning btn-lg"
                                 style="background-color: #ffbb00; color:black; width:65.5%"
                                 onclick="window.location='{{ route('buyer.ordered_products') }}'">
-                                You Ordered This Product By: {{ $product->order->price }}$
+                                {{ __('You Ordered This Product By:')}} {{ $product->order->price }}$
                             </button>
                         @elseif(auth()->user() && auth()->user()->id == $product->user_id && !$product->is_delete &&
                             !$product->isAuctioned())
@@ -69,7 +69,7 @@
                                     class="btn-sm btn btn-dark" data-value="{{ $product->id }}">
                                     <i class="far fa-edit fa-2x"></i>
                                 </button>
-                                <a data-toggle="modal" class="btn btn-danger btn-sm" id="smallButton"
+                                <a data-toggle="modal" class="btn btn-danger btn-sm smallButton" 
                                     data-target="#smallModal"
                                     data-attr="{{ route('craftsman.product.delete_out', $product->id) }}"
                                     title="Delete Product">
@@ -81,28 +81,26 @@
                             <button class="btn btn-warning btn-lg"
                                 style="background-color: #ffbb00; color:black; width:65.5%"
                                 onclick="window.location='{{ route('craftsman.products') }}'">
-                                Your Product: OrderNowPrice {{ $product->orderNowPrice }}$
+                                {{ __('Your Product: OrderNowPrice')}} {{ $product->orderNowPrice }}$
                             </button>
                         @elseif($product->is_delete==0)
                             <button class="btn btn-warning btn-lg"
                                 style="background-color: #ffbb00; color:black; width:65.5%"
                                 onclick="window.location='{{ route('buyer.order_now', $product->id) }}'">
-                                Order Now: {{ $product->orderNowPrice }}$
+                                {{ __('Order Now:')}} {{ $product->orderNowPrice }}$
                             </button>
                         @elseif($product->is_delete!=0)
                         <button class="btn btn-dark btn-lg"
                             style="color:white; width:65.5%"
                             >
-                            in-active now : {{ $product->orderNowPrice }}$
+                            {{ __('in-active now : ')}}{{ $product->orderNowPrice }}$
                         </button>
                     @endif
                     </div>
                 </div>
-
-
                 <div class="row">
                     <div class="col-5">
-                        <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-ride="carousel">
+                        <div id="carouselExampleControlsNoTouching" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 @if ($product->images->count() > 0)
                                     @foreach ($product->images as $image)
@@ -113,109 +111,141 @@
                                     @endforeach
                                 @endif
                             </div>
-                            <button class="carousel-control-prev" type="button"
-                                data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+                            <a class="carousel-control-prev" href="#carouselExampleControlsNoTouching" role="button" data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+                                <span class="sr-only">Previous</span>
+                              </a>
+                              <a class="carousel-control-next" href="#carouselExampleControlsNoTouching" role="button" data-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
+                                <span class="sr-only">Next</span>
+                            </a>
                         </div>
                     </div>
 
-                    <div class="col-7 description-product">
+                    <div class="col-7 description-product {{app()->getLocale() == 'en' ? 'ltr' : 'rtl' }}">
 
-                        <p for="orderNowPrice"><b>{{ __('Category') }}:</b> {{ $product->category->name }}</p>
+                        <p for="orderNowPrice"><b>{{ __('Category') }}:</b> {{ __($product->category->name) }}</p>
                         <p>{{ $product->description }}</p>
                         <br>
                         <span>
-                            CraftsmanInfo : <br><br><a
+                            {{ __('CraftsmanInfo : ')}}<br><br><a
                                 href="{{ auth()->user() && auth()->user()->id == $product->user_id ? route('craftsman_profile.edit') : route('product.craftsman', $product->id) }}">{{ $product->user->username }}
                             </a>
                             <u> {{ $product->user->email }}</u>
-                            &nbsp;&nbsp; mobile: {{ $product->user->mobile }}
+                            {{ __('mobile:')}} {{ $product->user->mobile }}
                         </span>
                         <br><br>
-                        <p class="mt-3 three_part">Free Shipping <span>|</span>&nbsp;Returns accepted <span>|</span>
-                            Dilivery:during 3
-                            hours</p>
+                        <p class="mt-3 three_part">{{ __('Free Shipping ')}}<span>|</span>&nbsp;{{ __('Returns accepted')}} <span>|</span>
+                            {{ __('Dilivery:during 3 hours')}}
+                        </p>
                     </div>
-
-
                 </div>
-                <div class="row">
-                    {{-- @if (!$product->id_delete) --}}
-                    @if ((!auth()->user() && $product->is_delete == 0) || (auth()->user() && auth()->user()->role_id == 3 && !$product->isOrderedByMy() && $product->is_delete == 0) || (auth()->user() && auth()->user()->id != $product->user_id && $product->is_delete == 0))
-                        <h2 style="margin-top: 4%">Place A Bid On This Product</h2>
-                        <hr>
-                        <br>
-                        <form action="{{ route('buyer.store_placed_bid', $product->id) }}" method="POST"
+                <div class="row  {{app()->getLocale() == 'en' ? '' : 'text-right' }}">
+                    @if ((!auth()->user() && $product->is_delete == 0) || (auth()->user() && !$product->isOrdered() && $product->is_delete == 0 && auth()->user()->id != $product->user_id))
+                        <div class="row col-12">
+                            <h2 style="margin-top: 4%">{{ __('Place A Bid On This Product')}}</h2>
+                            <hr>
+                            <br>
+                        </div> 
+                        @if (auth()->user() && $product->bids->contains('user_id', Auth::user()->id))
+                        <form class="mt-2 row col-12 mt-4 " action="{{ route('buyer.bid.update', $product->bids->where('user_id','=', auth()->user()->id)->first()->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-                            <label>Bid Price</label>
-                            <input type="number" class="@error('price') is-invalid @enderror" name="price"
-                                style="width: 18%" min="{{ ($product->isAuctioned() ? $product->maxBidPrice() + $product->bidIncreament(): $product->startingBidPrice()) }}"
-                                placeholder="min value accepted: {{ ($product->isAuctioned() ? $product->maxBidPrice() + $product->bidIncreament(): $product->startingBidPrice()) }}$">
-                            @error('price')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            <label style="margin-left: 4%">Bid description</label>
-                            <textarea class=" @error('description') is-invalid @enderror" name="description"
-                                placeholder="enter bid description here"></textarea>
-                            @error('description')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                            @if (auth()->user() && $product->bids->contains('user_id', Auth::user()->id))
+                            @method('PUT')
+                            <div class="col-4">
+                                <label>{{ __('Bid Price')}}</label>
+                                <input required type="number" class="@error('price') is-invalid @enderror form-control" name="price"
+                                    min="{{ ($product->isAuctioned() ? $product->maxBidPrice() + $product->bidIncreament(): $product->startingBidPrice()) }}"
+                                    placeholder="{{ __('min value accepted:')}} {{ ($product->isAuctioned() ? $product->maxBidPrice() + $product->bidIncreament(): $product->startingBidPrice()) }}$">
+                                @error('price')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ __($message) }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-5">
+                                <label >{{ __('Bid description')}}</label>
+                                <textarea class="form-control {{app()->getLocale() == 'en' ? 'mb-1' : '' }} @error('description') is-invalid @enderror" name="description"
+                                    >{{$product->bids->where('user_id','=', auth()->user()->id)->first()->description}}</textarea>
+                                @error('description')
+                                    <span class="invalid-feedback mt-3" role="alert">
+                                        <strong>{{ __($message) }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-3">
+                                <label for="update bid">{{ __('You bid')}} {{$product->bids->where('user_id','=', auth()->user()->id)->first()->price}}$ </label>
                                 <button class="btn text-center"
-                                    disabled
-                                    style="background-color: #ffbb00; color:black; ">
-                                    You Bid!
+                                    style="background-color: #ffbb00; color:black;">
+                                    {{ __('update your bid!')}}
                                 </button>
-                            @else
+                            </div>
+                            
+                        </form>
+                        @else
+                        <form class="mt-4 row col-12" action="{{ route('buyer.store_placed_bid', $product->id) }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="col-4">
+                                <label>{{ __('Bid Price')}}</label> 
+                                <input required type="number" class="@error('price') is-invalid @enderror" name="price"
+                                    min="{{ ($product->isAuctioned() ? $product->maxBidPrice() + $product->bidIncreament(): $product->startingBidPrice()) }}"
+                                    placeholder="{{ __('min value accepted:')}} {{ ($product->isAuctioned() ? $product->maxBidPrice() + $product->bidIncreament(): $product->startingBidPrice()) }}$">
+                                @error('price')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ __($message) }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-5">
+                                <label >{{ __('Bid description')}}</label> 
+                                <textarea class=" @error('description') is-invalid @enderror" name="description"
+                                    placeholder="{{__('enter bid description here')}}"></textarea>
+                                @error('description')
+                                    <span class="invalid-feedback mt-3" role="alert">
+                                        <strong>{{ __($message) }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-3">
                                 <button type="submit" class="btn text-center btn-warning"
                                     onclick="window.location='{{ route('buyer.place_bid', $product->id) }}'"
                                     style="background-color: #ffbb00; color:black; ">
-                                    Place Bid
+                                    {{__('Place Bid')}}
                                 </button>
-                            @endif
+                            </div>
                         </form>
+                        @endif
                     @endif
-                    {{-- @endif --}}
-
                 </div>
-
             </div>
-            <h4 style="margin-top: 4%; margin-bottom: 4%">Bids On This Product:{{ $bids->count() }}</h4>
+            <h3>{{__('Bids On This Product:')}} {{ $bids->count() }}</h3>
             
             <div>
                 @if ($bids->count() > 0)
                     @foreach ($bids as $bid)
                         <div class="row">
-                            <div class="col-2">
-                                <h4>{{ $bid->user->username }}</h4>
+                            <div class="col-3">
+                                <h3>{{ $bid->user->username }}</h3>
                             </div>
-
-                            <div class="col-2">
-                                <h6>{{ $bid->price }}$</h6>
+                            <div class="col-1">
+                                <h4>{{ $bid->price }}$</h4>
                             </div>
-                            <div class="col-2">
-                                <p>
+                            <div class="col-4">
+                                <h4>
                                     {{ $bid->description }}
-                                </p>
+                                </h4>
+                            </div>
+                            <div class="col-2">
+                                <a data-toggle="modal" class="btn btn-lg btn-success smallButton" data-target="#smallModal"
+                                    data-attr="{{ route('bid.history', $bid->id) }}" title="{{__('Bid History')}}">
+                                      <i class="fa fa-history"> {{__('Bid History')}}</i>
+                                </a>
                             </div>
                             @if(auth()->user() && ($bid->user->id == auth()->user()->id) && !$product->isOrdered())
                                 <div class="col-1">
-                                    <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal"
-                                        data-attr="{{ route('buyer.bid.delete', $product->authUserBidId()) }}" title="Delete Bid">
+                                    <a data-toggle="modal" class="btn btn-lg smallButton" data-target="#smallModal"
+                                        data-attr="{{ route('buyer.bid.delete', $product->authUserBidId()) }}" title="{{__("Delete Bid")}}">
                                         <i class="fa fa-trash text-danger fa-lg"></i>
                                     </a>
                                 </div>
@@ -236,9 +266,9 @@
     </div>
 @endsection
 
-<div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
+<div class="modal fade" id="smallModal" style="padding: 0 !important" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" onClick="window.location.reload();"
@@ -285,7 +315,7 @@
         function removeBackdrop() {
             $('.modal-backdrop').remove();
         }
-        $(document).on('click', '#smallButton', function(event) {
+        $(document).on('click', '.smallButton', function(event) {
             event.preventDefault();
             let href = $(this).attr('data-attr');
             $.ajax({
@@ -304,7 +334,7 @@
                 error: function(jqXHR, testStatus, error) {
                     console.log(error);
                     alert("Page " + href + " cannot open. Error:" + error);
-                    $('#loader').hide();
+                    // $('#loader').hide();
                 },
                 timeout: 8000
             })

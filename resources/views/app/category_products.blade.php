@@ -10,40 +10,39 @@
                     </button>
                     <div class="collapse navbar-collapse" id="main-nav">
                         <ul class="navbar-nav " style="font-size: 16px">
-
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/1/products" style="margin-left: 40px;">Painting</a>
+                                <a class="nav-link" href="/category/1/products" >{{ __('Painting')}}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/2/products">Paper &nbsp; </a>
+                                <a class="nav-link" href="/category/2/products">{{ __('Paper')}} &nbsp; </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/3/products">Embroidery &nbsp; </a>
+                                <a class="nav-link" href="/category/3/products">{{ __('Embroidery')}} &nbsp; </a>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/4/products">Wool &nbsp; </a>
+                                <a class="nav-link" href="/category/4/products">{{ __('Wool')}} &nbsp; </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/5/products">Wood &nbsp; </a>
+                                <a class="nav-link" href="/category/5/products">{{ __('Wood')}} &nbsp; </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/6/products">Bead &nbsp; </a>
+                                <a class="nav-link" href="/category/6/products">{{ __('Bead')}} &nbsp; </a>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/7/products">NaturalResources &nbsp; </a>
+                                <a class="nav-link" href="/category/7/products">{{ __('NaturalResources')}} &nbsp; </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/8/products">Leather &nbsp; </a>
+                                <a class="nav-link" href="/category/8/products">{{ __('Leather')}} &nbsp; </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/9/products">Plastic &nbsp; </a>
+                                <a class="nav-link" href="/category/9/products">{{ __('Plastic')}} &nbsp; </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/10/products">Glass &nbsp; </a>
+                                <a class="nav-link" href="/category/10/products">{{ __('Glass')}} &nbsp; </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/11/products">Clay &nbsp; </a>
+                                <a class="nav-link" href="/category/11/products">{{ __('Clay')}} &nbsp; </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/category/12/products">Metals &nbsp; </a>
+                                <a class="nav-link" href="/category/12/products">{{ __('Metals')}} &nbsp; </a>
                             </li>
                         </ul>
                     </div>
@@ -55,7 +54,7 @@
 
     @if ((auth()->user() && auth()->user()->role_id == 1) || (auth()->user() && auth()->user()->role_id == 2))
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>You are not allowed to bidding!</strong> Create a buyer account to order products.
+            <strong>{{ __('You are not allowed to bidding!')}}</strong> {{ __('Create a buyer account to order products.')}}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -66,11 +65,11 @@
         <div class="container">
             <div class="first-Auction-Recent">
                 <form action="{{ route('category_products', $category->id) }}" method="GET">
-                    <input type="search" name="title" placeholder="Enter Product name to search with"
+                    <input type="search" name="title" placeholder="{{ __('Enter Product name to search with')}}"
                         value="{{ app('request')->get('title') }}" class="search">
 
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label>Price Range</label>
+                    <label>{{ __('Price Range')}}</label>
                     <input type="number" name="lowPrice" size="10" style="width: 10%"
                         value="{{ app('request')->get('lowPrice') }}">
                     <span>-</span>
@@ -79,7 +78,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button type="submit" class="btn btn-warning">
-                        <i class="fas fa-search"></i>&nbsp; &nbsp; Filter &nbsp;&nbsp;
+                        <i class="fas fa-search"></i>&nbsp; &nbsp; {{ __('Filter')}} &nbsp;&nbsp;
                     </button>
                     <a class="btn btn-secondary"
                         href="{{ route('category_products', $category->id) }}">{{ __('Reset') }}</a>
@@ -87,7 +86,7 @@
             </div>
             <div class="RecentAuction-content">
                 <br>
-                <h2 class="p-2">{{ $category->name }} products</h2>
+                <h2 class="p-2">{{ __('Products')}}{{app()->getLocale()=='en' ? ':': ''}} {{ __($category->name) }} </h2>
                 <div class="row">
                     @foreach ($products as $product)
                     @if($product->is_delete==0)
@@ -103,7 +102,8 @@
                           });
                         </script>
                         @else 
-                        <div id="countdown" class="timer">Expired</div>
+                        <div id="countdown" class="timer">{{ __('Expired')}}</div>
+                       
                         @php 
                           $product->order_by_auction()
                         @endphp
@@ -117,14 +117,14 @@
                             <span>${{$product->orderNowPrice}}</span>
                             @if(!auth()->user() || (auth()->user() && auth()->user()->id != $product->user_id))
                             <button class="btn btn-secondary btn-sm" onclick="window.location='{{route('buyer.order_now', $product->id) }}'" >
-                              Order Now
+                              {{ __('Order Now')}}
                             </button>
                             @elseif(auth()->user() && auth()->user()->id == $product->user_id && !$product->is_delete && !$product->isAuctioned())
                             <div>
                               <button onclick="window.location='{{route('craftsman.product.edit', $product->id)}}'" class="btn btn-dark btn-sm" data-value="{{$product->id}}">
                                 <i class="far fa-edit"></i>
                               </button>
-                              <a data-toggle="modal" class="btn btn-danger btn-sm" id="smallButton" data-target="#smallModal" data-attr="{{ route('craftsman.product.delete_out', $product->id) }}" title="Delete Product">
+                              <a data-toggle="modal" class="btn btn-danger btn-sm" id="smallButton" data-target="#smallModal" data-attr="{{ route('craftsman.product.delete_out', $product->id) }}" title="{{ __('Delete Product')}}">
                                 <i class="fas fa-trash text-danger fa-lg"></i>
                               </a> 
                             </div>
@@ -132,25 +132,20 @@
                           </div>
                           <br>
                           @if($product->bids->count() === 0) 
-                          <p>StartingBid:{{$product->startingBidPrice()}}$</p>
+                            <p>{{__('StartingBid:')}} {{$product->startingBidPrice()}}$</p>
                           @else
-                          <p>MaxBid:{{$product->maxBidPrice()}}$</p>
+                            <p>{{ __('MaxBid:')}} {{$product->maxBidPrice()}}$</p>
                           @endif
-                          <button class="btn text-center btn-light">{{$product->bids->count()}} Bids</button>
+                          <button class="btn text-center btn-light">{{$product->bids->count()}} {{ __('Bids')}}</button>
                           @if(auth()->user() && auth()->user()->id == $product->user_id)
-                          <button class="btn text-center btn-warning" 
-                            style="background-color: #ffbb00; color:black; width:65.5%" >
-                            Its Your Product!
-                          </button>
-                          @elseif(auth()->user() && $product->bids->contains('user_id', Auth::user()->id))
-                          <button class="btn text-center btn-warning" onclick="window.location='{{route('buyer.product.show', $product->id) }}'" 
-                            style="background-color: #ffbb00; color:black; width:65.5%" >
-                            You Bid!
-                          </button>
+                            <button class="btn text-center btn-warning" 
+                                style="background-color: #ffbb00; color:black; width:55%" >
+                                {{ __('Your Product!')}}
+                            </button>
                           @else
                           <button class="btn text-center btn-warning" onclick="window.location='{{route('buyer.place_bid', $product->id) }}'" 
-                            style="background-color: #ffbb00; color:black; width:65.5%" >
-                            Place Bid
+                            style="background-color: #ffbb00; color:black; width:55%" >
+                            {{ auth()->user() && $product->bids->contains('user_id', Auth::user()->id) ? __('You Bid!') : __('Place Bid')}}
                           </button>
                           @endif
                         </div>
@@ -187,7 +182,6 @@
         </div>
     </div>
 @endsection
-
 
 @section('script')
 <script>

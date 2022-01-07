@@ -27,8 +27,8 @@ class HomeController extends Controller
         $roles = Role::where([])->count();
         $bids = Bid::where([])->count();
         $categories = Category::where([])->count();
-        $buyers = User::where('role_id', '=', '3')->count();
-        $craftsmen = User::where('role_id', '=', '2')->count();
+        $buyers = User::where([['role_id', '=', '3'], ['is_delete','=', 0]])->count();
+        $craftsmen = User::where([['role_id', '=', '2'], ['is_delete','=', 0]])->count();
         return view('base_layout.admin_dashboard', compact('products', 'craftsmen', 'buyers', 'orders', 'roles', 'bids', 'categories'));
     }
 }

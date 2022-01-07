@@ -10,6 +10,10 @@
                     <hr>
                 </div>
                 <div class="card-body">
+                    <div class="form-group container-image-profile text-center" style="width: 140px;">
+                        <img src="{{asset($buyer->image)}}" class="card-img-top" alt="...">
+                    </div>
+                    <br>
                     <div class="form-group">
                         <label for="firstName">{{ __('firstName') }} </label>
                         <input type="text" class="form-control" name="firstName" value="{{ $buyer->firstName }}">

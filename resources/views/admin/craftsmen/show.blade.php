@@ -10,6 +10,10 @@
                     <hr>
                 </div>
                 <div class="card-body">
+                    <div class="form-group container-image-profile text-center" style="width: 140px;">
+                        <img src="{{asset($craftsman->image)}}" class="card-img-top" alt="...">
+                    </div>
+                    <br>
                     <div class="form-group">
                         <label for="firstName">{{ __('firstName') }} </label>
                         <input type="text" class="form-control" name="firstName" value="{{ $craftsman->firstName }}">
@@ -36,7 +40,7 @@
                     </div>
 
                     <div class="form-action text-left">
-                        <a href="{{ route('admin.craftsman.products', $craftsman->id) }}" type="reset" name="bids"
+                        <a href="{{ route('admin.craftsman.products', $craftsman->id) }}" type="reset" name="products"
                             class="btn btn-primary">{{ __('Show craftsman Products') }}</a>
                     </div>
                     <div class="form-action text-center">

@@ -117,7 +117,7 @@
                     </div>
                     <div class="form-group">
                         <label for="category">{{ __('category') }} </label>
-                        <input type="text" class="form-control" name="category" value="{{ $product->category->name }}">
+                        <input type="text" class="form-control" name="category" value="{{ __($product->category->name) }}">
                     </div>
                     @if ($product->isAuctioned())
                         <div class="form-group">

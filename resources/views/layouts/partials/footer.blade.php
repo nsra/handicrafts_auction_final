@@ -8,6 +8,6 @@
     color: black;"
 >
     <div >
-        HandicraftsAuction  &copy; {{ date('Y') }} Eng. Entesar K. ElBanna
+        HandicraftsAuction  &copy; {{ date('Y') }} Eng. Entesar K. ElBanna & Amany F. Herez
     </div>
 </footer>

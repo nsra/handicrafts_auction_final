@@ -103,21 +103,13 @@
                         <label for="title">{{ __('title') }} </label>
                         <input required type="text" class="form-control @error('title') is-invalid @enderror" name="title"
                             value="{{ $product->title }}">
-                        @error('title')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                      
                     </div>
                     <div class="form-group">
                         <label for="orderNowPrice">{{ __('orderNowPrice') }}</label>
                         <input required type="text" class="form-control @error('orderNowPrice') is-invalid @enderror"
                             name="orderNowPrice" value="{{ $product->orderNowPrice }}$">
-                        @error('orderNowPrice')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                       
                     </div>
                     @if ($product->isAuctioned())
                         <div class="form-group">
@@ -136,11 +128,7 @@
                             value="{{ $product->description }}">
                                     {{ $product->description }}
                                 </textarea>
-                        @error('description')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                      
                     </div>
                     <div class="form-group text-left">
                         <label for="category_id">{{ __('Choose_Category') }} </label>
@@ -149,7 +137,7 @@
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"
                                     {{ $category->id == $product->category->id ? 'selected' : '' }}>
-                                    {{ $category->name }} </option>
+                                    {{ __($category->name) }} </option>
                             @endforeach
                         </select>
                     </div>

@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration
                 ->references('id')
                 ->on('rols')
                 ->onDelete('cascade');
+            $table->tinyInteger('is_delete')->default(0);
+            $table->string('image')->default('/storage/uploads/n0_image.jpg');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

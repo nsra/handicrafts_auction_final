@@ -4,12 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBidupdatesTable extends Migration
+class CreateBidUpdatesTable extends Migration
 {
    
     public function up()
     {
-        Schema::create('bidupdates', function (Blueprint $table) {
+        Schema::create('bidUpdates', function (Blueprint $table) {
             $table->id();
             $table->float('price', 19, 2);
             $table->string('description');
@@ -25,6 +25,6 @@ class CreateBidupdatesTable extends Migration
  
     public function down()
     {
-        Schema::dropIfExists('bidupdates');
+        Schema::dropIfExists('bidUpdates');
     }
 }

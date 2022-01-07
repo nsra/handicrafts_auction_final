@@ -3,20 +3,18 @@
     <!-- start My Products -->
     <div class="MyProduct">
         <div class="container container-myProduct">
-            <h2 class="mt-2">Ordered Products</h2>
+            <h2 class="mt-2">{{ __('Ordered Products')}}</h2>
             <div class="form group mt-4 mb-3">
                 <form action="{{ route('craftsman.ordered_products') }}" method="GET">
                     <input name="name" size="66" value="{{ app('request')->get('name') }}" type="search"
-                        placeholder="Search for Order by product title">
+                        placeholder="{{ __('Search for Order by product title')}}">
                     <button type="submit" class="btn btn-light">
                         <span><i class="fas fa-search fa-2x"></i></span>
                     </button>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     &nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp;
-                    <a class="btn btn-lg  btn-warning" href="{{ route('craftsman.products') }}" style="color:black">All
-                        Products</a>
+                  
+                    <a class="btn btn-lg  btn-warning" href="{{ route('craftsman.products') }}" style="color:black">{{ __('All Products')}}</a>
                 </form>
             </div>
             <hr>
@@ -31,19 +29,19 @@
                                     class="p-1">
                             </div>
                             <div class="col-3">
-                                <h5>OrderOwner:<a
+                                <h5>{{ __('OrderOwner:')}}<a
                                         href="{{ route('craftsman.product.order.user', $product->order->id) }}">{{ $product->order->user->username }}
                                 </h5></a>
                             </div>
                             <div class="col-2">
-                                <h5>OrderPrice:{{ $product->order->price }}$</h5>
+                                <h5>{{ __('OrderPrice:')}} {{ $product->order->price }}$</h5>
                             </div>
                             <div class="col-3">
-                                <h5>OrderDate:{{ $product->order->created_at }}</h5>
+                                <h5>{{ __('OrderDate:')}} {{ $product->order->created_at }}</h5>
                             </div>
                             <div class="col-1">
                                 <a href="{{ route('craftsman.product.edit', $product->id) }}" class="btn btn-secondary">
-                                    <i class="fas fa-eye">&nbsp;Details</i>
+                                    <i class="fas fa-eye">&nbsp;{{ __('Details')}}</i>
                                 </a>
                             </div>
                         </div>

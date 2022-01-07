@@ -55,7 +55,7 @@
                                     <td class="text-center">
                                         <a href="{{ route('admin.craftsman.products', $craftsman->id) }}"
                                             class="btn btn-primary ">
-                                            <i class="fa fa-tasks"></i>
+                                            {{$craftsman->products->count()}} <i class="fa fa-tasks"></i>
                                         </a>
                                     </td>
                                     <td class="text-center">
@@ -67,7 +67,7 @@
                                         <a data-toggle="modal" class="btn btn-lg" id="smallButton"
                                             data-target="#smallModal"
                                             data-attr="{{ route('craftsman.delete', $craftsman->id) }}"
-                                            title="Delete Craftsman">
+                                            title="{{ __('Delete Craftsman')}}">
                                             <i class="fa fa-trash text-danger fa-lg"></i>
                                         </a>
                                     </td>

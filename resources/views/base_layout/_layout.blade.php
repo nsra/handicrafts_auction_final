@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="{{app()->getLocale() }}" dir="{{app()->getLocale() == 'en' ? 'ltr' : 'rtl' }}">
 
 <head>
     @include('base_layout.components.header.header_meta')
@@ -6,10 +7,8 @@
     @yield('style')
 </head>
 
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white {{app()->getlocale()== 'en' ? 'ltr': 'rtl'}}">
     <div id="app">
-
-
         <div class="page-wrapper">
 
             @includeIf('base_layout.components.header.header')
@@ -34,11 +33,11 @@
                         <!-- BEGIN PAGE HEADER-->
                         @if (session('error'))
                             <div class="alert alert-danger">
-                                {{ session('error') }}
+                                {{ __(session('error')) }}
                             </div>
                         @elseif(session('success'))
                             <div class="alert alert-success">
-                                {{ session('success') }}
+                                {{ __(session('success')) }}
                             </div>
                         @endif
 

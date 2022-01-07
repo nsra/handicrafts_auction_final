@@ -1,4 +1,4 @@
-<div class="page-header navbar navbar-fixed-top">
+<div class="page-header navbar navbar-fixed-top {{app()->getLocale() == 'en' ? 'ltr' : 'rtl' }}">
     <!-- BEGIN HEADER INNER -->
     <div class="page-header-inner ">
         <!-- BEGIN LOGO -->
@@ -342,11 +342,11 @@
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>
                             <a href="{{ route('admin_profile.edit') }}">
-                                <i class="icon-user"></i> My Profile </a>
+                                <i class="icon-user"></i> {{__('My Profile')}} </a>
                         </li>
                         <li>
                             <a href="{{ route('orders.index') }}">
-                                <i class="icon-rocket"></i> Orders
+                                <i class="icon-rocket"></i> {{ __('Orders')}}
                                 @php
                                     use Illuminate\Support\Facades\DB;
                                 @endphp
@@ -358,6 +358,38 @@
                 </li>
                 <!-- BEGIN QUICK SIDEBAR TOGGLER -->
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                <li class="dropdown dropdown-user">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                       data-close-others="true">
+                        <img alt="" class="img-circle" src="../assets/layouts/layout/img/avatar3_small.jpg"/>
+                        <span class="username username-hide-on-mobile">
+                            @if(app()->getLocale() == 'ar')
+                                <img alt="" src="{{asset('control/assets/global/img/flags/ps.png')}}">
+                            @else
+                                <img alt="" src="{{asset('control/assets/global/img/flags/us.png')}}">
+                            @endif
+                            {{app()->getLocale() == 'en' ? 'english' : 'العربية'}}
+                        </span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-default">
+                        <li>
+                            <a href="{{route('language.change',['lang' => 'ar'])}}">
+                                <img alt="" src="{{asset('control/assets/global/img/flags/ps.png')}}">
+                                {{ __('Arabic')}}
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{route('language.change',['lang' => 'en'])}}">
+                                <img alt="" src="{{asset('control/assets/global/img/flags/us.png')}}">
+                                {{ __('English')}}
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
                 <li class="dropdown dropdown-quick-sidebar-toggler">
                     <a href="{{ route('admin_dashboard') }}"
                         style="margin-top:70%!important; padding:0px; padding-top:5%">

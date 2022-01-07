@@ -44,18 +44,16 @@
                 <div class="card-body">
                     <form action="{{ route('craftsman.product.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <label for="image">Product mage</label>
+                        <label for="image">{{ __('Product images')}}</label>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mt-1 text-center">
-                                    <input type="file" id="images" name="images[]" placeholder="Choose images" accept="image/*" multiple>
+                                    <input type="file" id="images" name="images[]" placeholder="Choose images" multiple accept="image/*">
                                 </div>
                                 @error('images')
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>
-
-
 
                         </div>
                         @error('images')
@@ -84,7 +82,7 @@
                         </div>
                         <div class="form-group">
                             <label for="description">{{ __('description') }} </label>
-                            <textarea required type="text" class="form-control @error('description') is-invalid @enderror"
+                            <textarea required type="text" class="{{app()->getLocale() == 'en' ? '' : 'text-right' }}  form-control @error('description') is-invalid @enderror"
                                 name="description">
                                                 {{ old('description') }}
                                             </textarea>
@@ -102,7 +100,7 @@
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
                                         {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
+                                        {{ __($category->name )}}
                                     </option>
                                 @endforeach
                             </select>

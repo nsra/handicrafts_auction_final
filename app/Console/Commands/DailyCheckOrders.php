@@ -45,10 +45,10 @@ class DailyCheckOrders extends Command
                 $product->end_auction = $product->end_auction->addDays(15);
                 $product->save();
                 $craftsman= $product->user;
-                Mail::raw('We have extended the auction of Your product: << '.$product->title.' >> because it has\'t achieved any bids yet!, you can update the product description to be more attractive or you can even delete the product.', function ($mail) use ($craftsman) {
-                    $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                Mail::raw(trans("We have extended the auction of Your product: << ") . $product->title . trans(" >> because it hasnt achieved any bids yet!, you can update the product description to be more attractive or you can even delete the product."), function ($mail) use ($craftsman) {
+                    $mail->from('laraveldemo2018@gmail.com', trans('Handicrafts Auction'));
                     $mail->to($craftsman->email)
-                        ->subject('Your Product Auction Has Been Extended Automatically');
+                        ->subject(trans('Your Product Auction Has Been Extended Automatically'));
                 });
             }
             else if($product->not_ordered() && $product->isAuctioned() && $product->isExpired()){
@@ -68,23 +68,23 @@ class DailyCheckOrders extends Command
 
                     $otherBidders= User::where('id', '!=', $user->id)->whereIn('id', Bid::where('product_id', '=', $product->id)->pluck('user_id'))->get();
                     foreach($otherBidders as $otherBidder){
-                        Mail::raw($otherBidder->username.' had won the auction on: << ' . $product->title . ' >>.', function ($mail) use ($otherBidder) {
-                            $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                        Mail::raw($otherBidder->username.trans(" had won the auction on: << ") . $product->title . trans(" >>."), function ($mail) use ($otherBidder) {
+                            $mail->from('laraveldemo2018@gmail.com', trans('Handicrafts Auction'));
                             $mail->to($otherBidder->email)
-                                ->subject('Auction has finished');
+                                ->subject(trans('Auction has finished'));
                         });
                     }
 
-                    Mail::raw("Congrats 🎉, You had won new auction, its for product: << " . $product->title . " >>, The product will deliver within 3 hours, \n \n Please confirm the receipt from Your Orders Panel immediately as you receive your product:\n".route('buyer.ordered_products'), function ($mail) use ($user) {
-                        $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                    Mail::raw(trans("Congrats 🎉, You had won new auction, its for product: << ") . $product->title . trans(" >>, The product will deliver within 3 hours,")." \n \n" . trans("Please confirm the receipt from Your Orders Panel immediately as you receive your product:")."\n".route('buyer.ordered_products'), function ($mail) use ($user) {
+                        $mail->from('laraveldemo2018@gmail.com', trans('Handicrafts Auction'));
                         $mail->to($user->email)
-                            ->subject('You had won new auction 🎉');
+                            ->subject(trans('You had won new auction 🎉'));
                     });
                     $craftsman = $product->user;
-                    Mail::raw("Congrats 🎉, Your product: << " . $product->title . " >> has been ordered by the bidder auction winner:" . $user->username . ", You have 3 hours to deliver it to him, \n \n Please check Your Ordered Products Panel to get the buyer address:\n".route('craftsman.ordered_products'). "\n When you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it.", function ($mail) use ($craftsman) {
-                        $mail->from('laraveldemo2018@gmail.com', 'Handicrafts Auction');
+                    Mail::raw(trans("Congrats 🎉, Your product: << ") . $product->title . trans(" >> has been ordered by the bidder auction winner:") . $user->username . trans(", You have 3 hours to deliver it to him,")." \n \n". trans(" Please check Your Ordered Products Panel to get the buyer address:")."\n".route('craftsman.ordered_products'). "\n". trans(" When you deliver buyer the product ask him to confirm the product delivery from the website immediately as he received it."), function ($mail) use ($craftsman) {
+                        $mail->from('laraveldemo2018@gmail.com', trans('Handicrafts Auction'));
                         $mail->to($craftsman->email)
-                            ->subject('You Have New Ordered Product');
+                            ->subject(trans('Your Have New Ordered Product'));
                     });
 
                     if (auth()->user() && $product->maxBidder()->id == auth()->user()->id) {

@@ -3,20 +3,19 @@
     <!-- start My Products -->
     <div class="MyProduct">
         <div class="container container-myProduct">
-            <h2 class="mt-2">My Products</h2>
+            <h2 class="mt-2">{{ __('My Products')}}</h2>
             <div class="form group mt-4 mb-3">
                 <form action="{{ route('craftsman.products') }}" method="GET">
                     <input name="name" size="40" value="{{ app('request')->get('name') }}" class=""
-                        type="search" placeholder="Search for Product by name or price">
+                        type="search" placeholder="{{ __('Search for Product by name or price')}}">
                     <button type="submit" class="btn btn-light">
                         <span><i class="fas fa-search fa-2x"></i></span>
                     </button>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a class="btn btn-lg btn-warning"
-                        href="{{ route('craftsman.auctioned_products', $user->id) }}" style="color:black">Filter Auctioned
-                        Products</a>
+                    &nbsp; &nbsp; &nbsp; <a class="btn btn-lg btn-warning"
+                        href="{{ route('craftsman.auctioned_products', $user->id) }}" style="color:black">{{__('Filter Auctioned Products')}}</a>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     <a class="btn btn-lg btn-warning" href="{{ route('craftsman.product.create') }}"
-                        style="color:black">Create New Product</a>
+                        style="color:black">{{ __('Create New Product')}}</a>
                 </form>
             </div>
             <hr>
@@ -28,7 +27,9 @@
                                 class="p-1">
                         </div>
                         <div class="col-5">
+                            <a href="{{ route('craftsman.product.edit', $product->id) }}">
                             <h4>{{ $product->title }}</h4>
+                            </a>
                         </div>
                         <div class="col-2">
                             <h2>{{ $product->orderNowPrice }}$</h2>
@@ -42,16 +43,15 @@
                                 </a>
                             </div>
                             <div class="col-1">
-
                                 <a data-toggle="modal" class="btn btn-lg" id="smallButton" data-target="#smallModal"
-                                    data-attr="{{ route('craftsman.product.delete', $product->id) }}" title="Delete Bid">
+                                    data-attr="{{ route('craftsman.product.delete', $product->id) }}" title="{{ __('Delete Bid')}}">
                                     <i class="fa fa-trash text-danger fa-lg"></i>
                                 </a>
                             </div>
                         @else
-                            <div class="col-1">
+                            <div class="col-2">
                                 <h4><a
-                                        href="{{ route('craftsman.product.bids', $product->id) }}">{{ $product->bids->count() }}Bids</a>
+                                        href="{{ route('craftsman.product.bids', $product->id) }}">{{ $product->bids->count() }} {{ __('Bids')}} </a>
                                 </h4>
                             </div>
                         @endif
