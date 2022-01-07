@@ -62,7 +62,7 @@
 
                     @endauth
 
-                    <li class="nav-item dropdown ">
+                    {{-- <li class="nav-item dropdown ">
                         <a class=" nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" data-hover="dropdown"
                             data-close-others="true">
                                 {{ app()->getLocale() == 'en' ? 'english' : 'العربية' }}
@@ -80,7 +80,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>

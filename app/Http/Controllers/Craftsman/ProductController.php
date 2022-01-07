@@ -77,10 +77,10 @@ class ProductController extends Controller
         // $product->update();
 
         if ($request->hasfile('images')) {
-            // foreach($product->images as $image){
-            //     Image::find($image->id)->delete();
-            //     Storage::delete('public/uploads/' . $image->name);
-            // }
+            foreach($product->images as $image){
+                Image::find($image->id)->delete();
+                Storage::delete('public/uploads/' . $image->name);
+            }
             $images = $request->file('images');
             foreach ($images as $image) {
                 $name = $image->getClientOriginalName();
